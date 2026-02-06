@@ -11,14 +11,48 @@
   text-decoration: underline;
 }
 .dropdown .btn.btn-secondary.dropdown-toggle {
-  background-color: #FFF;
+  background-color: transparent;
   border: none;
+  color: #485d5b;
+  font-family: "Young Serif", serif;
 }
 .dropdown:hover {
-  color: #FFF;
+  color: #89acb1;
 }
 .dropdown .dropdown-menu:hover {
   background-color: #89acb1;
+}
+
+.immagini {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 25px;
+  margin-bottom: 45px;
+}
+.immagini .img_container {
+  width: 25%;
+  height: 40%;
+}
+.immagini .img_container img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  max-width: 85%;
+  height: auto;
+}
+
+.title_section {
+  font-family: "Young Serif", serif;
+  color: #485d5b;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.p_grassetto {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Young Serif", serif;
 }
 
 body {
@@ -93,14 +127,77 @@ body .video_container h3 {
   transform: translate(-50%, -50%);
   width: 90%;
 }
-body #eleganza h2, body #eleganza a {
+body #eleganza a {
   font-family: "Young Serif", serif;
   color: #485d5b;
 }
-body #eleganza h2, body #eleganza p {
+body #eleganza p {
   text-align: center;
   margin-bottom: 10px;
-}
-body #eleganza p {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body #forza .video_container {
+  width: 80%;
+  box-shadow: none;
+}
+body #passione .immagini .img_container_blu {
+  margin-top: 25px;
+  max-width: 40%;
+  height: auto;
+  padding-bottom: 25px;
+  border: 25px solid #89acb1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+body #passione .immagini .img_container_blu img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+body #kids .video_container {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+body #kids .video_container img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  max-width: 100%;
+  position: relative;
+}
+body #kids .video_container h2 {
+  font-family: "Young Serif", serif;
+  font-size: 45px;
+  color: #485d5b;
+  position: absolute;
+  text-align: center;
+  margin: auto;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+body #kids .p_grassetto {
+  text-align: left;
+  margin-right: 45px;
+  margin-left: 45px;
+}
+body #form {
+  background: #89acb1;
+  margin-top: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: #FFF;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body #form p {
+  font-family: "Young Serif", serif;
+  padding-top: 20px;
+  padding-bottom: 15px;
+}
+body #form button {
+  background-color: #485d5b;
+  margin-bottom: 10px;
 }/*# sourceMappingURL=index.css.map */

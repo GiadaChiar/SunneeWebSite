@@ -1,0 +1,85 @@
+@use 'variables' as vars;
+//universal component 
+
+//blue bar line
+
+.blue_bar{
+    height: 4.5px;
+    margin:10px;
+    background-color: vars.$background-blue;
+}
+
+//titles on sections
+.title_section{
+        font-family: vars.$font-Tan;
+        color: vars.$background-dark;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+//p bold strong 
+.p_grassetto{
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: vars.$font-Tan;
+        }
+
+
+
+body{
+    background-color: vars.$background-light;
+    
+    
+
+    .black-over{
+        background-color: vars.$background-dark;
+        padding-top: 0.5px;
+        padding-bottom:0.5px;
+        
+        width: 100%;
+        h4{
+            text-align: center;
+            color:vars.$background-light;
+            font-family: vars.$font-Tan;
+            font-size: vars.$font-size-h4;
+        }
+    }
+    .gray-over{
+        background-color: vars.$background-blue;
+        width: 100%;
+        padding-top:1px ;
+        padding-bottom:1px;
+    h1{
+        color:vars.$background-light;
+        font-family: vars.$font-Tan;
+        text-align: center;
+    }
+        
+    }
+    //nav style big screen
+    .nav{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 20px;
+
+        .nav-item{
+            a{
+                color:vars.$background-dark;
+                font-family: vars.$font-Tan;
+                font-size:vars.$font-size-h4;
+                
+            }
+            .nav-link.active:hover{
+                text-decoration: underline;
+                color: vars.$background-blue;
+
+            }
+            .nav-link.disabled{
+                text-decoration: underline;
+                color: vars.$background-blue;
+            }
+
+        }
+    }
+}
