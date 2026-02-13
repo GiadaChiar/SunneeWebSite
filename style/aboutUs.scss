@@ -18,12 +18,69 @@
     }
 
 //p bold strong 
-.p_grassetto{
-            text-align: center;
+.p_bold{
             margin-bottom: 10px;
             font-family: vars.$font-Tan;
         }
+//p not bold 
+.p_alice{
+            font-family: vars.$font-Alice;
+            margin-bottom: 10px;
+        }
 
+//container full imagine
+.full_img{
+    width: 60%;
+    width: 100%; 
+    margin: 0 auto;
+    overflow: hidden;
+    position:relative;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    img{
+        object-fit:contain;
+        width: 100%;
+    }
+    .text_section{
+        position:absolute;
+        top:30%;
+        background-color: vars.$background-blue-tr;
+        p{
+            padding-right: 30px;
+            padding-left: 30px;
+            color:vars.$background-light;
+            padding-top: 50px;
+            padding-bottom: 50px;
+                
+        }
+
+    }
+}
+
+
+//small image and description 
+.img_description{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .img_small{
+                width: 40%; 
+                margin: 0 auto;
+                overflow: hidden;
+                margin-bottom: 40px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                img{
+                    object-fit: cover;
+                    width: 100%;
+                }
+            }
+            .text{
+                width: 40%;
+
+            }
+        }
+                
 
 
 body{
@@ -79,7 +136,169 @@ body{
                 text-decoration: underline;
                 color: vars.$background-blue;
             }
+            //swim suit (Costumi)
+            .btn.btn-primary{
+                background-color: transparent;
+                border: none;
+
+                &:hover{
+                    color: vars.$background-blue;
+                    text-decoration: underline;
+                }
+            }
 
         }
     }
+
+//collapse section swim  suit opzions
+
+//bug bootstrap it show the older rules so use it
+.collapse,
+.collapsing {
+    transition: none !important;
+}
+
+
+.collapse{
+
+    .card.card-body{
+        display: flex;
+        flex-direction: column;
+
+        
+        h4{
+            color:vars.$background-dark;
+            font-family: vars.$font-Tan;
+            font-size:vars.$font-size-p;
+            margin-bottom: 15px;
+            padding-left:15px;
+        }
+
+
+    .type{
+        display: grid;
+        grid-template-columns: 100px 1fr auto;
+        gap:15px;
+        align-items:first baseline;
+
+        a{
+            font-family: vars.$font-Tan;
+            color:vars.$background-blue;
+            &:hover{
+                color:vars.$background-dark;
+            }
+        }
+        li::marker{
+            color:vars.$background-blue;   
+        }
+
+        p{
+            text-align: left;
+        }
+
+    }
+
+    }
+    
+}
+
+//collapse accessories options, change space for last colum
+#accessories{
+    .card.card-body{
+        .type{
+            grid-template-columns: 120px 1fr 100px;
+        }
+    }
+}
+
+
+
+
+
+    //section surf
+    #surf{
+        .title_section{
+            padding-top: 20px;
+        }
+        .p_bold{
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        .video_container{
+            
+            width: 60%;
+            width: 80%; 
+            margin: 0 auto;
+            overflow: hidden;
+            position:relative;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                
+            img{
+                object-fit: cover;
+                max-width: 100%;
+            }
+        }
+        .p_alice{
+            margin-left: 10%;
+            margin-right: 10%;
+            font-family: vars.$font-Alice;
+        }
+    }
+    //section clothe(1)
+    #img_clothe{
+        margin-top:60px;
+    }
+
+    // section vision_mission
+    #vision_mission{
+        padding-top: 60px;
+        padding-bottom: 30px;
+        p{
+            padding-right: 30px;
+            padding-left: 30px;
+        }
+    }
+
+    //section make_clothes(2)
+    #work_clothes{
+        h2{
+            padding-top: 60px;
+        }
+        .p_alice{
+            padding:30px;
+        }
+
+        .img_description{
+            
+            .text{
+                padding-right: 30px;
+
+            }
+        }
+            
+        
+    }
+
+    //section form 
+    #form{
+        background: vars.$background-blue;
+        margin-top: 100px;
+        padding-left: 50px;
+        padding-right: 50px;
+        color: vars.$background-light;
+        font-family: vars.$font-Alice;
+        p{
+            font-family: vars.$font-Tan;
+            padding-top: 20px;
+            padding-bottom: 15px;
+        }
+        button{
+            background-color: vars.$background-dark;
+            margin-bottom: 10px;
+        }
+    }
+
+
+    
 }

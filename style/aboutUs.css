@@ -11,10 +11,63 @@
   margin-bottom: 10px;
 }
 
-.p_grassetto {
-  text-align: center;
+.p_bold {
   margin-bottom: 10px;
   font-family: "Young Serif", serif;
+}
+
+.p_alice {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin-bottom: 10px;
+}
+
+.full_img {
+  width: 60%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.full_img img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 100%;
+}
+.full_img .text_section {
+  position: absolute;
+  top: 30%;
+  background-color: rgba(137, 172, 177, 0.8);
+}
+.full_img .text_section p {
+  padding-right: 30px;
+  padding-left: 30px;
+  color: #FFF;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.img_description {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.img_description .img_small {
+  width: 40%;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.img_description .img_small img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+.img_description .text {
+  width: 40%;
 }
 
 body {
@@ -61,4 +114,112 @@ body .nav .nav-item .nav-link.active:hover {
 body .nav .nav-item .nav-link.disabled {
   text-decoration: underline;
   color: #89acb1;
+}
+body .nav .nav-item .btn.btn-primary {
+  background-color: transparent;
+  border: none;
+}
+body .nav .nav-item .btn.btn-primary:hover {
+  color: #89acb1;
+  text-decoration: underline;
+}
+body .collapse,
+body .collapsing {
+  transition: none !important;
+}
+body .collapse .card.card-body {
+  display: flex;
+  flex-direction: column;
+}
+body .collapse .card.card-body h4 {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 15px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+body .collapse .card.card-body .type {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 15px;
+  align-items: first baseline;
+}
+body .collapse .card.card-body .type a {
+  font-family: "Young Serif", serif;
+  color: #89acb1;
+}
+body .collapse .card.card-body .type a:hover {
+  color: #485d5b;
+}
+body .collapse .card.card-body .type li::marker {
+  color: #89acb1;
+}
+body .collapse .card.card-body .type p {
+  text-align: left;
+}
+body #accessories .card.card-body .type {
+  grid-template-columns: 120px 1fr 100px;
+}
+body #surf .title_section {
+  padding-top: 20px;
+}
+body #surf .p_bold {
+  padding-bottom: 15px;
+  text-align: center;
+}
+body #surf .video_container {
+  width: 60%;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+body #surf .video_container img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  max-width: 100%;
+}
+body #surf .p_alice {
+  margin-left: 10%;
+  margin-right: 10%;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body #img_clothe {
+  margin-top: 60px;
+}
+body #vision_mission {
+  padding-top: 60px;
+  padding-bottom: 30px;
+}
+body #vision_mission p {
+  padding-right: 30px;
+  padding-left: 30px;
+}
+body #work_clothes h2 {
+  padding-top: 60px;
+}
+body #work_clothes .p_alice {
+  padding: 30px;
+}
+body #work_clothes .img_description .text {
+  padding-right: 30px;
+}
+body #form {
+  background: #89acb1;
+  margin-top: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: #FFF;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body #form p {
+  font-family: "Young Serif", serif;
+  padding-top: 20px;
+  padding-bottom: 15px;
+}
+body #form button {
+  background-color: #485d5b;
+  margin-bottom: 10px;
 }/*# sourceMappingURL=aboutUs.css.map */
