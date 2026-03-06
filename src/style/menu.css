@@ -1,0 +1,126 @@
+.blue_bar {
+  height: 4.5px;
+  margin: 10px;
+  background-color: #89acb1;
+}
+
+.black-over {
+  background-color: #485d5b;
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+  width: 100%;
+}
+.black-over h4 {
+  text-align: center;
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+
+.gray-over {
+  background-color: #89acb1;
+  width: 100%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.gray-over h1 {
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.nav .nav-item a {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+.nav .nav-item .nav-link.active:hover {
+  text-decoration: underline;
+  color: #89acb1;
+}
+.nav .nav-item .nav-link.disabled {
+  text-decoration: underline;
+  color: #89acb1;
+}
+.nav .nav-item .btn.btn-primary {
+  background-color: transparent;
+  border: none;
+}
+.nav .nav-item .btn.btn-primary:hover {
+  color: #89acb1;
+  text-decoration: underline;
+}
+
+.collapse,
+.collapsing {
+  transition: none !important;
+}
+
+.collapse .card.card-body {
+  display: flex;
+  flex-direction: column;
+}
+.collapse .card.card-body h4 {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 15px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+.collapse .card.card-body .type {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 15px;
+  align-items: first baseline;
+}
+.collapse .card.card-body .type a {
+  font-family: "Young Serif", serif;
+  color: #89acb1;
+}
+.collapse .card.card-body .type a:hover {
+  color: #485d5b;
+}
+.collapse .card.card-body .type li::marker {
+  color: #89acb1;
+}
+.collapse .card.card-body .type p {
+  text-align: left;
+}
+
+#accessories .card.card-body .type {
+  grid-template-columns: 120px 1fr 100px;
+}
+
+.video_container {
+  width: 60%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.video_container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.video_container h3 {
+  font-family: "Young Serif", serif;
+  color: #FFF;
+  position: absolute;
+  text-align: center;
+  margin: auto;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}/*# sourceMappingURL=menu.css.map */

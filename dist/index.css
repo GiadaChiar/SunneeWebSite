@@ -1,3 +1,6 @@
+/*!***********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/style/index.css ***!
+  \***********************************************************************/
 .blue_bar {
   height: 4.5px;
   margin: 10px;
@@ -57,93 +60,130 @@
 
 body {
   background-color: #FFF;
-}
-body .black-over {
-  background-color: #485d5b;
-  padding-top: 0.5px;
-  padding-bottom: 0.5px;
-  width: 100%;
-}
-body .black-over h4 {
-  text-align: center;
-  color: #FFF;
-  font-family: "Young Serif", serif;
-  font-size: 20px;
-}
-body .gray-over {
-  background-color: #89acb1;
-  width: 100%;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-body .gray-over h1 {
-  color: #FFF;
-  font-family: "Young Serif", serif;
-  text-align: center;
-}
-body .nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-body .nav .nav-item a {
-  color: #485d5b;
-  font-family: "Young Serif", serif;
-  font-size: 20px;
-}
-body .nav .nav-item .nav-link.active:hover {
-  text-decoration: underline;
-  color: #89acb1;
-}
-body .nav .nav-item .nav-link.disabled {
-  text-decoration: underline;
-  color: #89acb1;
-}
-body .nav .nav-item .btn.btn-primary {
-  background-color: transparent;
-  border: none;
-}
-body .nav .nav-item .btn.btn-primary:hover {
-  color: #89acb1;
-  text-decoration: underline;
-}
-body .collapse,
-body .collapsing {
-  transition: none !important;
-}
-body .collapse .card.card-body {
-  display: flex;
-  flex-direction: column;
-}
-body .collapse .card.card-body h4 {
-  color: #485d5b;
-  font-family: "Young Serif", serif;
-  font-size: 15px;
-  margin-bottom: 15px;
-  padding-left: 15px;
-}
-body .collapse .card.card-body .type {
-  display: grid;
-  grid-template-columns: 120px 1fr auto;
-  gap: 15px;
-  align-items: first baseline;
-}
-body .collapse .card.card-body .type a {
-  font-family: "Young Serif", serif;
-  color: #89acb1;
-}
-body .collapse .card.card-body .type a:hover {
-  color: #485d5b;
-}
-body .collapse .card.card-body .type li::marker {
-  color: #89acb1;
-}
-body .collapse .card.card-body .type p {
-  text-align: left;
-}
-body #accessories .card.card-body .type {
-  grid-template-columns: 120px 1fr 100px;
+  /*
+      .black-over{
+          background-color: vars.$background-dark;
+          padding-top: 0.5px;
+          padding-bottom:0.5px;
+
+          width: 100%;
+          h4{
+              text-align: center;
+              color:vars.$background-light;
+              font-family: vars.$font-Tan;
+              font-size: vars.$font-size-h4;
+          }
+      }
+      .gray-over{
+          background-color: vars.$background-blue;
+          width: 100%;
+          padding-top:1px ;
+          padding-bottom:1px;
+      h1{
+          color:vars.$background-light;
+          font-family: vars.$font-Tan;
+          text-align: center;
+      }
+
+      }
+      //nav style big screen
+      .nav{
+              display: flex;
+              align-items: center;
+              justify-content: space-around;
+              margin-top: 20px;
+
+          .nav-item{
+              a{
+                  color:vars.$background-dark;
+                  font-family: vars.$font-Tan;
+                  font-size:vars.$font-size-h4;
+
+              }
+              .nav-link.active:hover{
+                  text-decoration: underline;
+                  color: vars.$background-blue;
+
+              }
+              .nav-link.disabled{
+                  text-decoration: underline;
+                  color: vars.$background-blue;
+              }
+              //swim suit (Costumi)
+              .btn.btn-primary{
+                  background-color: transparent;
+                  border: none;
+
+                  &:hover{
+                      color: vars.$background-blue;
+                      text-decoration: underline;
+                  }
+              }
+
+          }
+      }
+
+  //collapse section swim  suit opzions
+
+  //bug bootstrap it show the older rules so use it
+  .collapse,
+  .collapsing {
+      transition: none !important;
+  }
+
+
+  .collapse{
+
+      .card.card-body{
+          display: flex;
+          flex-direction: column;
+
+
+          h4{
+              color:vars.$background-dark;
+              font-family: vars.$font-Tan;
+              font-size:vars.$font-size-p;
+              margin-bottom: 15px;
+              padding-left:15px;
+          }
+
+      .type{
+          display: grid;
+          grid-template-columns: 120px 1fr auto;
+          gap:15px;
+          align-items:first baseline;
+
+          a{
+              font-family: vars.$font-Tan;
+              color:vars.$background-blue;
+              &:hover{
+                  color:vars.$background-dark;
+              }
+          }
+          li::marker{
+              color:vars.$background-blue;   
+          }
+
+          p{
+              text-align: left;
+          }
+
+      }
+
+
+      }
+
+  }
+
+  //collapse accessories options, change space for last colum
+  #accessories{
+      .card.card-body{
+          .type{
+              grid-template-columns: 120px 1fr 100px;
+          }
+      }
+  }
+   */
 }
 body .video_container {
   width: 60%;
@@ -245,4 +285,133 @@ body #form p {
 body #form button {
   background-color: #485d5b;
   margin-bottom: 10px;
+}
+/*!**********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/style/menu.css ***!
+  \**********************************************************************/
+.blue_bar {
+  height: 4.5px;
+  margin: 10px;
+  background-color: #89acb1;
+}
+
+.black-over {
+  background-color: #485d5b;
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+  width: 100%;
+}
+.black-over h4 {
+  text-align: center;
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+
+.gray-over {
+  background-color: #89acb1;
+  width: 100%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.gray-over h1 {
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.nav .nav-item a {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+.nav .nav-item .nav-link.active:hover {
+  text-decoration: underline;
+  color: #89acb1;
+}
+.nav .nav-item .nav-link.disabled {
+  text-decoration: underline;
+  color: #89acb1;
+}
+.nav .nav-item .btn.btn-primary {
+  background-color: transparent;
+  border: none;
+}
+.nav .nav-item .btn.btn-primary:hover {
+  color: #89acb1;
+  text-decoration: underline;
+}
+
+.collapse,
+.collapsing {
+  transition: none !important;
+}
+
+.collapse .card.card-body {
+  display: flex;
+  flex-direction: column;
+}
+.collapse .card.card-body h4 {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 15px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+.collapse .card.card-body .type {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 15px;
+  align-items: first baseline;
+}
+.collapse .card.card-body .type a {
+  font-family: "Young Serif", serif;
+  color: #89acb1;
+}
+.collapse .card.card-body .type a:hover {
+  color: #485d5b;
+}
+.collapse .card.card-body .type li::marker {
+  color: #89acb1;
+}
+.collapse .card.card-body .type p {
+  text-align: left;
+}
+
+#accessories .card.card-body .type {
+  grid-template-columns: 120px 1fr 100px;
+}
+
+.video_container {
+  width: 60%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.video_container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.video_container h3 {
+  font-family: "Young Serif", serif;
+  color: #FFF;
+  position: absolute;
+  text-align: center;
+  margin: auto;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
 }

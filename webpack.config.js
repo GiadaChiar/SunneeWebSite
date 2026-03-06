@@ -20,7 +20,7 @@ module.exports = {
         clean:true,// pulisce la cartella dist ad ogni build
     },
       // 🔹 Modalità sviluppo
-    mode: 'production',
+    mode: 'development',
      // 🔹 Risoluzione estensioni
     resolve: {
     extensions: ['.ts', '.js'], // così Webpack sa leggere .ts e .js
@@ -56,12 +56,16 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: 'index.html',
+            filename: 'index.html'
         }),
 
         new HtmlWebpackPlugin({
             template: './src/aboutUs.html',
             filename: 'aboutUs.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/menu.html',
+            filename: 'menu.html',
         }),
         new MiniCssExtractPlugin({
                 filename: '[name].css',
@@ -73,7 +77,8 @@ module.exports = {
                // { from: 'src/menu.html', to: 'menu.html'},
             ],
         }),
-        new ImageMinimizerPlugin({
+        //AGGIUNGI DOPO PER OTTIMIZZARE LE IMMAGINI -----------------------------TROPPO LENTO ORA 
+        /*new ImageMinimizerPlugin({
             minimizer: {
                 implementation: ImageMinimizerPlugin.imageminGenerate,
                 options: {
@@ -86,6 +91,6 @@ module.exports = {
                     ],
                 },
             },
-        }),
+        }),*/
     ],
 };
