@@ -8,6 +8,16 @@
     background-color: vars.$background-blue;
 }
 
+#swim_suit[data-menu="close"],
+#accessories[data-menu="close"] {
+    display: none;
+}
+
+#swim_suit[data-menu="open"],
+#accessories[data-menu="open"] {
+    display: block;
+}
+
 body{
 
     .black-over{

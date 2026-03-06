@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/style/form.scss"
+/*!*****************************!*\
+  !*** ./src/style/form.scss ***!
+  \*****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/form.scss?\n}");
+
+/***/ },
+
 /***/ "./src/style/aboutUs.css"
 /*!*******************************!*\
   !*** ./src/style/aboutUs.css ***!
@@ -20,13 +30,43 @@ eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-ext
 
 /***/ },
 
+/***/ "./src/style/menu.css"
+/*!****************************!*\
+  !*** ./src/style/menu.css ***!
+  \****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.css?\n}");
+
+/***/ },
+
 /***/ "./src/js-ts/aboutUs.ts"
 /*!******************************!*\
   !*** ./src/js-ts/aboutUs.ts ***!
   \******************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_aboutUs_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/aboutUs.css */ \"./src/style/aboutUs.css\");\n\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/aboutUs.ts?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_aboutUs_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/aboutUs.css */ \"./src/style/aboutUs.css\");\n/* harmony import */ var _style_menu_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/menu.css */ \"./src/style/menu.css\");\n/* harmony import */ var _style_form_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/form.scss */ \"./src/style/form.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form */ \"./src/js-ts/form.ts\");\n\n\n\n\n\n(0,_menu__WEBPACK_IMPORTED_MODULE_3__.setUpMenu)();\n(0,_form__WEBPACK_IMPORTED_MODULE_4__.fetchForm)();\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/aboutUs.ts?\n}");
+
+/***/ },
+
+/***/ "./src/js-ts/form.ts"
+/*!***************************!*\
+  !*** ./src/js-ts/form.ts ***!
+  \***************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   fetchForm: () => (/* binding */ fetchForm)\n/* harmony export */ });\nfunction fetchForm() {\n    return fetch(\"form.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divForm = document.getElementById(\"contacts\");\n        if (!divForm) {\n            throw new Error(\"Form Element not found\");\n        }\n        divForm.innerHTML = html;\n        return divForm;\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/form.ts?\n}");
+
+/***/ },
+
+/***/ "./src/js-ts/menu.ts"
+/*!***************************!*\
+  !*** ./src/js-ts/menu.ts ***!
+  \***************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   setUpMenu: () => (/* binding */ setUpMenu)\n/* harmony export */ });\nfunction fetchMenu() {\n    return fetch(\"menu.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divMenu = document.getElementById(\"menu\");\n        if (!divMenu) {\n            throw new Error(\" Menu Element not found\");\n        }\n        divMenu.innerHTML = html;\n        return divMenu;\n    });\n}\n// Update hash links to point to index.html if on another page\nfunction changeLinkNavigation(divMenu) {\n    const currentPage = window.location.pathname.split(\"/\").pop() || \"index.html\";\n    //const currentPage = window.location.pathname.split(\"/\").pop();\n    if (!divMenu) {\n        throw new Error(\"Element not founded\");\n    }\n    const links = divMenu.querySelectorAll(\"a[data-page]\");\n    links.forEach(link => {\n        const hrefLink = link.getAttribute(\"data-page\");\n        if (hrefLink !== \"universal\") {\n            if (hrefLink == currentPage) {\n                if (link.classList.contains(\"active\")) {\n                    link.classList.replace(\"active\", \"disabled\");\n                    link.addEventListener(\"click\", (event) => {\n                        event.preventDefault(); // impedisce la navigazione\n                    });\n                }\n            }\n            else {\n                link.classList.replace(\"disabled\", \"active\");\n                // Rimuovi il listener che bloccava il click\n                const handler = (event) => event.preventDefault();\n                link.removeEventListener(\"click\", handler);\n            }\n        }\n    });\n    return currentPage;\n}\nfunction checkswimSuit() {\n    const swimSuitBtn = document.querySelector('a[href=\"#swim_suit\"]');\n    const accessoriesBtn = document.querySelector('a[href=\"#accessories\"]');\n    const swimSuit = document.getElementById(\"swim_suit\");\n    const accessories = document.getElementById(\"accessories\");\n    if (!swimSuit || !accessories || !swimSuitBtn || !accessoriesBtn)\n        return;\n    // Funzione generica per aprire/chiudere\n    function toggleMenu(menuToOpen, menuToClose) {\n        const isOpen = menuToOpen.dataset.menu === \"open\";\n        menuToOpen.dataset.menu = isOpen ? \"close\" : \"open\";\n        menuToClose.dataset.menu = \"close\";\n    }\n    // Funzioni specifiche\n    function toggleSwimSuit() { toggleMenu(swimSuit, accessories); }\n    function toggleAccessories() { toggleMenu(accessories, swimSuit); }\n    // Click sui bottoni\n    swimSuitBtn.addEventListener(\"click\", (e) => { e.preventDefault(); toggleSwimSuit(); });\n    accessoriesBtn.addEventListener(\"click\", (e) => { e.preventDefault(); toggleAccessories(); });\n    // Click fuori chiude tutti\n    document.addEventListener(\"click\", (e) => {\n        const target = e.target;\n        if (!swimSuit.contains(target) &&\n            !swimSuitBtn.contains(target) &&\n            !accessories.contains(target) &&\n            !accessoriesBtn.contains(target)) {\n            swimSuit.dataset.menu = \"close\";\n            accessories.dataset.menu = \"close\";\n        }\n    });\n}\n// Final function to export \nfunction setUpMenu() {\n    fetchMenu()\n        .then((divMenu) => {\n        changeLinkNavigation(divMenu); // upload state link \n        checkswimSuit();\n    })\n        .catch(error => {\n        throw new Error(\"Error upload state menu\");\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/menu.ts?\n}");
 
 /***/ }
 
@@ -63,6 +103,23 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _st
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports

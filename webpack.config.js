@@ -11,7 +11,7 @@ module.exports = {
     // 🔹 Entry point: punta al tuo file TypeScript
     entry:{
         index:'./src/js-ts/index.ts',
-        aboutUs:'/src/js-ts/aboutUs.ts'
+        aboutUs:'./src/js-ts/aboutUs.ts'
     },
      // 🔹 Output del bundle
     output: {
@@ -66,6 +66,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/menu.html',
             filename: 'menu.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/form.html',
+            filename: 'form.html',
         }),
         new MiniCssExtractPlugin({
                 filename: '[name].css',

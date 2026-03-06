@@ -1,2 +1,2 @@
-export declare function fetchMenu(): Promise<HTMLElement>;
+export declare function setUpMenu(): void;
 //# sourceMappingURL=menu.d.ts.map

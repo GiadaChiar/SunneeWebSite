@@ -1,0 +1,23 @@
+//section form 
+@use 'variables' as vars;
+
+
+    #form{
+        background: vars.$background-blue;
+        margin-top: 100px;
+        padding-left: 50px;
+        padding-right: 50px;
+        color: vars.$background-light;
+        font-family: vars.$font-Alice;
+        p{
+            font-family: vars.$font-Tan;
+            padding-top: 20px;
+            padding-bottom: 15px;
+        }
+        button{
+            background-color: vars.$background-dark;
+            margin-bottom: 10px;
+        }
+    }
+
+
