@@ -20,33 +20,23 @@ eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-ext
 
 /***/ },
 
-/***/ "./src/style/aboutUs.css"
-/*!*******************************!*\
-  !*** ./src/style/aboutUs.css ***!
-  \*******************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/aboutUs.css?\n}");
-
-/***/ },
-
-/***/ "./src/style/menu.css"
-/*!****************************!*\
-  !*** ./src/style/menu.css ***!
-  \****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.css?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/aboutUs.ts"
+/***/ "./src/style/logIn.scss"
 /*!******************************!*\
-  !*** ./src/js-ts/aboutUs.ts ***!
+  !*** ./src/style/logIn.scss ***!
   \******************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_aboutUs_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/aboutUs.css */ \"./src/style/aboutUs.css\");\n/* harmony import */ var _style_menu_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/menu.css */ \"./src/style/menu.css\");\n/* harmony import */ var _style_form_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/form.scss */ \"./src/style/form.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form */ \"./src/js-ts/form.ts\");\n\n\n\n\n\n(0,_menu__WEBPACK_IMPORTED_MODULE_3__.setUpMenu)();\n(0,_form__WEBPACK_IMPORTED_MODULE_4__.fetchForm)();\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/aboutUs.ts?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/logIn.scss?\n}");
+
+/***/ },
+
+/***/ "./src/style/menu.scss"
+/*!*****************************!*\
+  !*** ./src/style/menu.scss ***!
+  \*****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.scss?\n}");
 
 /***/ },
 
@@ -57,6 +47,26 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _st
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   fetchForm: () => (/* binding */ fetchForm)\n/* harmony export */ });\nfunction fetchForm() {\n    return fetch(\"form.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divForm = document.getElementById(\"contacts\");\n        if (!divForm) {\n            //throw new Error(\"Form Element not found\");\n            console.log(\"Form Element not found\");\n        }\n        divForm.innerHTML = html;\n        return divForm;\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/form.ts?\n}");
+
+/***/ },
+
+/***/ "./src/js-ts/logIn.ts"
+/*!****************************!*\
+  !*** ./src/js-ts/logIn.ts ***!
+  \****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_menu_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/menu.scss */ \"./src/style/menu.scss\");\n/* harmony import */ var _style_form_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/form.scss */ \"./src/style/form.scss\");\n/* harmony import */ var _style_logIn_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/logIn.scss */ \"./src/style/logIn.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form */ \"./src/js-ts/form.ts\");\n/* harmony import */ var _logInSections__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./logInSections */ \"./src/js-ts/logInSections.ts\");\nvar __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\n\n\n\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => __awaiter(void 0, void 0, void 0, function* () {\n    (0,_menu__WEBPACK_IMPORTED_MODULE_3__.setUpMenu)();\n    (0,_form__WEBPACK_IMPORTED_MODULE_4__.fetchForm)();\n    //dowload template in memory\n    yield (0,_logInSections__WEBPACK_IMPORTED_MODULE_5__.loadTemplates)();\n    (0,_logInSections__WEBPACK_IMPORTED_MODULE_5__.setUpNewUserRegistration)();\n}));\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/logIn.ts?\n}");
+
+/***/ },
+
+/***/ "./src/js-ts/logInSections.ts"
+/*!************************************!*\
+  !*** ./src/js-ts/logInSections.ts ***!
+  \************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   loadTemplates: () => (/* binding */ loadTemplates),\n/* harmony export */   setUpNewUserRegistration: () => (/* binding */ setUpNewUserRegistration)\n/* harmony export */ });\nvar __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\nconst templates = {};\nfunction loadTemplates() {\n    return __awaiter(this, void 0, void 0, function* () {\n        const response = yield fetch(\"logInSections.html\");\n        const html = yield response.text();\n        const parser = new DOMParser();\n        const doc = parser.parseFromString(html, \"text/html\");\n        const foundTemplates = doc.querySelectorAll(\"template\");\n        foundTemplates.forEach(template => {\n            templates[template.id] = template;\n        });\n    });\n}\nfunction cleanSection(sectionId) {\n    const section = document.getElementById(sectionId);\n    if (!section) {\n        console.error(\"Section not found\");\n        return;\n    }\n    section.innerHTML = \"\";\n}\nfunction InsertTemplate(sectionId, templateId) {\n    const section = document.getElementById(sectionId);\n    if (!section) {\n        console.error(\"section not found\");\n        return;\n    }\n    const template = templates[templateId];\n    if (!template) {\n        console.error(\"template not loaded\");\n        return;\n    }\n    cleanSection(sectionId);\n    const clone = document.importNode(template.content, true);\n    section.appendChild(clone);\n}\nfunction setUpNewUserRegistration() {\n    const linkClicked = document.getElementById(\"newRegistration\");\n    if (!linkClicked) {\n        console.error(\"Link not found\");\n        return;\n    }\n    linkClicked.addEventListener(\"click\", (event) => {\n        event.preventDefault();\n        InsertTemplate(\"login\", \"registration\");\n    });\n}\n/*\nexport async function fetchTemplate(templateId:string) {\n\n    const response = await fetch(\"logInSections.html\");\n    const html = await response.text();\n    const parser = new DOMParser();\n    const doc = parser.parseFromString(html, \"text/html\");\n\n    const template = doc.getElementById(templateId) as HTMLTemplateElement;\n\n    if (!template) {\n        console.error(\"Template not found\");\n        return null;\n    }\n\n    return template;\n}\n\n\n\n\n\n//clean function\nfunction cleanSection(sectionId : string){\n    const mySection = document.getElementById(sectionId);\n    if(!mySection){\n        console.log(\"Section to clean not found\")\n        return;\n    }\n    mySection.innerHTML= \"\";\n}\n\n\n//if I click to registration to default page\n//<a class=\"d-block mb-2\" id=\"newRegistration\" href=\"#\">Nuovo utente? Registrati</a>\nasync function InsertTemplate(sectionId : string, templateId : string){\n    \n    const section = document.getElementById(sectionId) as HTMLElement;\n    \n    //with fetch it is in another page\n    //const template= document.getElementById(templateId) as HTMLTemplateElement;\n    if (!section ) {\n    console.error(\"section not found\");\n    return;\n    }\n\n    const template = await fetchTemplate(templateId);\n    if (!template) return;\n    \n    cleanSection(sectionId);\n\n        \n    //insert <template id=\"registration\">\n    const clone = document.importNode(template.content, true);\n    section.appendChild(clone);\n\n}\n\n\n//if I click\nexport function setUpNewUserRegistration(){\n    const linkClicked = document.getElementById(\"newRegistration\");\n    const sectionId = \"login\";\n    const templateId = \"registration\";\n    if (!linkClicked) {\n        console.error(\"Link add user not found\");\n        return;\n    }\n\n    linkClicked.addEventListener(\"click\", async function (event) {\n        event.preventDefault(); // evita il reload della pagina\n        await InsertTemplate(sectionId, templateId);\n    });\n\n}\n*/ \n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/logInSections.ts?\n}");
 
 /***/ },
 
@@ -136,7 +146,7 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/aboutUs.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/logIn.ts");
 /******/ 	
 /******/ })()
 ;

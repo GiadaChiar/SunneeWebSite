@@ -10,53 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/style/form.scss"
+/***/ "./src/style/menu.scss"
 /*!*****************************!*\
-  !*** ./src/style/form.scss ***!
+  !*** ./src/style/menu.scss ***!
   \*****************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/form.scss?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.scss?\n}");
 
 /***/ },
 
-/***/ "./src/style/aboutUs.css"
-/*!*******************************!*\
-  !*** ./src/style/aboutUs.css ***!
-  \*******************************/
+/***/ "./src/js-ts/insert.ts"
+/*!*****************************!*\
+  !*** ./src/js-ts/insert.ts ***!
+  \*****************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/aboutUs.css?\n}");
-
-/***/ },
-
-/***/ "./src/style/menu.css"
-/*!****************************!*\
-  !*** ./src/style/menu.css ***!
-  \****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.css?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/aboutUs.ts"
-/*!******************************!*\
-  !*** ./src/js-ts/aboutUs.ts ***!
-  \******************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_aboutUs_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/aboutUs.css */ \"./src/style/aboutUs.css\");\n/* harmony import */ var _style_menu_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/menu.css */ \"./src/style/menu.css\");\n/* harmony import */ var _style_form_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/form.scss */ \"./src/style/form.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form */ \"./src/js-ts/form.ts\");\n\n\n\n\n\n(0,_menu__WEBPACK_IMPORTED_MODULE_3__.setUpMenu)();\n(0,_form__WEBPACK_IMPORTED_MODULE_4__.fetchForm)();\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/aboutUs.ts?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/form.ts"
-/*!***************************!*\
-  !*** ./src/js-ts/form.ts ***!
-  \***************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   fetchForm: () => (/* binding */ fetchForm)\n/* harmony export */ });\nfunction fetchForm() {\n    return fetch(\"form.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divForm = document.getElementById(\"contacts\");\n        if (!divForm) {\n            //throw new Error(\"Form Element not found\");\n            console.log(\"Form Element not found\");\n        }\n        divForm.innerHTML = html;\n        return divForm;\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/form.ts?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_menu_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/menu.scss */ \"./src/style/menu.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n    (0,_menu__WEBPACK_IMPORTED_MODULE_1__.setUpMenu)();\n});\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/insert.ts?\n}");
 
 /***/ },
 
@@ -136,7 +106,7 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/aboutUs.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/insert.ts");
 /******/ 	
 /******/ })()
 ;

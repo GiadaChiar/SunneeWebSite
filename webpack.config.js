@@ -11,7 +11,10 @@ module.exports = {
     // 🔹 Entry point: punta al tuo file TypeScript
     entry:{
         index:'./src/js-ts/index.ts',
-        aboutUs:'./src/js-ts/aboutUs.ts'
+        aboutUs:'./src/js-ts/aboutUs.ts',
+        logIn:'./src/js-ts/logIn.ts',
+        insert:'./src/js-ts/insert.ts',
+
     },
      // 🔹 Output del bundle
     output: {
@@ -56,21 +59,41 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks:['index']
         }),
 
         new HtmlWebpackPlugin({
             template: './src/aboutUs.html',
             filename: 'aboutUs.html',
-        }),
-        new HtmlWebpackPlugin({
-            template: './src/menu.html',
-            filename: 'menu.html',
+            chunks:['aboutUs']
         }),
         new HtmlWebpackPlugin({
             template: './src/form.html',
             filename: 'form.html',
+            chunks: ['form']
         }),
+        new HtmlWebpackPlugin({
+            template: './src/menu.html',
+            filename: 'menu.html',
+            chunks: ['menu']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/logIn.html',
+            filename: 'logIn.html',
+            chunks: ['logIn']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/logInSections.html',
+            filename: 'logInSections.html',
+            chunks: ['logInSections']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/insert.html',
+            filename: 'insert.html',
+            chunks: ['insert']
+        }),
+        
         new MiniCssExtractPlugin({
                 filename: '[name].css',
         }),

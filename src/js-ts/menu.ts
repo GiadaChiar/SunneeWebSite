@@ -10,7 +10,8 @@ function fetchMenu() {
         .then(html => {
             const divMenu = document.getElementById("menu")as HTMLElement;
             if (!divMenu) {
-                throw new Error(" Menu Element not found");
+                //throw new Error(" Menu Element not found");
+                console.log(" Menu Element not found");
             }
             divMenu.innerHTML = html;
             return divMenu;
@@ -52,7 +53,7 @@ function changeLinkNavigation(divMenu: HTMLElement) {
 }
 
 
-function checkswimSuit() {
+function checkMenuSections() {
     const swimSuitBtn = document.querySelector('a[href="#swim_suit"]') as HTMLElement;
     const accessoriesBtn = document.querySelector('a[href="#accessories"]') as HTMLElement;
 
@@ -76,7 +77,11 @@ function checkswimSuit() {
     swimSuitBtn.addEventListener("click", (e) => { e.preventDefault(); toggleSwimSuit(); });
     accessoriesBtn.addEventListener("click", (e) => { e.preventDefault(); toggleAccessories(); });
 
-    // Click fuori chiude tutti
+    closeClickOutside(swimSuit,swimSuitBtn,accessories,accessoriesBtn)
+
+}
+
+function closeClickOutside(swimSuit: HTMLElement,swimSuitBtn: HTMLElement,accessories: HTMLElement,accessoriesBtn: HTMLElement){
     document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
         if (
@@ -96,7 +101,7 @@ export function setUpMenu(){
     fetchMenu()
     .then((divMenu)=>{
         changeLinkNavigation(divMenu); // upload state link 
-        checkswimSuit();
+        checkMenuSections();
     })
     .catch(error=>{
         throw new Error("Error upload state menu")

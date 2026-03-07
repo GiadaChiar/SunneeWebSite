@@ -1,0 +1,206 @@
+/*!**************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/menu.scss ***!
+  \**************************************************************************************************************/
+.blue_bar {
+  height: 4.5px;
+  margin: 10px;
+  background-color: #89acb1;
+}
+
+#swim_suit[data-menu=close],
+#accessories[data-menu=close] {
+  display: none;
+}
+
+#swim_suit[data-menu=open],
+#accessories[data-menu=open] {
+  display: block;
+}
+
+body .black-over {
+  background-color: #485d5b;
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+  width: 100%;
+}
+body .black-over h4 {
+  text-align: center;
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+body .gray-over {
+  background-color: #89acb1;
+  width: 100%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+body .gray-over h1 {
+  color: #FFF;
+  font-family: "Young Serif", serif;
+  text-align: center;
+}
+body .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+body .nav .nav-item a {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+}
+body .nav .nav-item .nav-link.active:hover {
+  text-decoration: underline;
+  color: #89acb1;
+}
+body .nav .nav-item .nav-link.disabled {
+  text-decoration: underline;
+  color: #89acb1;
+}
+body .nav .nav-item .btn.btn-primary {
+  background-color: transparent;
+  border: none;
+}
+body .nav .nav-item .btn.btn-primary:hover {
+  color: #89acb1;
+  text-decoration: underline;
+}
+/*!**************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/form.scss ***!
+  \**************************************************************************************************************/
+#form {
+  background: #89acb1;
+  margin-top: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: #FFF;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+#form p {
+  font-family: "Young Serif", serif;
+  padding-top: 20px;
+  padding-bottom: 15px;
+}
+#form button {
+  background-color: #485d5b;
+  margin-bottom: 10px;
+}
+/*!***************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/logIn.scss ***!
+  \***************************************************************************************************************/
+/* Title */
+#title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #485d5b;
+  text-align: center;
+}
+
+/* Login Section */
+#login {
+  max-width: 80%;
+  margin: 2rem auto;
+  background-color: #FFF;
+  border: 1px solid rgba(137, 172, 177, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 1.5rem;
+}
+#login h1.title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #485d5b;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+#login form {
+  display: flex;
+  flex-direction: column;
+}
+#login form .mb-3 {
+  margin-bottom: 1rem;
+}
+#login form .mb-3 label.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+#login form .mb-3 input.form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(137, 172, 177, 0.8);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#login form .mb-3 input.form-control:focus {
+  outline: none;
+  border-color: #485d5b;
+  box-shadow: 0 0 5px rgba(11, 61, 145, 0.3);
+}
+#login form .form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#login form .form-check input.form-check-input {
+  margin-right: 0.5rem;
+}
+#login form .form-check label.form-check-label {
+  font-size: 0.9rem;
+}
+#login form button.btn-primary {
+  background-color: #485d5b;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#login form button.btn-primary:hover {
+  background-color: #89acb1;
+}
+#login form hr {
+  border-top: 1px solid rgba(137, 172, 177, 0.8);
+  margin: 1.5rem 0;
+}
+#login form a {
+  display: block;
+  color: #485d5b;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+#login form a:hover {
+  color: rgba(137, 172, 177, 0.8);
+}
+
+/* Default Link (Area Riservata) */
+#buttomLink {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+#buttomLink a.btn-link {
+  color: #485d5b;
+  text-decoration: none;
+  font-weight: 500;
+}
+#buttomLink a.btn-link:hover {
+  color: rgba(137, 172, 177, 0.8);
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  #login {
+    max-width: 90%;
+    padding: 1rem;
+  }
+}
