@@ -16,7 +16,7 @@
 <!--standard Autentication -->
 
 <!--log in did all controll and client registration -->
-<template id="registration">
+<template id="registrationTemplate">
     <h1 class="title">Registrazione:</h1>
     <form class="p-4 border rounded bg-light">
         <div class="mb-3">
@@ -31,21 +31,20 @@
             <label for="exampleDropdownFormEmail1" class="form-label">Telefono</label>
             <input type="phone" class="form-control" id="exampleDropdownFormPhone" placeholder="+39 3485880000">
         </div>
-        <form class="p-4 border rounded bg-light">
             <div class="mb-3">
                 <label for="exampleDropdownFormEmail1" class="form-label">Email</label>
                 <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
             </div>
-            <button type="submit" class="btn btn-primary w-100">salva</button>
+            <button type="submit" id ="submitRegistration" class="btn btn-primary w-100">salva</button>
             <hr class="my-4">
-            <a class="d-block mb-2" href="#">Nuovo utente? Registrati</a>
+            <a class="d-block mb-2" href="#">Già registrato? Accedi</a>
             <a class="d-block" href="#">Password dimenticata?</a>
         </form>
         </div>
 </template>
 
 <!--template creation password -->
-<template id="newPassword">
+<template id="newPasswordTemplate">
     <h1 class="title">Crea una password:</h1>
     <form class="p-4 border rounded bg-light">
         <div class="mb-3">

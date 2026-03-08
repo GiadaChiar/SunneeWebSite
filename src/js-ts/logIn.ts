@@ -5,7 +5,7 @@ import '../style/logIn.scss';
 import { setUpMenu } from './menu'
 import { fetchForm } from './form'
 
-import { setUpNewUserRegistration, loadTemplates } from './logInSections'
+import { setUpNewSection, loadTemplates } from './logInSections'
 
 
 document.addEventListener("DOMContentLoaded", async() => {
@@ -14,5 +14,6 @@ document.addEventListener("DOMContentLoaded", async() => {
 
     //dowload template in memory
     await loadTemplates();
-    setUpNewUserRegistration();
+    setUpNewSection("newRegistration","loginHTML","registrationTemplate");//new registration
+
 });
