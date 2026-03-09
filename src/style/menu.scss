@@ -1,4 +1,4 @@
-//style menu 
+//style menu
 
 @use 'variables' as vars;
 
@@ -10,12 +10,12 @@
 
 #swim_suit[data-menu="close"],
 #accessories[data-menu="close"] {
-    display: none;
+    display: none !important;
 }
 
 #swim_suit[data-menu="open"],
 #accessories[data-menu="open"] {
-    display: block;
+    display: block !important;
 }
 
 body{
@@ -68,6 +68,7 @@ body{
                 text-decoration: underline;
                 color: vars.$background-blue;
             }
+
             //swim suit (Costumi)
             .btn.btn-primary{
                 background-color: transparent;
@@ -82,3 +83,5 @@ body{
         }
     }
 }
+
+

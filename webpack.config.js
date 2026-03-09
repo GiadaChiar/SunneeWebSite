@@ -58,23 +58,23 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/pages/index.html',
             filename: 'index.html',
             chunks:['index']
         }),
 
         new HtmlWebpackPlugin({
-            template: './src/aboutUs.html',
+            template: './src/pages/aboutUs.html',
             filename: 'aboutUs.html',
             chunks:['aboutUs']
         }),
         new HtmlWebpackPlugin({
-            template: './src/form.html',
+            template: './src/components/form.html',
             filename: 'form.html',
             chunks: ['form']
         }),
         new HtmlWebpackPlugin({
-            template: './src/menu.html',
+            template: './src/components/menu.html',
             filename: 'menu.html',
             chunks: ['menu']
         }),
@@ -84,7 +84,7 @@ module.exports = {
             chunks: ['logIn']
         }),
         new HtmlWebpackPlugin({
-            template: './src/logInSections.html',
+            template: './src/templates/logInSections.html',
             filename: 'logInSections.html',
             chunks: ['logInSections']
         }),
