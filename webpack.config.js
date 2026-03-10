@@ -13,7 +13,6 @@ module.exports = {
         index:'./src/js-ts/index.ts',
         aboutUs:'./src/js-ts/aboutUs.ts',
         logIn:'./src/js-ts/logIn.ts',
-        insert:'./src/js-ts/insert.ts',
 
     },
      // 🔹 Output del bundle
@@ -79,7 +78,7 @@ module.exports = {
             chunks: ['menu']
         }),
         new HtmlWebpackPlugin({
-            template: './src/logIn.html',
+            template: './src/pages/logIn.html',
             filename: 'logIn.html',
             chunks: ['logIn']
         }),
@@ -88,12 +87,6 @@ module.exports = {
             filename: 'logInSections.html',
             chunks: ['logInSections']
         }),
-        new HtmlWebpackPlugin({
-            template: './src/insert.html',
-            filename: 'insert.html',
-            chunks: ['insert']
-        }),
-        
         new MiniCssExtractPlugin({
                 filename: '[name].css',
         }),

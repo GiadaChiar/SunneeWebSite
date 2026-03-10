@@ -67,6 +67,30 @@ body .nav .nav-item .btn.btn-primary:hover {
   color: #89acb1;
   text-decoration: underline;
 }
+body .collapse.custom-collapse .card.card-body .titleDropdown {
+  margin-bottom: 30px;
+  padding-left: 5px;
+}
+body .collapse.custom-collapse .card.card-body h4 {
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+  font-size: 20px;
+  padding-left: 20px;
+}
+body .collapse.custom-collapse .card.card-body .type {
+  max-width: 90%;
+  display: grid;
+  grid-template-columns: 150px 1fr 100px;
+  text-align: left;
+  gap: auto;
+}
+body .collapse.custom-collapse .card.card-body .type .p_bold {
+  text-align: left;
+}
+body .collapse.custom-collapse .card.card-body .type a {
+  color: #89acb1;
+  font-family: "Young Serif", serif;
+}
 /*!**************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/form.scss ***!
   \**************************************************************************************************************/

@@ -1,4 +1,4 @@
-const templates: Record<string, HTMLTemplateElement> = {};
+/*const templates: Record<string, HTMLTemplateElement> = {};
 
 //cronology of templates 
 export async function loadTemplates() {
@@ -31,27 +31,23 @@ function cleanSection(sectionId: string){
 }
 
 //insert template in the page
-function InsertTemplate(sectionId: string, templateId: string){
+function insertTemplate(sectionId: string, templateId: string){
 
     const section = document.getElementById(sectionId);
 
-    if(!section){
-        console.error("section not found");
-        return;
-    }
-
     const template = templates[templateId];
 
-    if(!template){
-        console.error("template not loaded");
+    if(!section || !template){
+        console.error("Section or template not found");
         return;
     }
 
-    cleanSection(sectionId);
+    //Not use clean it is better use a clonation 
 
-    const clone = document.importNode(template.content, true);
+    //make a copy by template and then replace it 
+    const clone = template.content.cloneNode(true);
 
-    section.appendChild(clone);
+    section.replaceChildren(clone);
     
     //check for submit 
     if(templateId === "registrationTemplate"){
@@ -61,7 +57,7 @@ function InsertTemplate(sectionId: string, templateId: string){
 
 
 //check event for registration 
-export function setUpNewSection(eventId : string,sectionId: string, templateId: string){
+export function setUpNewSection(eventId :string,sectionId: string, templateId: string){
 
     const linkClicked = document.getElementById(eventId);
 
@@ -74,28 +70,38 @@ export function setUpNewSection(eventId : string,sectionId: string, templateId: 
 
         event.preventDefault();
 
-        InsertTemplate(sectionId, templateId);
+        insertTemplate(sectionId, templateId);
 
     });
 
 }
 
-//check event for registration setUpNewUserRegistration
-export function setUpNewUserRegistration(){
 
-    const linkClicked = document.getElementById("newRegistration");
 
-    if(!linkClicked){
-        console.error("Link not found");
-        return;
-    }
 
-    linkClicked.addEventListener("click", (event) => {
+//Function change text 
 
-        event.preventDefault();
+function changeTextContent(elementId:string,text:string){
 
-        InsertTemplate("login", "registration");
-
-    });
+    const element = document.getElementById(elementId);
+    if(element)
+    element.textContent = text
 
 }
+
+// RISERVATE AREA 
+//If I click a wannt to change standard page html 
+
+//function to remuve elements
+export function removeElementHtm(){
+    const linkReservateArea = document.getElementById("buttonLinkHTML") as HTMLElement | null;
+    //click 
+    linkReservateArea?.addEventListener("click", function(){
+        cleanSection("buttonLinkHTML");
+        cleanSection("checksection");
+        cleanSection("newRegistration");
+        cleanSection("forgotPassword");
+        changeTextContent("titleLogIn","Accesso Riservato:");
+    })
+
+}*/
