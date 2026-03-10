@@ -10,7 +10,7 @@ import { setUpNewSection, loadTemplates,removeElementHtm} from './logInSections'
 
 */
 
-import{ removeElementHtm,setUpNewSection } from "./events"
+import{ removeElementHtm,setUpNewSection,clickAddInsertElement } from "./events"
 import{ loadTemplates } from "./templates"
 
 document.addEventListener("DOMContentLoaded", async() => {
@@ -21,5 +21,5 @@ document.addEventListener("DOMContentLoaded", async() => {
     //dowload template in memory
     await loadTemplates();
     setUpNewSection("newRegistration","loginHTML","registrationTemplate");//new registration
-    
+    clickAddInsertElement();
 });

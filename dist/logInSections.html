@@ -60,4 +60,49 @@
 </template>
 
 
-<!--New autentification-->
+
+<!--template insert option-->
+<!---
+<template id="insertOptions">
+    <select class="form-select">
+        <option value="">Seleziona categoria...</option>
+
+        <optgroup label="Costume">
+            <option value="swim_relax">Relax</option>
+            <option value="swim_training">Sport</option>
+            <option value="swim_extreme">Extreme</option>
+        </optgroup>
+
+        <optgroup label="Cappello">
+            <option value="cap">Cappelli</option>
+        </optgroup>
+
+        <optgroup label="Pareo">
+            <option value="sarong">Pareo</option>
+        </optgroup>
+    </select>
+</template>
+-->
+
+<template id="insertOptions">
+            <div class="dropdown" id="typeDropdown">
+                <a class="btn btn-secondary dropdown-toggle" id= "typeTitleDropdown"href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Tipologia..
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" value="swim" name="Costume" >Costume</a></li>
+                    <li><a class="dropdown-item" value="cap" name="Cappello" >Cappello</a></li>
+                    <li><a class="dropdown-item" value="sarong" name="Pareo" >Pareo</a></li>
+                    
+                </ul>
+            </div>
+</template>
+
+<template id="dropdown-right">
+    <div class="btn-group dropend ms-2">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Opzioni...
+        </button>
+        <ul class="dropdown-menu"></ul>
+    </div>
+</template>

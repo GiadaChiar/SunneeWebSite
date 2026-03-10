@@ -221,6 +221,11 @@ body .collapse.custom-collapse .card.card-body .type a {
   text-decoration: underline;
 }
 
+.dropdown {
+  margin-bottom: 200px;
+  color: rgba(137, 172, 177, 0.8);
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   #login {
