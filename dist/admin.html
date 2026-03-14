@@ -1,35 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+<script defer src="admin.bundle.js"></script><link href="admin.css" rel="stylesheet"></head>
+
 <body>
     <h1>Benvenuto nell'area riservata</h1>
 
-    
-<template id="insertOptions">
+
+<section id="dopdwons">
+
+<!--type and subtype-->
     <div class="dropdown" id="typeDropdown">
-        <a class="btn btn-secondary dropdown-toggle" id= "typeTitleDropdown"href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonType"
+            data-bs-toggle="dropdown" aria-expanded="false">
             Tipologia..
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" value="swim" name="Costume" >Costume</a></li>
-            <li><a class="dropdown-item" value="cap" name="Cappello" >Cappello</a></li>
-            <li><a class="dropdown-item" value="sarong" name="Pareo" >Pareo</a></li>
-            
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item"  value="swimSuit">Costumi</a>
+                <ul class="dropdown-submenu" id ="submenuType" data-show ="none">
+                    <li><a class="dropdown-item" name="costume/relax" data-value="relax">Relax</a></li>
+                    <li><a class="dropdown-item" name="costume/sport" data-value="sport">Sport</a></li>
+                    <li><a class="dropdown-item" name="costume/extreme" data-value="extreme">Extreme</a></li>
+                </ul>
+            </li>
+            <li><a class="dropdown-item" name="cappello" value="cap">Cappelli</a></li>
+            <li><a class="dropdown-item" name="pareo" value="sarong">Pareo</a></li>
         </ul>
     </div>
-</template>
 
-<template id="dropdown-right">
-    <div class="btn-group dropend ms-2">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Opzioni...
+
+<!--gender-->
+
+<div class="dropdown" id="genderDropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonGender"
+            data-bs-toggle="dropdown" aria-expanded="false" disabled>
+            Genere..
         </button>
-        <ul class="dropdown-menu"></ul>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" name="uomo"  value="man">Uomo</a></li>
+            <li><a class="dropdown-item" name="donna" value="cap">Donna</a></li>
+        </ul>
     </div>
-</template>
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+    <!--
+    <div class="dropdown" id="typeDropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="typeTitleDropdown" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Tipologia..
+        </button>
+
+        <ul class="dropdown-menu">
+
+           
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="costumeBtn">Costume</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-value="relax">Relax</a></li>
+                    <li><a class="dropdown-item" data-value="sport">Sport</a></li>
+                    <li><a class="dropdown-item" data-value="extreme">Extreme</a></li>
+                </ul>
+            </li>
+
+            <li><a class="dropdown-item" data-value="cap">Cappello</a></li>
+            <li><a class="dropdown-item" data-value="sarong">Pareo</a></li>
+
+        </ul>
+    </div>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

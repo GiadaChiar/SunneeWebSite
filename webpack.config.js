@@ -13,6 +13,7 @@ module.exports = {
         index:'./src/js-ts/index.ts',
         aboutUs:'./src/js-ts/aboutUs.ts',
         logIn:'./src/js-ts/logIn.ts',
+        admin:'./src/js-ts/admin.ts'
 
     },
      // 🔹 Output del bundle

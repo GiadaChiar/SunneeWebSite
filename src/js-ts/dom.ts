@@ -368,33 +368,3 @@ export function cleanOldUsers() {
 
 
 
-
-///old work 
-/*
-export function checkLogin() {
-
-    const emailInput = document.getElementById("logInEmail") as HTMLInputElement;
-    const passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
-    
-    const title = document.getElementById("titleLogIn")?.textContent;
-    
-
-    const users = getRegisteredUsers();
-    const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
-
-    if (!registeredUser) {
-        showPopUp("Errore", "Nessun utente registrato");
-        return;
-    }
-
-    // accesso ok
-    showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
-    const closeButton = document.getElementById("closeButton");
-    closeButton?.addEventListener("click", () => {
-        // Vai alla pagina principale o home dopo login
-        window.location.href = "index.html";
-    }, { once: true });
-    // qui puoi fare redirect, ad esempio:
-    // window.location.href = "home.html";
-}
-*/

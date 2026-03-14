@@ -1,0 +1,28 @@
+@use 'variables' as vars;
+
+
+//dropdown style 
+.dropdown{
+    
+    font-family: vars.$font-Alice;
+    margin-top: 0;
+    button{
+        background-color:vars.$background-blue-tr;
+        font-family: vars.$font-Tan;
+        
+    }
+    .dropdown-menu{
+        padding: 0px;
+    .dropdown-item{
+        border: 1px solid vars.$background-blue;
+    }
+    
+    .dropdown-submenu[data-show ="none"]{
+        display: none;
+    }
+    .dropdown-submenu[data-show ="see"]{
+        display: block;
+        background-color:beige ;
+    }
+}
+}

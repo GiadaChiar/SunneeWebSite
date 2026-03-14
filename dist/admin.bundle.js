@@ -10,43 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/style/form.scss"
-/*!*****************************!*\
-  !*** ./src/style/form.scss ***!
-  \*****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/form.scss?\n}");
-
-/***/ },
-
-/***/ "./src/style/logIn.scss"
+/***/ "./src/style/admin.scss"
 /*!******************************!*\
-  !*** ./src/style/logIn.scss ***!
+  !*** ./src/style/admin.scss ***!
   \******************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/logIn.scss?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/admin.scss?\n}");
 
 /***/ },
 
-/***/ "./src/style/menu.scss"
-/*!*****************************!*\
-  !*** ./src/style/menu.scss ***!
-  \*****************************/
+/***/ "./src/js-ts/admin.ts"
+/*!****************************!*\
+  !*** ./src/js-ts/admin.ts ***!
+  \****************************/
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/menu.scss?\n}");
-
-/***/ },
-
-/***/ "./src/style/poUp.scss"
-/*!*****************************!*\
-  !*** ./src/style/poUp.scss ***!
-  \*****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/poUp.scss?\n}");
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_admin_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/admin.scss */ \"./src/style/admin.scss\");\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom */ \"./src/js-ts/dom.ts\");\n\n\n/*\nexport function changeTextContent(elementId: string, text: string) {\n\n    const element = document.getElementById(elementId);\n    if (element)\n        element.textContent = text\n\n}\n*/\nfunction showHidden(subMenuId) {\n    const subMenu = document.getElementById(subMenuId);\n    if (subMenu) {\n        if (subMenu.dataset.show === \"none\") {\n            subMenu.dataset.show = \"see\";\n        }\n        else {\n            subMenu.dataset.show = \"none\";\n        }\n    }\n}\nfunction disableAnableDropdown(dropdownId, bool) {\n    const dropdownButton = document.getElementById(dropdownId);\n    if (dropdownButton) {\n        dropdownButton.disabled = bool; // disabilita\n    }\n}\nfunction genderMenu(valueDropdown) {\n    if (valueDropdown !== \"sarong\" && valueDropdown !== \"cap\" && valueDropdown !== null) {\n        disableAnableDropdown(\"dropdownButtonGender\", false);\n    }\n    else {\n        disableAnableDropdown(\"dropdownButtonGender\", true);\n    }\n}\n// Funzione che gestisce il valore selezionato\nfunction handleSelectedValueType(valueType, nameType) {\n    console.log(\"Valore selezionato:\", valueType);\n    console.log(\"Nome selezionato:\", nameType);\n    (0,_dom__WEBPACK_IMPORTED_MODULE_1__.changeTextContent)(\"dropdownButtonType\", nameType);\n    genderMenu(valueType);\n}\nfunction checkTypeDropdown() {\n    const buttonType = document.getElementById(\"typeDropdown\");\n    buttonType === null || buttonType === void 0 ? void 0 : buttonType.addEventListener(\"click\", (event) => {\n        const target = event.target;\n        if (target instanceof HTMLElement && target.classList.contains(\"dropdown-item\")) {\n            const nameDropdown = target.getAttribute(\"name\") || \"\";\n            let valueDropdown = target.getAttribute(\"value\") || \"\";\n            if (valueDropdown == \"swimSuit\") {\n                event.preventDefault(); //still open\n                event.stopPropagation();\n                showHidden(\"submenuType\");\n            }\n            if (target.closest(\"#submenuType\")) {\n                const nameUnderMenu = target.getAttribute(\"name\") || \"\";\n                console.log(\"SOTTOMENU\", nameUnderMenu);\n                //changeTextContent(\"dropdownButtonType\", nameUnderMenu)\n                const valueUnderMenu = target.getAttribute(\"data-value\") || \"\";\n                handleSelectedValueType(valueUnderMenu, nameUnderMenu);\n            }\n            if (valueDropdown !== \"swimSuit\" && valueDropdown !== null && nameDropdown !== null) {\n                handleSelectedValueType(valueDropdown, nameDropdown);\n            }\n        }\n    });\n}\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n    //desable dropdown gender\n    disableAnableDropdown(\"dropdownButtonGender\", true);\n    checkTypeDropdown();\n});\n/*\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n\n\n    //desable dropdown gender\n    disableAnableDropdown(\"dropdownButtonGender\",true)\n\n    const buttonType = document.getElementById(\"typeDropdown\");\n\n    buttonType?.addEventListener(\"click\", (event) => {\n        const target = event.target;\n        if (target instanceof HTMLElement && target.classList.contains(\"dropdown-item\")) {\n        \n            const nameDropdown = target.getAttribute(\"name\")\n            let valueDropdown = target.getAttribute(\"value\")\n            \n\n            if (valueDropdown == \"swimSuit\") {\n                event.preventDefault();//still open\n                event.stopPropagation();\n                showHidden(\"submenuType\");\n            }\n\n            if (target.closest(\"#submenuType\")){\n                const nameUnderMenu = target.getAttribute(\"name\")\n                console.log(\"SOTTOMENU\", nameUnderMenu)\n\n                if(nameUnderMenu){\n                    changeTextContent(\"dropdownButtonType\", nameUnderMenu)\n                    const valueUnderMenu= target.getAttribute(\"data-value\")\n                    if(valueUnderMenu){\n                        console.log(valueUnderMenu)\n                        valueDropdown = valueUnderMenu\n                        return valueDropdown\n                    }\n                }\n                \n            }\n\n            if (valueDropdown !== \"swimSuit\" && valueDropdown !== null && nameDropdown !== null) {\n                changeTextContent(\"dropdownButtonType\", nameDropdown)\n                console.log(valueDropdown)\n                return valueDropdown\n            }\n        }\n        \n    })\n\n});\n\n*/\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/admin.ts?\n}");
 
 /***/ },
 
@@ -60,26 +40,6 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 
 /***/ },
 
-/***/ "./src/js-ts/events.ts"
-/*!*****************************!*\
-  !*** ./src/js-ts/events.ts ***!
-  \*****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   preventSubmitLogIn: () => (/* binding */ preventSubmitLogIn),\n/* harmony export */   removeElementHtm: () => (/* binding */ removeElementHtm),\n/* harmony export */   setUpNewSection: () => (/* binding */ setUpNewSection)\n/* harmony export */ });\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ \"./src/js-ts/dom.ts\");\n/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates */ \"./src/js-ts/templates.ts\");\n//event functions\n\n\n//check event for registration \nfunction setUpNewSection(eventId, sectionId, templateId) {\n    const linkClicked = document.getElementById(eventId);\n    if (!linkClicked) {\n        console.error(\"Link not found\");\n        return;\n    }\n    linkClicked.addEventListener(\"click\", (event) => {\n        event.preventDefault();\n        (0,_templates__WEBPACK_IMPORTED_MODULE_1__.insertTemplate)(sectionId, templateId);\n    });\n}\n//function to remuve elements if I click on reservate area\nfunction removeElementHtm() {\n    const linkReservateArea = document.getElementById(\"buttonLinkHTML\");\n    //click \n    linkReservateArea === null || linkReservateArea === void 0 ? void 0 : linkReservateArea.addEventListener(\"click\", function () {\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.cleanSection)(\"buttonLinkHTML\");\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.cleanSection)(\"checksection\");\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.cleanSection)(\"newRegistration\");\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.cleanSection)(\"forgotPassword\");\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.changeTextContent)(\"titleLogIn\", \"Accesso Riservato:\");\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.setAdminLogin)(true);\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.submitLogIn)();\n    });\n}\nfunction preventSubmitLogIn() {\n    const registrationForm = document.getElementById(\"loginFormStandard\");\n    registrationForm === null || registrationForm === void 0 ? void 0 : registrationForm.addEventListener(\"submit\", (e) => {\n        e.preventDefault();\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.checkUserLogin)();\n    });\n}\n//-------------------------------insert page ------------------\n/*\n// funzione per gestire la scelta e creare il dropdown a destra\nfunction selectedControll(selectedValue: string | null, parentDropdown: HTMLElement) {\n    if (!selectedValue) return;\n\n    if (selectedValue === \"swim\") {\n        console.log(\"la categoria selezionata è\",selectedValue)\n    }\n\n    console.log(\"Hai selezionato:\", selectedValue);\n}\n\n*/\n/*\n\n// listener annidato come nella versione originale\nfunction handleDropdownClick(event: Event) {\n    const target = event.target as HTMLElement;\n    if (!target.classList.contains(\"dropdown-item\")) return;\n\n    const selectedValue = target.getAttribute(\"value\");\n    const selectedName = target.getAttribute(\"name\");\n\n    const parentDropdown = target.closest(\".dropdown\") as HTMLElement;\n    if (!parentDropdown) return;\n\n    changeTextContent(\"typeTitleDropdown\", selectedName ?? \"Tipologia..\");\n\n    const existingRight = parentDropdown.parentElement?.querySelector(\".dropend\");\n    if (existingRight) existingRight.remove();\n\n    selectedControll(selectedValue, parentDropdown);\n}\n*/\n/*\n// click sul submit: inserisce template e aggiunge listener\nexport function clickAddInsertElement() {\n    const submitHtmlPage = document.getElementById(\"submitLogIn\");\n    submitHtmlPage?.addEventListener(\"click\", function () {\n        const titlePage = document.getElementById(\"titleLogIn\");\n        if (titlePage?.textContent !== \"Accesso Riservato:\") return;\n\n        cleanSection(\"buttonLinkHTML\");\n        insertTemplate(\"loginHTML\", \"insertOptions\");\n\n        // listener sul container appena creato\n        const loginContainer = document.getElementById(\"loginHTML\");\n        if (!loginContainer) return;\n\n        loginContainer.addEventListener(\"click\", handleDropdownClick);\n    });\n}\n\n*/\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/events.ts?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/form.ts"
-/*!***************************!*\
-  !*** ./src/js-ts/form.ts ***!
-  \***************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   fetchForm: () => (/* binding */ fetchForm)\n/* harmony export */ });\nfunction fetchForm() {\n    return fetch(\"form.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divForm = document.getElementById(\"contacts\");\n        if (!divForm) {\n            //throw new Error(\"Form Element not found\");\n            console.log(\"Form Element not found\");\n        }\n        divForm.innerHTML = html;\n        return divForm;\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/form.ts?\n}");
-
-/***/ },
-
 /***/ "./src/js-ts/interfaces.ts"
 /*!*********************************!*\
   !*** ./src/js-ts/interfaces.ts ***!
@@ -87,26 +47,6 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   reservedUsers: () => (/* binding */ reservedUsers)\n/* harmony export */ });\n// I want to create an Interface for products standard\nconst products = [\n    { type: \"swim-suit\", subType: \"RELAX\", gender: \"WOMAN\", id: \"001\", size: \"M\", color: \"white\", state: \"available\", image: \".\\style\\img\\bikini_bianco.jpg\", quantity: 5 },\n];\nconst reservedUsers = [\n    {\n        email: \"admin@site.com\",\n        password: \"admin123\"\n    },\n    {\n        email: \"manager@site.com\",\n        password: \"manager123\"\n    }\n];\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/interfaces.ts?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/logIn.ts"
-/*!****************************!*\
-  !*** ./src/js-ts/logIn.ts ***!
-  \****************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_menu_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/menu.scss */ \"./src/style/menu.scss\");\n/* harmony import */ var _style_form_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/form.scss */ \"./src/style/form.scss\");\n/* harmony import */ var _style_logIn_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/logIn.scss */ \"./src/style/logIn.scss\");\n/* harmony import */ var _style_poUp_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../style/poUp.scss */ \"./src/style/poUp.scss\");\n/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./menu */ \"./src/js-ts/menu.ts\");\n/* harmony import */ var _form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form */ \"./src/js-ts/form.ts\");\n/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./events */ \"./src/js-ts/events.ts\");\n/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./templates */ \"./src/js-ts/templates.ts\");\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./dom */ \"./src/js-ts/dom.ts\");\nvar __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\n\n\n\n\n\n\n/*\nimport { setUpNewSection, loadTemplates,removeElementHtm} from './logInSections'\n\n*/\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => __awaiter(void 0, void 0, void 0, function* () {\n    (0,_menu__WEBPACK_IMPORTED_MODULE_4__.setUpMenu)();\n    (0,_form__WEBPACK_IMPORTED_MODULE_5__.fetchForm)();\n    (0,_events__WEBPACK_IMPORTED_MODULE_6__.removeElementHtm)();\n    (0,_events__WEBPACK_IMPORTED_MODULE_6__.preventSubmitLogIn)();\n    (0,_dom__WEBPACK_IMPORTED_MODULE_8__.showUsers)();\n    //dowload template in memory\n    yield (0,_templates__WEBPACK_IMPORTED_MODULE_7__.loadTemplates)();\n    (0,_events__WEBPACK_IMPORTED_MODULE_6__.setUpNewSection)(\"newRegistration\", \"loginHTML\", \"registrationTemplate\"); //new registration\n    //clickAddInsertElement();\n    //checkRegistration();\n    //cleanOldUsers(); to clean\n}));\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/logIn.ts?\n}");
-
-/***/ },
-
-/***/ "./src/js-ts/menu.ts"
-/*!***************************!*\
-  !*** ./src/js-ts/menu.ts ***!
-  \***************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   setUpMenu: () => (/* binding */ setUpMenu)\n/* harmony export */ });\nfunction fetchMenu() {\n    return fetch(\"menu.html\")\n        .then(res => res.text()) //then response in text form\n        .then(html => {\n        const divMenu = document.getElementById(\"menu\");\n        if (!divMenu) {\n            //throw new Error(\" Menu Element not found\");\n            console.log(\" Menu Element not found\");\n        }\n        divMenu.innerHTML = html;\n        return divMenu;\n    });\n}\n// Update hash links to point to index.html if on another page\nfunction changeLinkNavigation(divMenu) {\n    const currentPage = window.location.pathname.split(\"/\").pop() || \"index.html\";\n    //const currentPage = window.location.pathname.split(\"/\").pop();\n    if (!divMenu) {\n        throw new Error(\"Element not founded\");\n    }\n    const links = divMenu.querySelectorAll(\"a[data-page]\");\n    links.forEach(link => {\n        const hrefLink = link.getAttribute(\"data-page\");\n        if (hrefLink !== \"universal\") {\n            if (hrefLink == currentPage) {\n                if (link.classList.contains(\"active\")) {\n                    link.classList.replace(\"active\", \"disabled\");\n                    link.addEventListener(\"click\", (event) => {\n                        event.preventDefault(); // impedisce la navigazione\n                    });\n                }\n            }\n            else {\n                link.classList.replace(\"disabled\", \"active\");\n                // Rimuovi il listener che bloccava il click\n                const handler = (event) => event.preventDefault();\n                link.removeEventListener(\"click\", handler);\n            }\n        }\n    });\n    return currentPage;\n}\nfunction checkMenuSections() {\n    const swimSuitBtn = document.querySelector('a[href=\"#swim_suit\"]');\n    const accessoriesBtn = document.querySelector('a[href=\"#accessories\"]');\n    const swimSuit = document.getElementById(\"swim_suit\");\n    const accessories = document.getElementById(\"accessories\");\n    if (!swimSuit || !accessories || !swimSuitBtn || !accessoriesBtn)\n        return;\n    // Funzione generica per aprire/chiudere\n    function toggleMenu(menuToOpen, menuToClose) {\n        const isOpen = menuToOpen.dataset.menu === \"open\";\n        menuToOpen.dataset.menu = isOpen ? \"close\" : \"open\";\n        menuToClose.dataset.menu = \"close\";\n    }\n    // Funzioni specifiche\n    function toggleSwimSuit() { toggleMenu(swimSuit, accessories); }\n    function toggleAccessories() { toggleMenu(accessories, swimSuit); }\n    // Click sui bottoni\n    swimSuitBtn.addEventListener(\"click\", (e) => { e.preventDefault(); toggleSwimSuit(); });\n    accessoriesBtn.addEventListener(\"click\", (e) => { e.preventDefault(); toggleAccessories(); });\n    closeClickOutside(swimSuit, swimSuitBtn, accessories, accessoriesBtn);\n}\nfunction closeClickOutside(swimSuit, swimSuitBtn, accessories, accessoriesBtn) {\n    document.addEventListener(\"click\", (e) => {\n        const target = e.target;\n        if (!swimSuit.contains(target) &&\n            !swimSuitBtn.contains(target) &&\n            !accessories.contains(target) &&\n            !accessoriesBtn.contains(target)) {\n            swimSuit.dataset.menu = \"close\";\n            accessories.dataset.menu = \"close\";\n        }\n    });\n}\n// Final function to export \nfunction setUpMenu() {\n    fetchMenu()\n        .then((divMenu) => {\n        changeLinkNavigation(divMenu); // upload state link \n        checkMenuSections();\n    })\n        .catch(error => {\n        throw new Error(\"Error upload state menu\");\n    });\n}\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/menu.ts?\n}");
 
 /***/ },
 
@@ -186,7 +126,7 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/logIn.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/admin.ts");
 /******/ 	
 /******/ })()
 ;
