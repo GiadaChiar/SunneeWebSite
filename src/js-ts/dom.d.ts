@@ -1,3 +1,13 @@
+import type { RegisterForm } from "./interfaces";
+export declare let isAdminLogin: boolean;
+export declare function setAdminLogin(value: boolean): void;
 export declare function cleanSection(sectionId: string): void;
 export declare function changeTextContent(elementId: string, text: string): void;
+export declare function ValidationNewUser(): boolean;
+export declare function checkPassword(user: RegisterForm): false | undefined;
+export declare function checkRegistration(): void;
+export declare function submitLogIn(): void;
+export declare function checkUserLogin(): void;
+export declare function showUsers(): void;
+export declare function cleanOldUsers(): void;
 //# sourceMappingURL=dom.d.ts.map

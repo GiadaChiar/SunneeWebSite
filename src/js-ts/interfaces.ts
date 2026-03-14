@@ -54,3 +54,31 @@ const products: Product[] = [/*
     { type: "swim-suit", subType: "RELAX", gender: "WOMAN", id: "001", size: "M", color: "white", state: "available", image:".\style\img\bikini_bianco.jpg",quantity: 5 },
     
 ];  
+
+
+///CLIENT INTERFACE 
+export interface RegisterForm {
+    name: string;
+    surname: string;
+    email: string;
+    password?: string;
+    preferPayment:string;
+}
+
+
+export interface RegisterFormReservate {
+    email: string;
+    password: string;
+}
+
+
+export const reservedUsers: RegisterFormReservate[] = [
+    {
+        email: "admin@site.com",
+        password: "admin123"
+    },
+    {
+        email: "manager@site.com",
+        password: "manager123"
+    }
+];

@@ -7,6 +7,16 @@
     <a class="btn btn-link" href="insert.html">Area Riservata</a>
 </template>
 
+<!--Pop-Up-->
+<template id="popUp">
+    <div class="popup-overlay" id="custom-popup">
+        <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
+        <div class="popup-box" role="alert">
+            <h4 id="popUpTitle">Titolo</h4>
+            <p id="popUpMessage">Messaggio</p>
+        </div>
+    </div>
+</template>
 
 
 
@@ -18,44 +28,48 @@
 <!--log in did all controll and client registration -->
 <template id="registrationTemplate">
     <h1 class="title">Registrazione:</h1>
-    <form class="p-4 border rounded bg-light">
+
+    <form id="registration" class="p-4 border rounded bg-light">
+
         <div class="mb-3">
-            <label for="logInName" class="form-label">Nome</label>
-            <input type="name" class="form-control" id="exampleDropdownFormName" placeholder="Luca">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="name" placeholder="Luca" novalidate>
         </div>
         <div class="mb-3">
-            <label for="logInSurname" class="form-label">Cognome</label>
-            <input type="surname" class="form-control" id="exampleDropdownFormSurname" placeholder="Rossi">
+            <label for="surname" class="form-label">Cognome</label>
+            <input type="text" class="form-control" id="surname" placeholder="Rossi" novalidate>
         </div>
         <div class="mb-3">
-            <label for="logInPhone" class="form-label">Telefono</label>
-            <input type="phone" class="form-control" id="exampleDropdownFormPhone" placeholder="+39 3485880000">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="email@example.com"novalidate>
         </div>
-            <div class="mb-3">
-                <label for="logInEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="email@example.com">
-            </div>
+        <div class="mb-3">
+        <label for="preferPayment" class="form-label">Metodo di pagamento</label>
+        <select id="preferPayment" class="form-select" novalidate>
+            <option value="">Seleziona metodo</option>
+            <option value="card">Carta di credito</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank">Bonifico</option>
+        </select>
+        </div>
+
             <button type="submit" id ="submitRegistration" class="btn btn-primary w-100">salva</button>
-            <hr class="my-4">
-            <a class="d-block mb-2" href="#">Già registrato? Accedi</a>
-            <a class="d-block" href="#">Password dimenticata?</a>
         </form>
-        </div>
 </template>
 
 <!--template creation password -->
 <template id="newPasswordTemplate">
     <h1 class="title">Crea una password:</h1>
-    <form class="p-4 border rounded bg-light">
+    <form id="passwordForm" class="p-4 border rounded bg-light">
         <div class="mb-3">
-            <label for="logInPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+            <label for="password" class="form-label">Password</label>
+            <input type="text" class="form-control" id="password" placeholder="Password" novalidate>
         </div>
         <div class="mb-3">
-            <label for="logInPassword2" class="form-label">Ripeti Password</label>
-            <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+            <label for="confirmPassword" class="form-label">Ripeti Password</label>
+            <input type="text" class="form-control" id="confirmPassword" placeholder=" Ripeti Password" novalidate>
         </div>
-        <button type="submit" class="btn btn-primary w-100">salva</button>
+        <button type="submit" class="btn btn-primary w-100" id ="submitPassword">salva</button>
     </form>
 </template>
 
@@ -85,17 +99,17 @@
 -->
 
 <template id="insertOptions">
-            <div class="dropdown" id="typeDropdown">
-                <a class="btn btn-secondary dropdown-toggle" id= "typeTitleDropdown"href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Tipologia..
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" value="swim" name="Costume" >Costume</a></li>
-                    <li><a class="dropdown-item" value="cap" name="Cappello" >Cappello</a></li>
-                    <li><a class="dropdown-item" value="sarong" name="Pareo" >Pareo</a></li>
-                    
-                </ul>
-            </div>
+    <div class="dropdown" id="typeDropdown">
+        <a class="btn btn-secondary dropdown-toggle" id= "typeTitleDropdown"href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Tipologia..
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" value="swim" name="Costume" >Costume</a></li>
+            <li><a class="dropdown-item" value="cap" name="Cappello" >Cappello</a></li>
+            <li><a class="dropdown-item" value="sarong" name="Pareo" >Pareo</a></li>
+            
+        </ul>
+    </div>
 </template>
 
 <template id="dropdown-right">

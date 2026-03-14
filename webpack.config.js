@@ -87,6 +87,11 @@ module.exports = {
             filename: 'logInSections.html',
             chunks: ['logInSections']
         }),
+        new HtmlWebpackPlugin({
+            template: './src/pages/admin.html',
+            filename: 'admin.html',
+            chunks:['admin']
+        }),
         new MiniCssExtractPlugin({
                 filename: '[name].css',
         }),

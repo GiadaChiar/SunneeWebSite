@@ -1,8 +1,10 @@
 
 //event functions
 
-import { cleanSection,changeTextContent } from "./dom";
+import { cleanSection,changeTextContent,setAdminLogin,checkUserLogin,submitLogIn} from "./dom";
 import { insertTemplate } from "./templates";
+
+
 
 
 
@@ -30,7 +32,7 @@ export function setUpNewSection(eventId :string,sectionId: string, templateId: s
 
 
 
-//function to remuve elements
+//function to remuve elements if I click on reservate area
 export function removeElementHtm(){
     const linkReservateArea = document.getElementById("buttonLinkHTML") as HTMLElement | null;
     //click 
@@ -40,43 +42,33 @@ export function removeElementHtm(){
         cleanSection("newRegistration");
         cleanSection("forgotPassword");
         changeTextContent("titleLogIn","Accesso Riservato:");
+        setAdminLogin(true);
+        submitLogIn();
     })
 
 }
 
 
-//////
 
 
 
 
+export function preventSubmitLogIn(){
+const registrationForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
+registrationForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    checkUserLogin();
+});
 
-
-
-
-
-// funzione per creare il dropdown a destra
-function createRightDropdown(parent: HTMLElement, options: string[]) {
-    const template = document.getElementById("dropdown-right") as HTMLTemplateElement | null;
-    if (!template) {
-        console.error("Template #dropdown-right non trovato!");
-        return;
-    }
-
-    const clone = template.content.cloneNode(true) as HTMLElement;
-    const ul = clone.querySelector("ul");
-    if (!ul) return;
-
-    ul.innerHTML = "";
-    options.forEach(opt => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a class="dropdown-item" href="#">${opt}</a>`;
-        ul.appendChild(li);
-    });
-
-    parent.appendChild(clone);
 }
 
+
+
+
+
+//-------------------------------insert page ------------------
+
+/*
 // funzione per gestire la scelta e creare il dropdown a destra
 function selectedControll(selectedValue: string | null, parentDropdown: HTMLElement) {
     if (!selectedValue) return;
@@ -87,6 +79,15 @@ function selectedControll(selectedValue: string | null, parentDropdown: HTMLElem
 
     console.log("Hai selezionato:", selectedValue);
 }
+
+*/
+
+
+
+
+
+
+/*
 
 // listener annidato come nella versione originale
 function handleDropdownClick(event: Event) {
@@ -106,7 +107,13 @@ function handleDropdownClick(event: Event) {
 
     selectedControll(selectedValue, parentDropdown);
 }
+*/
 
+
+
+
+
+/*
 // click sul submit: inserisce template e aggiunge listener
 export function clickAddInsertElement() {
     const submitHtmlPage = document.getElementById("submitLogIn");
@@ -124,3 +131,5 @@ export function clickAddInsertElement() {
         loginContainer.addEventListener("click", handleDropdownClick);
     });
 }
+
+*/
