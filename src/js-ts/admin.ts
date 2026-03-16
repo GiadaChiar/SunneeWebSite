@@ -1,6 +1,15 @@
 
 import '../style/admin.scss';
-import { changeTextContent } from "./dom"
+import { changeTextContent,showPopUp } from "./dom"
+
+//variabili globali 
+let selectedType: string = "";
+let selectedSize : string = "";
+let selectedQuantity : number = 0;
+let selectedColor: string = "";
+let selectedState: string = "";
+let selectedImage : string = "";
+let generateId : string ="";
 /*
 export function changeTextContent(elementId: string, text: string) {
 
@@ -9,8 +18,29 @@ export function changeTextContent(elementId: string, text: string) {
         element.textContent = text
 
 }
-*/
 
+    function showPopUp(title: string, message: string
+*/
+//----check inmput -------------//
+function checkInputQuality(){
+    const quantityInput= document.getElementById("quantityInput")as HTMLInputElement;
+    quantityInput?.addEventListener("input",()=>{
+        let valueQuantity= quantityInput.value 
+        let valueQuantityCheck = valueQuantity.replace(/[^0-9]/g, '')
+        if(valueQuantity !==valueQuantityCheck){
+            showPopUp("Inserimento Errato", "Inserisci come quantità un numero intero")
+            valueQuantity = ""
+        }
+
+        console.log("valore inserito",valueQuantity)
+    })
+}
+
+
+
+
+
+//---------------------------------check dropdown----------------//
 
 function showHidden(subMenuId: string) {
     const subMenu = document.getElementById(subMenuId)
@@ -25,7 +55,7 @@ function showHidden(subMenuId: string) {
 }
 
 
-function disableAnableDropdown(dropdownId: string, bool: boolean) {
+function disableDropdown(dropdownId: string, bool: boolean) {
     const dropdownButton = document.getElementById(dropdownId) as HTMLButtonElement;
     if (dropdownButton) {
         dropdownButton.disabled = bool; // disabilita
@@ -38,10 +68,17 @@ function disableAnableDropdown(dropdownId: string, bool: boolean) {
 
 
 function genderMenu(valueDropdown: string) {
-    if (valueDropdown !== "sarong" && valueDropdown !== "cap" && valueDropdown !== null) {
-        disableAnableDropdown("dropdownButtonGender", false)
+    if (valueDropdown === "sarong" || valueDropdown === "cap" && valueDropdown !== null) {
+        disableDropdown("dropdownButtonGender", true)
+
+        if(valueDropdown === "sarong"){
+            changeTextContent("dropdownButtonGender","donna")
+        }else{
+            changeTextContent("dropdownButtonGender","unisex")
+        }
     }else{
-        disableAnableDropdown("dropdownButtonGender", true)
+        disableDropdown("dropdownButtonGender", false)
+        checkDropdown("genderDropdown","dropdownButtonGender");
     }
 
 }
@@ -52,6 +89,7 @@ function handleSelectedValueType(valueType: string, nameType: string) {
     console.log("Nome selezionato:", nameType);
     changeTextContent("dropdownButtonType",nameType)
     genderMenu(valueType)
+
 }
 
 
@@ -89,6 +127,38 @@ function checkTypeDropdown() {
 }
 
 
+//change text in base selection except type and geneder
+
+function checkDropdown(dropdownId:string,buttonId: string){
+    if(dropdownId !=="typeDropdown" ){
+
+    const buttonType = document.getElementById(dropdownId);
+
+    buttonType?.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target instanceof HTMLElement && target.classList.contains("dropdown-item")) {
+
+            const nameDropdown = target.getAttribute("name") || "";
+            let valueDropdown = target.getAttribute("value") || "";
+            
+            changeTextContent(buttonId,nameDropdown)
+        }
+    })
+}
+}
+
+
+///if I click on save button I want all values to insert into interface
+
+function eventSave(){
+    const submitSave = document.getElementById("submitSave");
+    if (submitSave){
+    submitSave.addEventListener("submit",()=>{
+
+    })
+}
+}
+
 
 
 
@@ -98,8 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     //desable dropdown gender
-    disableAnableDropdown("dropdownButtonGender", true)
-    checkTypeDropdown()
+    disableDropdown("dropdownButtonGender", true)
+    checkTypeDropdown();
+    checkDropdown("sizerDropdown","dropdownButtonSize");
+    checkDropdown("colorDropdown","dropdownButtonColor");
+    checkDropdown("stateDropdown","dropdownButtonState");
+    checkInputQuality();
+
 
 });
 

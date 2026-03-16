@@ -33,7 +33,7 @@ export function changeTextContent(elementId: string, text: string) {
 
 
 //function pop-up
-function showPopUp(title: string, message: string,) {
+export function showPopUp(title: string, message: string) {
     const existingPopUp = document.getElementById("custom-popup");
 
     if (existingPopUp) {

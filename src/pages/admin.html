@@ -14,50 +14,106 @@
     <h1>Benvenuto nell'area riservata</h1>
 
 
-<section id="dopdwons">
+    <form id="dropdwons" method="POST" enctype="multipart/form-data">
 
-<!--type and subtype-->
-    <div class="dropdown" id="typeDropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonType"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Tipologia..
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item"  value="swimSuit">Costumi</a>
-                <ul class="dropdown-submenu" id ="submenuType" data-show ="none">
-                    <li><a class="dropdown-item" name="costume/relax" data-value="relax">Relax</a></li>
-                    <li><a class="dropdown-item" name="costume/sport" data-value="sport">Sport</a></li>
-                    <li><a class="dropdown-item" name="costume/extreme" data-value="extreme">Extreme</a></li>
-                </ul>
-            </li>
-            <li><a class="dropdown-item" name="cappello" value="cap">Cappelli</a></li>
-            <li><a class="dropdown-item" name="pareo" value="sarong">Pareo</a></li>
-        </ul>
-    </div>
-
-
-<!--gender-->
-
-<div class="dropdown" id="genderDropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonGender"
-            data-bs-toggle="dropdown" aria-expanded="false" disabled>
-            Genere..
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" name="uomo"  value="man">Uomo</a></li>
-            <li><a class="dropdown-item" name="donna" value="cap">Donna</a></li>
-        </ul>
-    </div>
+        <!--type and subtype-->
+        <div class="dropdown" id="typeDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonType"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Tipologia..
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" value="swimSuit">Costumi</a>
+                    <ul class="dropdown-submenu" id="submenuType" data-show="none">
+                        <li><a class="dropdown-item" name="costume/relax" data-value="swimSuit-relax">Relax</a></li>
+                        <li><a class="dropdown-item" name="costume/sport" data-value="swimSuit-sport">Sport</a></li>
+                        <li><a class="dropdown-item" name="costume/extreme" data-value="swimSuit-extreme">Extreme</a></li>
+                    </ul>
+                </li>
+                <li><a class="dropdown-item" name="cappello" value="cap">Cappelli</a></li>
+                <li><a class="dropdown-item" name="pareo" value="sarong">Pareo</a></li>
+            </ul>
+        </div>
 
 
+        <!--gender-->
+
+        <div class="dropdown" id="genderDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonGender"
+                data-bs-toggle="dropdown" aria-expanded="false" disabled>
+                Genere..
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" name="uomo" value="man">Uomo</a></li>
+                <li><a class="dropdown-item" name="donna" value="cap">Donna</a></li>
+            </ul>
+        </div>
+
+        <!--size-->
+        <div class="dropdown" id="sizerDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonSize"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Taglia..
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" name="xs" value="xs">XS</a></li>
+                <li><a class="dropdown-item" name="s" value="s">S</a></li>
+                <li><a class="dropdown-item" name="m" value="m">M</a></li>
+                <li><a class="dropdown-item" name="l" value="l">L</a></li>
+                <li><a class="dropdown-item" name="xl" value="xl">XL</a></li>
+                <li><a class="dropdown-item" name="2xl" value="2xl">2XL</a></li>
+            </ul>
+        </div>
 
 
+        <!--color-->
+        <div class="dropdown" id="colorDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonColor"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Colore..
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" name="bianco" value="white">Bianco</a></li>
+                <li><a class="dropdown-item" name="nero" value="black">Nero</a></li>
+                <li><a class="dropdown-item" name="blu" value="blue">Blu</a></li>
+                <li><a class="dropdown-item" name="verde" value="green">Verde</a></li>
+                <li><a class="dropdown-item" name="rosso" value="red">Rosso</a></li>
+                <li><a class="dropdown-item" name="rosa" value="pink">Rosa</a></li>
+                <li><a class="dropdown-item" name="floreale" value="floral">Floreale</a></li>
+                <li><a class="dropdown-item" name="multicolore" value="multicolored">Multicolore</a></li>
+            </ul>
+        </div>
+
+        <!--state default-->
+        <div class="dropdown" id="stateDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownButtonState"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Stato*
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" name="disponibile" value="available">Disponibile</a></li>
+                <li><a class="dropdown-item" name="indisponibile" value="unavailable">Non disponibile</a></li>
+            </ul>
+        </div>
+
+        <!--quantity-->
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Quantità:</span>
+            <input type="number" id="quantityInput" min="0" step="1"  class="form-control" name="quantity" aria-label="Sizing example input" 
+                aria-describedby="inputGroup-sizing-default">
+        </div>
 
 
+        <!--image file-->
+        <div class="input-group">
+            <input type="file" class="form-control" name="image" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                aria-label="Upload">
+            <!--<button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>-->
+        </div>
+        <button type="submit" id="submitSave" class="btn btn-primary w-100">Salva</button>
+        <button type="submit" id="submitSearch" class="btn btn-primary w-100">Cerca</button>
 
-
-
-</section>
+    </form>
 
 
 

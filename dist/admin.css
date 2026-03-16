@@ -1,24 +1,29 @@
 /*!***************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/admin.scss ***!
   \***************************************************************************************************************/
-.dropdown {
+#dropdowns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#dropdowns .dropdown {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   margin-top: 0;
 }
-.dropdown button {
+#dropdowns .dropdown button {
   background-color: rgba(137, 172, 177, 0.8);
   font-family: "Young Serif", serif;
 }
-.dropdown .dropdown-menu {
+#dropdowns .dropdown .dropdown-menu {
   padding: 0px;
 }
-.dropdown .dropdown-menu .dropdown-item {
+#dropdowns .dropdown .dropdown-menu .dropdown-item {
   border: 1px solid #89acb1;
 }
-.dropdown .dropdown-menu .dropdown-submenu[data-show=none] {
+#dropdowns .dropdown .dropdown-menu .dropdown-submenu[data-show=none] {
   display: none;
 }
-.dropdown .dropdown-menu .dropdown-submenu[data-show=see] {
+#dropdowns .dropdown .dropdown-menu .dropdown-submenu[data-show=see] {
   display: block;
   background-color: beige;
 }
