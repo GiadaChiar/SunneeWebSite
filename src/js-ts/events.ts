@@ -64,72 +64,28 @@ registrationForm?.addEventListener("submit", (e) => {
 
 
 
+///PopUpSelect the box listener
+export function handleCheckBoxtPoPUp(): Promise<"yes" | "no">{
+    return new Promise((resolve) => {
+    // prendi il popup appena inserito
+    const popup = document.getElementById("custom-popup");
+    if (!popup) return;
 
+    // prendi i checkbox dentro questo popup
+    const checkRight = popup.querySelector("#popUCheckright") as HTMLInputElement;
+    const checkLeft = popup.querySelector("#popUCheckleft") as HTMLInputElement;
+    const saveButton = popup.querySelector("#saveCheck") as HTMLButtonElement;
+    
+    saveButton?.addEventListener("click",(event)=>{
+        event.preventDefault();
+        if(checkRight.checked)resolve("yes")
+        else resolve("no");
+        cleanSection("PopUpHtml");
+        // Risolvo la promise con true se il checkbox destro è selezionato, altrimenti false
+        /*const isRightChecked = checkRight.checked;
+        const isLeftChecked = checkLeft.checked;*/
+        
+        });
 
-//-------------------------------insert page ------------------
-
-/*
-// funzione per gestire la scelta e creare il dropdown a destra
-function selectedControll(selectedValue: string | null, parentDropdown: HTMLElement) {
-    if (!selectedValue) return;
-
-    if (selectedValue === "swim") {
-        console.log("la categoria selezionata è",selectedValue)
-    }
-
-    console.log("Hai selezionato:", selectedValue);
+    })
 }
-
-*/
-
-
-
-
-
-
-/*
-
-// listener annidato come nella versione originale
-function handleDropdownClick(event: Event) {
-    const target = event.target as HTMLElement;
-    if (!target.classList.contains("dropdown-item")) return;
-
-    const selectedValue = target.getAttribute("value");
-    const selectedName = target.getAttribute("name");
-
-    const parentDropdown = target.closest(".dropdown") as HTMLElement;
-    if (!parentDropdown) return;
-
-    changeTextContent("typeTitleDropdown", selectedName ?? "Tipologia..");
-
-    const existingRight = parentDropdown.parentElement?.querySelector(".dropend");
-    if (existingRight) existingRight.remove();
-
-    selectedControll(selectedValue, parentDropdown);
-}
-*/
-
-
-
-
-
-/*
-// click sul submit: inserisce template e aggiunge listener
-export function clickAddInsertElement() {
-    const submitHtmlPage = document.getElementById("submitLogIn");
-    submitHtmlPage?.addEventListener("click", function () {
-        const titlePage = document.getElementById("titleLogIn");
-        if (titlePage?.textContent !== "Accesso Riservato:") return;
-
-        cleanSection("buttonLinkHTML");
-        insertTemplate("loginHTML", "insertOptions");
-
-        // listener sul container appena creato
-        const loginContainer = document.getElementById("loginHTML");
-        if (!loginContainer) return;
-
-        loginContainer.addEventListener("click", handleDropdownClick);
-    });
-}
-
-*/

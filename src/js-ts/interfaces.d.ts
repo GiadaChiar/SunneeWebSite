@@ -1,3 +1,17 @@
+export interface Variant {
+    size: "xs" | "s" | "m" | "l" | "xl" | "2xl";
+    color: "green" | "white" | "black" | "blue" | "pink" | "floral" | "multicolored";
+    quantity: number;
+    state: "available" | "unavailable";
+}
+export interface BaseProduct {
+    id: string;
+    type: "cap" | "sarong" | "swimSuit-relax" | "swimSuit-sport" | "swimSuit-extreme";
+    gender: "unisex" | "man" | "woman";
+    image: string;
+    description: string;
+    variants: Variant[];
+}
 export interface RegisterForm {
     name: string;
     surname: string;

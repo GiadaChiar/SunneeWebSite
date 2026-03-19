@@ -1,9 +1,29 @@
 // I want to create an Interface for products standard
 
 //general interface
-interface BaseProduct {
+
+export interface Variant {
+    size: "xs" | "s" | "m" | "l" | "xl" | "2xl";
+    color: "green" | "white" | "black" | "blue" | "pink" | "floral" | "multicolored";
+    quantity: number;
+    state: "available" | "unavailable";
+}
+
+export interface BaseProduct {
+    id: string;
+    type: "cap" | "sarong" | "swimSuit-relax" | "swimSuit-sport" | "swimSuit-extreme";
+    gender: "unisex" | "man" | "woman";
+    image: string;
+    description: string;
+    variants: Variant[];
+    
+}
+
+
+/*
+export interface BaseProduct {
     id:string; 
-    size: "XS" | "S" | "M" | "L" | "XL"| "2XL" ;
+    size: "xs" | "s" | "m" | "l" | "xl"| "2xl" ;
     color: "green" | "white" | "black" | "blue" | "pink" | "floral" | "multicolored";
     state?: "unavailable"|"available";
     image: string;
@@ -11,24 +31,24 @@ interface BaseProduct {
 }
 
 //cap 
-interface CapProduct extends BaseProduct {
+export interface CapProduct extends BaseProduct {
     type: "cap";
     gender: "unisex";
 }
 
 //sarong
-interface SarongProduct extends BaseProduct {
+export interface SarongProduct extends BaseProduct {
     type: "sarong";
     gender: "woman";
 }
 
 //swimsuit
-interface SwimSuitProduct extends BaseProduct {
+export interface SwimSuitProduct extends BaseProduct {
     type: "swimSuit-relax"|"swimSuit-sport"| "swimSuit-extreme";
     gender: "man" | "woman"; 
 
 }
-
+*/
 
 
 ///CLIENT INTERFACE 

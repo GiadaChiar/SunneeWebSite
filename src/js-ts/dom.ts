@@ -2,6 +2,7 @@
 import type { RegisterForm } from "./interfaces"; //add type bacause type it isn't in js is typescript
 import { reservedUsers } from "./interfaces";
 import { insertTemplate } from "./templates";
+import { handleCheckBoxtPoPUp } from "./events"
 export let isAdminLogin = false;
 
 export function setAdminLogin(value: boolean) {
@@ -50,6 +51,31 @@ export function showPopUp(title: string, message: string) {
         cleanSection("PopUpHtml");
     });
 }
+
+
+export function showPopUpSelection(title: string, message: string, checkright:string, checkleft:string ) {
+    const existingPopUp = document.getElementById("custom-popup");
+
+    if (existingPopUp) {
+        cleanSection("PopUpHtml");
+    }
+
+    insertTemplate("PopUpHtml", "popUpSelection");
+    changeTextContent("popUpTitle", title);
+    changeTextContent("popUpMessage", message);
+    changeTextContent("popUCheckright", checkright);
+    changeTextContent("popUCheckleft", checkleft);
+    handleCheckBoxtPoPUp();
+
+    const closeButton = document.getElementById("closeButton");
+
+    closeButton?.addEventListener("click", () => {
+        cleanSection("PopUpHtml");
+    });
+}
+
+
+
 
 
 

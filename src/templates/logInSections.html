@@ -19,6 +19,33 @@
 </template>
 
 
+<template id="popUpSelection">
+    <div class="popup-overlay" id="custom-popup">
+        <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
+        <div class="popup-box" role="alert">
+            <h4 id="popUpTitle">Titolo</h4>
+            <p id="popUpMessage">Messaggio</p>
+        </div>
+        <form id="check">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value="yes" name="selection" id="popUCheckright">
+                <label class="form-check-label" for="flexCheckDefault" id="popUCheckright">
+                    Check_Destro
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="no" name="selection" id="popUCheckleft" checked>
+                <label class="form-check-label" for="flexCheckChecked" id="popUCheckleft">
+                    Check_Sinistro
+                </label>
+            </div>
+            <button id="saveCheck">Salva</button>
+        </form>
+
+    </div>
+</template>
+
+
 
 
 
@@ -41,20 +68,20 @@
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" id="email" placeholder="email@example.com"novalidate>
+            <input type="text" class="form-control" id="email" placeholder="email@example.com" novalidate>
         </div>
         <div class="mb-3">
-        <label for="preferPayment" class="form-label">Metodo di pagamento</label>
-        <select id="preferPayment" class="form-select" novalidate>
-            <option value="">Seleziona metodo</option>
-            <option value="card">Carta di credito</option>
-            <option value="paypal">PayPal</option>
-            <option value="bank">Bonifico</option>
-        </select>
+            <label for="preferPayment" class="form-label">Metodo di pagamento</label>
+            <select id="preferPayment" class="form-select" novalidate>
+                <option value="">Seleziona metodo</option>
+                <option value="card">Carta di credito</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank">Bonifico</option>
+            </select>
         </div>
 
-            <button type="submit" id ="submitRegistration" class="btn btn-primary w-100">salva</button>
-        </form>
+        <button type="submit" id="submitRegistration" class="btn btn-primary w-100">salva</button>
+    </form>
 </template>
 
 <!--template creation password -->
@@ -69,45 +96,25 @@
             <label for="confirmPassword" class="form-label">Ripeti Password</label>
             <input type="text" class="form-control" id="confirmPassword" placeholder=" Ripeti Password" novalidate>
         </div>
-        <button type="submit" class="btn btn-primary w-100" id ="submitPassword">salva</button>
+        <button type="submit" class="btn btn-primary w-100" id="submitPassword">salva</button>
     </form>
 </template>
 
 
 
-<!--template insert option-->
-<!---
-<template id="insertOptions">
-    <select class="form-select">
-        <option value="">Seleziona categoria...</option>
 
-        <optgroup label="Costume">
-            <option value="swim_relax">Relax</option>
-            <option value="swim_training">Sport</option>
-            <option value="swim_extreme">Extreme</option>
-        </optgroup>
-
-        <optgroup label="Cappello">
-            <option value="cap">Cappelli</option>
-        </optgroup>
-
-        <optgroup label="Pareo">
-            <option value="sarong">Pareo</option>
-        </optgroup>
-    </select>
-</template>
--->
 
 <template id="insertOptions">
     <div class="dropdown" id="typeDropdown">
-        <a class="btn btn-secondary dropdown-toggle" id= "typeTitleDropdown"href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="btn btn-secondary dropdown-toggle" id="typeTitleDropdown" href="#" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             Tipologia..
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" value="swim" name="Costume" >Costume</a></li>
-            <li><a class="dropdown-item" value="cap" name="Cappello" >Cappello</a></li>
-            <li><a class="dropdown-item" value="sarong" name="Pareo" >Pareo</a></li>
-            
+            <li><a class="dropdown-item" value="swim" name="Costume">Costume</a></li>
+            <li><a class="dropdown-item" value="cap" name="Cappello">Cappello</a></li>
+            <li><a class="dropdown-item" value="sarong" name="Pareo">Pareo</a></li>
+
         </ul>
     </div>
 </template>
@@ -119,4 +126,28 @@
         </button>
         <ul class="dropdown-menu"></ul>
     </div>
+</template>
+
+
+<template id="tableTemplate">
+    <table class="table table-bordered border-primary" id="tableTemplateShow">
+        <thead>
+            <tr class="table-active">
+                <th>Id</th>
+                <th>Tipologia</th>
+                <th>Genere</th>
+                <th>Immagine</th>
+                <th>Descrizione</th>
+            </tr>
+        </thead>
+        <tbody id="products-table">
+            <tr >
+                <th>—</th>
+                <th>Taglia</th>
+                <th>Colore</th>
+                <th>Quantità</th>
+                <th>Stato</th>
+            </tr>
+        </tbody>
+    </table>
 </template>

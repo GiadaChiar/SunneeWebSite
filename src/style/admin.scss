@@ -1,37 +1,100 @@
-@use 'variables' as vars;
+@use "variables" as vars;
+
+//bodystyle
+body {
+    margin: 10px;
+    text-align: center;
+    color: vars.$background-dark;
+    font-family: vars.$font-Tan;
+
+    h1 {
+        margin-top: 20px;
+        color: vars.$background-blue;
+    }
+    h2{
+        margin-bottom: 45px;
+    }
+
+    .TopSection {
+        height: 4.5px;
+        margin: 10px;
+        margin-bottom: 40px;
+        background-color: vars.$background-blue;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        button{
+            background-color: vars.$background-blue;
+            &:hover{
+                background-color: vars.$background-dark;
+            }
+        }
+    }
+    .search-container{
+        #searchIdInput{
+            margin-bottom: 20px;
+        }
+        button{
+            padding: 5px;
+            background-color: vars.$background-blue;
+            border-radius: 0%;
+            color:white;
+            &:hover{
+                background-color: vars.$background-dark;
+            }
+        }
+    }
+    #tableHTML{
+        margin-top: 20px;
+        margin: 10px;
+        margin-bottom: 30px;
+    }
+}
 
 
-//dropdown style 
 
-#dropdwons{
+
+
+//dropdown style
+
+#dropdwons {
     display: flex;
     flex-wrap: wrap;
-    gap:30px;
+    gap: 30px;
     align-items: center;
+    justify-content: center;
     margin: 30px;
 
-.dropdown{
-    
-    font-family: vars.$font-Alice;
-    margin-top: 0;
-    button{
-        background-color:vars.$background-blue-tr;
-        font-family: vars.$font-Tan;
+    .dropdown {
+        font-family: vars.$font-Alice;
+        margin-top: 0;
         
+
+        button {
+            background-color: vars.$background-blue-tr;
+            font-family: vars.$font-Tan;
+        }
+
+        .dropdown-menu {
+            padding: 0px;
+
+            .dropdown-item {
+                border: 1px solid vars.$background-blue;
+            }
+
+            .dropdown-submenu[data-show="none"] {
+                display: none;
+                
+            }
+
+            .dropdown-submenu[data-show="see"] {
+                display: block;
+                background-color: beige;
+            }
+        }
     }
-    .dropdown-menu{
-        padding: 0px;
-    .dropdown-item{
-        border: 1px solid vars.$background-blue;
-    }
-    
-    .dropdown-submenu[data-show ="none"]{
-        display: none;
-    }
-    .dropdown-submenu[data-show ="see"]{
-        display: block;
-        background-color:beige ;
-    }
-}
-}
 }
