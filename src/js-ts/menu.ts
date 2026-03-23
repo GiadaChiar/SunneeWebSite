@@ -35,9 +35,9 @@ function changeLinkNavigation(divMenu: HTMLElement) {
                 if (hrefLink == currentPage){
                     if(link.classList.contains("active")){
                         link.classList.replace("active","disabled")
-                        link.addEventListener("click", (event: Event) => {
-                        event.preventDefault();  // impedisce la navigazione
-                        });
+                        /* link.addEventListener("click", (event: Event) => {
+                        //event.preventDefault();  // impedisce la navigazione
+                        });*/
                     }
                 }
                 else {
@@ -112,3 +112,24 @@ export function setUpMenu(){
 
 
 
+
+//global event listener to get data-type and value
+export function getTypeandDataFilterMenu() {
+    document.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+
+        // risale fino al link con data-type
+        const dropdownItem = target.closest("a[data-category]") as HTMLAnchorElement;
+        if (!dropdownItem) return;
+
+        // blocca la navigazione
+        event.preventDefault();
+
+        const type = dropdownItem.dataset.type;
+        const value = dropdownItem.dataset.category;
+
+        console.log("Tipologia cliccata:", type);
+        console.log("Valore cliccato:", value);
+
+    });
+}

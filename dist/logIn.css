@@ -285,3 +285,11 @@ body .collapse.custom-collapse .card.card-body .type a {
   margin-bottom: 15px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+
+.form-check {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}

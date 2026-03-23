@@ -8,10 +8,12 @@ export interface BaseProduct {
     id: string;
     type: "cap" | "sarong" | "swimSuit-relax" | "swimSuit-sport" | "swimSuit-extreme";
     gender: "unisex" | "man" | "woman";
+    prize: number;
     image: string;
     description: string;
     variants: Variant[];
 }
+export declare const RelaxWoman: BaseProduct[];
 export interface RegisterForm {
     name: string;
     surname: string;

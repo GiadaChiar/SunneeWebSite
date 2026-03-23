@@ -2,7 +2,22 @@ $background-dark:#485d5b;
 $background-light:#FFF;
 $background-blue:#89acb1;
 $background-blue-tr:rgba(137, 172, 177, 0.8);
-
+$background-floral: linear-gradient(45deg, pink, yellow, green, blue);
+$background-multicolored:repeating-linear-gradient(45deg,
+                            red,
+                            red 10px,
+                            orange 10px,
+                            orange 20px,
+                            yellow 20px,
+                            yellow 30px,
+                            green 30px,
+                            green 40px,
+                            blue 40px,
+                            blue 50px,
+                            indigo 50px,
+                            indigo 60px,
+                            violet 60px,
+                            violet 70px);
 
 $font-Tan: 'Young Serif', serif;
 $font-Alice:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

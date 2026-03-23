@@ -166,7 +166,7 @@ function ValidationPassword(): boolean {
 
     // conferma password
     if (password !== confirm) {
-        showPopUp("Errore!", "Le password non corrispondono")
+        showPopUp("Errore!", "La password deve contenere almeno una lettera ed un carattere speciale, lunghezza minima, 8 caratteri.")
         return false;
     }
 

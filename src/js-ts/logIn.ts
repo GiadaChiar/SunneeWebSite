@@ -3,7 +3,7 @@ import '../style/form.scss';
 import '../style/logIn.scss';
 import'../style/poUp.scss';
 
-import { setUpMenu } from './menu'
+import { setUpMenu,getTypeandDataFilterMenu } from './menu'
 import { fetchForm } from './form'
 
 /*
@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     fetchForm();
     removeElementHtm();
     preventSubmitLogIn();
+    getTypeandDataFilterMenu();
     showUsers();
 
     //dowload template in memory

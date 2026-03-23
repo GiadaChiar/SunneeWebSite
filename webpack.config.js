@@ -13,7 +13,8 @@ module.exports = {
         index:'./src/js-ts/index.ts',
         aboutUs:'./src/js-ts/aboutUs.ts',
         logIn:'./src/js-ts/logIn.ts',
-        admin:'./src/js-ts/admin.ts'
+        admin:'./src/js-ts/admin.ts',
+        shop:'./src/js-ts/shop.ts'
 
     },
      // 🔹 Output del bundle
@@ -92,6 +93,11 @@ module.exports = {
             template: './src/pages/admin.html',
             filename: 'admin.html',
             chunks:['admin']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/pages/shop.html',
+            filename: 'shop.html',
+            chunks:['shop']
         }),
         new MiniCssExtractPlugin({
                 filename: '[name].css',

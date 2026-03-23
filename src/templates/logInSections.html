@@ -10,8 +10,8 @@
 <!--Pop-Up-->
 <template id="popUp">
     <div class="popup-overlay" id="custom-popup">
-        <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
         <div class="popup-box" role="alert">
+            <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
             <h4 id="popUpTitle">Titolo</h4>
             <p id="popUpMessage">Messaggio</p>
         </div>
@@ -21,27 +21,26 @@
 
 <template id="popUpSelection">
     <div class="popup-overlay" id="custom-popup">
-        <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
         <div class="popup-box" role="alert">
+            <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
             <h4 id="popUpTitle">Titolo</h4>
             <p id="popUpMessage">Messaggio</p>
+            <form id="check">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="yes" name="selection" id="popUCheckright">
+                    <label class="form-check-label" for="popUCheckright">
+                        Si
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="no" name="selection" id="popUCheckleft">
+                    <label class="form-check-label" for="popUCheckleft">
+                        No
+                    </label>
+                </div>
+                <button id="saveCheck">Salva</button>
+            </form>
         </div>
-        <form id="check">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" value="yes" name="selection" id="popUCheckright">
-                <label class="form-check-label" for="flexCheckDefault" id="popUCheckright">
-                    Check_Destro
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="no" name="selection" id="popUCheckleft" checked>
-                <label class="form-check-label" for="flexCheckChecked" id="popUCheckleft">
-                    Check_Sinistro
-                </label>
-            </div>
-            <button id="saveCheck">Salva</button>
-        </form>
-
     </div>
 </template>
 
@@ -129,25 +128,58 @@
 </template>
 
 
+
+<!--table-->
 <template id="tableTemplate">
     <table class="table table-bordered border-primary" id="tableTemplateShow">
         <thead>
-            <tr class="table-active">
-                <th>Id</th>
-                <th>Tipologia</th>
-                <th>Genere</th>
-                <th>Immagine</th>
-                <th>Descrizione</th>
-            </tr>
         </thead>
         <tbody id="products-table">
-            <tr >
-                <th>—</th>
-                <th>Taglia</th>
-                <th>Colore</th>
-                <th>Quantità</th>
-                <th>Stato</th>
-            </tr>
         </tbody>
     </table>
+</template>
+
+
+<!--Shop products-->
+<template id="shopTemplate">
+    <div class="container">
+        <div class="imgContainer">
+            <div class="imgContainer">
+                <img class="imgShop" src="../img/bikini_verde.jpg" alt=" gir with blue bikini">
+            </div>
+        </div>
+        <h2 class="decriptionShop">Bikini Oceano</h2>
+        <ul class="colorshop">
+            <!--
+            <input class="check-shop-color" type="radio" data-value="white" value="color">
+        -->
+        </ul>
+        <h4 class="prizeShop">215 euro</h4>
+        <button class="filter-btnShop" id="filterButton" type="button" data-bs-toggle="collapse"
+            data-bs-target="#sizeCollapse" id="filterButton" aria-expanded="false" aria-controls="filterCollapse">
+            Taglie
+        </button>
+
+        <div class="collapse" id="sizeCollapse">
+            <div class="card card-body" class="sizeCollapseSection">
+                <ul class="sizeFiltersShop">
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="xs"
+                        value="size">XS</button>
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="s"
+                        value="size">S</button>
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="m"
+                        value="size">M</button>
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="l"
+                        value="size">L</button>
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="xl"
+                        value="size">XL</button>
+                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="2xl"
+                        value="size">2XL</button>
+                </ul>
+            </div>
+            <div class="center">
+                <button type="submit" class="btn btn-primary w-100" id="order"> + Carrello</button>
+            </div>
+        </div>
+    </div>
 </template>

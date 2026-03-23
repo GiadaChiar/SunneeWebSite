@@ -1,78 +1,117 @@
 
 import '../style/admin.scss';
 import '../style/poUp.scss';
-import { changeTextContent, showPopUp, showPopUpSelection, cleanSection } from "./dom"
+import { changeTextContent, showPopUp, showPopUpSelection, cleanSection } from './dom';
 //console.log("TEMPLATES:", templates);
-import { loadTemplates } from "./templates"
-import { handleCheckBoxtPoPUp } from "./events"
-import { insertTemplate } from "./templates";
+import { loadTemplates,insertTemplate } from "./templates";
+import { handleCheckBoxtPoPUp } from "./events";
 import type { Variant, BaseProduct } from "./interfaces";
-
-
-//you have to resolve import template 
-
-//variabili globali 
-let selectedType: string = "";
-let selectedSize: string = "";
-let selectedQuantity: number = 0;
-let selectedColor: string = "";
-let selectedState: string = "";
-let selectedImage: string = "";
-let selectedeId: string = "";
-let selectedGender: string = "";
-let selectedDescription: string = "";
+import { setUpMenu,getTypeandDataFilterMenu } from './menu';
 
 
 
+///modifica da testo a valore 
 
-//----check inmput -------------//
-function checkInputQuantity() {
-    const quantityInput = document.getElementById("quantityInput") as HTMLInputElement;
-    quantityInput?.addEventListener("input", () => {
-        let valueQuantity = quantityInput.value
-        let valueQuantityCheck = valueQuantity.replace(/[^0-9]/g, '')
-        if (valueQuantity !== valueQuantityCheck) {
-            showPopUp("Inserimento Errato", "Inserisci come quantità un numero intero")
-            valueQuantity = ""
-        } else {
-            selectedQuantity = Number(valueQuantityCheck)
-            return selectedQuantity
-        }
 
-        console.log("valore inserito", valueQuantity)
+let selectedType: string | null = null;
+let selectedSize: string | null = null;
+let selectedColor: string | null = null;
+let selectedGender: string | null = null;
+let selectedState: string | null = null;
+let selectedQuantity: number | null = null;
+let selectedPrize: number | null = null;
+let selectedDescription: string | null = null;
+let selectedImage: string | null = null;
+let selectedId: string | null = null;
+let selectedValue: string | null = null;
+
+
+
+//create table 
+function createTable(products: BaseProduct[]) {
+
+    const existingTable = document.getElementById("tableTemplateShow")
+    if (existingTable) {
+        cleanSection("tableHTML")
+    }
+    insertTemplate("tableHTML", "tableTemplate");
+    /*let products = localStorage.getItem("products")
+    console.log(products)*/
+    const productsSection = document.getElementById("products-table")
+
+    if (!productsSection) return
+
+    //const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+    products.forEach(product => {
+        //header products
+        const productHeader = document.createElement("tr");
+        productHeader.classList.add("table-active");
+        productHeader.innerHTML = `
+            <td>Id</td>
+            <td>Tipologia</td>
+            <td>Genere</td>
+            <td>Immagine</td>
+            <td>Prezzo</td>
+            <td>Descrizione</td>
+            
+        `;
+        productsSection.append(productHeader)
+
+        const tr = document.createElement("tr");
+        tr.classList.add("table-success");
+        tr.innerHTML += `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.type}</td>
+            <td>${product.gender}</td>
+            <td><img src="../img/${product.image}" width="50"</td>
+            <td>${product.prize}</td>
+            <td>${product.description}</td>
+        </tr>
+        `;
+        productsSection.append(tr)
+
+        //header variants
+        const variantHeader = document.createElement("tr");
+        variantHeader.classList.add("table-secondary");
+        variantHeader.innerHTML = `
+            <td>Variabili</td>
+            <td>Taglia</td>
+            <td>Colore</td>
+            <td>Quantità</td>
+            <td>Stato</td>
+            <td>-</td>
+        `;
+
+        productsSection.appendChild(variantHeader);
+
+
+
+        product.variants.forEach(variant => {
+            const variantRow = document.createElement("tr");
+            variantRow.innerHTML += `
+        <tr>
+            <td>Caratteristiche:</td>
+            <td>${variant.size}</td>
+            <td>${variant.color}</td>
+            <td>${variant.quantity}</td>
+            <td>${variant.state}</td>
+            <td>-</td>
+        </tr>
+        `;
+
+            productsSection.appendChild(variantRow);
+        });
+        //<td><img src="${product.image}" width="50"</td>
+        console.log(product.id)
     })
+
+    console.log(products)
+
 }
 
 
 
-function checkDescriptionInput() {
-    const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement
-    descriptionInput?.addEventListener("input", () => {
-        let description = descriptionInput.value
-        if (description) {
-            selectedDescription = description
-        }
-    })
-
-}
-
-
-
-
-function checkInputImage() {
-    const imageInput = document.getElementById("imageInput") as HTMLInputElement;
-    imageInput?.addEventListener("input", () => {
-        let pathImage = imageInput.value
-        selectedImage = pathImage.replace("C:\\fakepath\\", "");
-        return selectedImage;
-    })
-}
-
-
-
-
-
-//---------------------------------check dropdown----------------//
 
 function showHidden(subMenuId: string) {
     const subMenu = document.getElementById(subMenuId)
@@ -97,11 +136,13 @@ function disableDropdown(dropdownId: string, bool: boolean) {
 
 
 
-function generateId(): string {
-    selectedeId = Math.random().toString(32).substring(2, 9);
-    console.log("selectedeId:", selectedeId);
-    return selectedeId
+//no change text 
+function getDropdownValue(buttonId: string): string | null {
+    const button = document.getElementById(buttonId);
 
+    if (!button || !button.textContent) return null;
+
+    return button.textContent.trim();
 }
 
 
@@ -112,38 +153,24 @@ function genderMenu(valueDropdown: string) {
         disableDropdown("dropdownButtonGender", true);
         changeTextContent("dropdownButtonGender", "donna");
         selectedGender = "woman";
-        return;
+        return selectedGender;
     }
     if (valueDropdown === "cap") {
         disableDropdown("dropdownButtonGender", true);
         changeTextContent("dropdownButtonGender", "unisex");
-        selectedGender = "unisex";
-        return;
+        selectedGender ="unisex";
+        return selectedGender;
     }
 
     disableDropdown("dropdownButtonGender", false)
-    checkDropdown("genderDropdown", "dropdownButtonGender");
+    return null
+    //checkDropdown("genderDropdown", "dropdownButtonGender");
 
 }
 
 
 
-
-// Funzione che gestisce il valore selezionato
-function handleSelectedValueType(valueType: string, nameType: string) {
-    console.log("Valore selezionato:", valueType);
-    console.log("Nome selezionato:", nameType);
-    changeTextContent("dropdownButtonType", nameType)
-    genderMenu(valueType)
-    /*selectedType = valueType
-                return selectedType */
-
-}
-
-
-
-
-function checkTypeDropdown() {
+function initTypeDropdown() {
     const buttonType = document.getElementById("typeDropdown");
 
     buttonType?.addEventListener("click", (event) => {
@@ -161,76 +188,142 @@ function checkTypeDropdown() {
             if (target.closest("#submenuType")) {
                 const nameUnderMenu = target.getAttribute("name") || "";
                 let valueUnderMenu = target.getAttribute("data-value") || "";
-                handleSelectedValueType(valueUnderMenu, nameUnderMenu)
+                changeTextContent("dropdownButtonType", nameUnderMenu);
+                genderMenu(valueUnderMenu)
+                document.getElementById("dropdownButtonType")
+    ?.setAttribute("data-value", valueUnderMenu);
                 selectedType = valueUnderMenu
-                return selectedType
+                return selectedType;
             }
             if (valueDropdown !== "swimSuit" && valueDropdown !== null && nameDropdown !== null) {
-                handleSelectedValueType(valueDropdown, nameDropdown)
-                selectedType = valueDropdown
-                return selectedType
+                genderMenu(valueDropdown)
+
+                changeTextContent("dropdownButtonType", nameDropdown)
+                document.getElementById("dropdownButtonType")
+    ?.setAttribute("data-value", valueDropdown);
+                selectedType = valueDropdown;
+                return selectedType;
+                //handleSelectedValueType(valueDropdown, nameDropdown)
+                //let type = valueDropdown
+                //return type
             }
         }
     })
 }
 
 
+// Gestione click su dropdown multipli
+function initDropdown(dropdownId: string, buttonId: string) {
+    const dropdown = document.getElementById(dropdownId);
+    dropdown?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        if (!target.classList.contains("dropdown-item")) return;
 
+        const name = target.getAttribute("name") || "";
+        const value = target.getAttribute("value") || "";
 
-
-
-//change text in base selection except type and geneder
-
-function checkDropdown(dropdownId: string, buttonId: string) {
-    if (dropdownId !== "typeDropdown") {
-
-        const buttonType = document.getElementById(dropdownId);
-
-        buttonType?.addEventListener("click", (event) => {
-            const target = event.target;
-            if (target instanceof HTMLElement && target.classList.contains("dropdown-item")) {
-
-                const nameDropdown = target.getAttribute("name") || "";
-                let valueDropdown = target.getAttribute("value") || "";
-
-                changeTextContent(buttonId, nameDropdown)
-                if (dropdownId === "sizeDropdown") {
-                    selectedSize = valueDropdown
+        // Aggiorna testo bottone
+        changeTextContent(buttonId, name);
+        
+        
+        // Se è il tipo, gestisci il gender
+        if (dropdownId === "typeDropdown") {
+            genderMenu(value);
+        }
+        if (dropdownId === "sizeDropdown") {
+                    selectedSize = value
                     return selectedSize
                 }
                 if (dropdownId === "colorDropdown") {
-                    selectedColor = valueDropdown
+                    selectedColor = value
                     return selectedColor
                 }
                 if (dropdownId === "stateDropdown") {
-                    selectedState = valueDropdown
+                    selectedState = value
                     return selectedState
                 }
                 if (dropdownId === "genderDropdown") {
-                    selectedGender = valueDropdown
+                    selectedGender = value
                     return selectedGender
                 }
-
-            }
-        })
-    }
+    });
 }
 
 
 
 
-///if I click on save button I want all values to insert into interface
+
+
+
+
+
+
+
+
+
+
+
+
+//----check inmput -------------//
+function checkInputQuantity(): number | null {
+    const quantityInput = (document.getElementById("quantityInput") as HTMLInputElement);
+    let value = quantityInput.value.trim();
+    const num = parseInt(value, 10);
+
+    if (isNaN(num) || num < 0) {
+        showPopUp("Inserimento Errato", "Inserisci come quantità un numero intero positivo");
+        quantityInput.value = "";
+        return null;
+    }
+
+    return num;
+}
+
+
+function checkPrizeInput(): number | null {
+    const prizeInput = document.getElementById("prizeInput") as HTMLInputElement;
+    let value = prizeInput.value;
+    if (!value) return null;
+    console.log("prezzo:", value)
+
+    return Number(value);
+
+}
+
+function checkDescriptionInput(): string | null {
+    const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement
+    let value = descriptionInput.value
+    if (!value) return null
+    console.log("descrizione:", value)
+    return value;
+}
+
+
+
+function checkInputImage(): string | null {
+    const imageInput = document.getElementById("imageInput") as HTMLInputElement;
+
+    let pathImage = imageInput.value
+    let value = pathImage.replace("C:\\fakepath\\", "");
+    console.log("link:", value)
+    return value;
+}
+
+
+function generateId(): string | null {
+    const value = Math.random().toString(32).substring(2, 9);
+    console.log("NUMERO GENERATO", value)
+    return value
+
+}
+
+
+
+
+
+
+
 async function insertProduct() {
-    console.log("VALORI DI RITORNO:");
-    console.log("selectedType:", selectedType);
-    console.log("selectedSize:", selectedSize);
-    console.log("selectedColor:", selectedColor);
-    console.log("selectedState:", selectedState);
-    console.log("selectedGender:", selectedGender);
-    console.log("selectedQuantity:", selectedQuantity);
-    console.log("selectedImage:", selectedImage);
-    console.log("selectedeId:", selectedeId);
-    console.log("selectedDescription:", selectedDescription);
 
     // Array dei prodotti già salvati
     const existingProducts: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
@@ -239,15 +332,22 @@ async function insertProduct() {
 
     let product = existingProducts.find(p => p.type === selectedType && p.gender === selectedGender && p.image === selectedImage && p.description === selectedDescription);
 
+
+
     const variant = {
         size: selectedSize as Variant["size"],
         color: selectedColor as Variant["color"],
-        quantity: selectedQuantity,
+        quantity: selectedQuantity!,
         state: selectedState as "available" | "unavailable"
     };
 
     if (product) {
         const variantExists = product.variants.some(v => v.size === variant.size && v.color === variant.color);
+        if (product.prize !== selectedPrize) {
+            product.prize = selectedPrize!;
+            showPopUp("Aggiornamento", "Prezzo aggiornato correttamente");
+        }
+
         if (variantExists) {
             showPopUpSelection("Attenzione", "Prodotto già esistente, procedere con la modifica?", "SI", "NO")
 
@@ -257,8 +357,7 @@ async function insertProduct() {
             product.variants = product.variants.map(v =>
                 v.size === variant.size && v.color === variant.color ? { ...v, quantity: variant.quantity, state: variant.state } : v
             );
-            showPopUp("Nessun aggiornamneto", "L'articolo è già presente e non vi sono modifiche")
-
+            showPopUp("Aggiornamento", "Modifica effettuata correttamente")
         } else {
             // Aggiungo nuova variante
             product.variants.push(variant);
@@ -268,108 +367,97 @@ async function insertProduct() {
     } else {
         // Creo un nuovo prodotto con la variante
         product = {
-            id: selectedeId,
+            id: selectedId!,
             type: selectedType as BaseProduct["type"],
             gender: selectedGender as BaseProduct["gender"],
-            image: selectedImage,
-            description: selectedDescription,
+            image: selectedImage!,
+            description: selectedDescription!,
+            prize: selectedPrize!,
             variants: [variant]
         };
         existingProducts.push(product);
         console.log("Nuovo prodotto creato:", product);
+        showPopUp("Inserimeto", "Inserimeto effettuato correttamente")
     }
     localStorage.setItem("products", JSON.stringify(existingProducts));
     console.log(existingProducts)
 
 }
 
-//create table 
-function createTable(products: BaseProduct[]) {
-
-    const existingTable = document.getElementById("tableTemplateShow")
-    if (existingTable) {
-        cleanSection("tableHTML")
-    }
-    insertTemplate("tableHTML", "tableTemplate");
-    /*let products = localStorage.getItem("products")
-    console.log(products)*/
-    const productsSection = document.getElementById("products-table")
-
-    if (!productsSection) return
-
-    //const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-    products.forEach(product => {
-
-        const tr = document.createElement("tr");
-        tr.classList.add("table-success");
-        tr.innerHTML += `
-        <tr>
-            <td>${product.id}</td>
-            <td>${product.type}</td>
-            <td>${product.gender}</td>
-            <td><img src="../img/${product.image}" width="50"</td>
-            <td>${product.description}</td>
-        </tr>
-        `;
-        productsSection.append(tr)
-
-        product.variants.forEach(variant => {
-            productsSection.innerHTML += `
-        <tr>
-            <td>${"Variabile"}</td>
-            <td>${variant.size}</td>
-            <td>${variant.color}</td>
-            <td>${variant.quantity}</td>
-            <td>${variant.state}</td>
-        </tr>
-        `;
-        });
-        //<td><img src="${product.image}" width="50"</td>
-        console.log(product.id)
-    })
-
-    console.log(products)
-
-}
 
 
 
 
 
-function eventSave() {
-    const form = document.getElementById("dropdwons") as HTMLFormElement;;
 
-    if (form) {
 
-        form.addEventListener("submit", (event) => {
 
-            event.preventDefault();
-            const isValid =
-                selectedType &&
-                selectedSize &&
-                selectedColor &&
-                selectedGender &&
-                selectedImage &&
-                selectedDescription &&
-                selectedQuantity > 0;
+//change take element
 
-            if (isValid) {
+
+function getInsertOptions() {
+    const form = document.getElementById("dropdwons")
+    form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+
+        //prima cosa check type dropdown in base a quello il gender
+
+
+        //const prize = Number((document.getElementById("prizeInput") as HTMLInputElement).value);
+        //selectedType = getDropdownValue("dropdownButtonType");
+        //selectedSize = getDropdownValue("dropdownButtonSize");
+        //selectedColor = getDropdownValue("dropdownButtonColor");
+       // selectedGender = getDropdownValue("dropdownButtonGender");
+
+        selectedDescription = checkDescriptionInput();
+        selectedQuantity = checkInputQuantity();
+
+        if (selectedQuantity === null) return
+
+        selectedPrize = checkPrizeInput();
+        selectedImage = checkInputImage();
+
+
+        const isValid =
+            selectedType !== null &&
+    selectedSize !== null &&
+    selectedColor !== null &&
+    selectedGender !== null &&
+    selectedImage !== null &&
+    selectedDescription !== null &&
+    selectedPrize !== null &&
+    selectedQuantity !== null;
+        if (isValid) {
                 if (!selectedState) {
                     selectedState = selectedQuantity > 0 ? "available" : "unavailable";
                 }
-                generateId()
-                insertProduct()
-            } else {
-                showPopUp("Errore", "Compila tutti i campi obbligatori")
-            }
-        });
-    }
+            selectedId = generateId()
+            insertProduct()
+            console.log("CAMPI INSERITIII")
+            console.log("tipologia:", selectedType);
+            console.log("prezzo", selectedPrize);
+            console.log("genere:", selectedGender);
+            console.log("id", selectedId);
+            console.log("descrizione", selectedDescription);
+            console.log("immagine", selectedImage);
+            console.log("quantità:", selectedQuantity);
+            console.log("stato", selectedState);
+        } else {
+            showPopUp("Errore", "Compila tutti i campi obbligatori")
+        }
+    });
+
+
+
+
 }
 
 
 
-//function search elements
-function serachProducts() {
+
+
+function searchProducts() {
     const searchButton = document.getElementById("submitSearch")
     searchButton?.addEventListener("click", () => {
         const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
@@ -398,6 +486,31 @@ function searchIdProduct() {
 }
 
 
+function deleteProduct() {
+    const deleteButton = document.getElementById("deleteProduct")
+    const insertIdSearch = document.getElementById("searchIdInput") as HTMLInputElement
+    deleteButton?.addEventListener("click", () => {
+        let insertId = insertIdSearch.value.trim();
+        if (!insertId) return;
+
+
+        const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+        const updatedProducts = products.filter(p => p.id !== insertId);
+
+        if (updatedProducts.length === products.length) {
+            showPopUp("Errore", "Prodotto non trovato, id errato o inesistente");
+            return;
+        }
+
+        localStorage.setItem("products", JSON.stringify(updatedProducts));
+        showPopUp("Successo", "Prodotto eliminato correttamente");
+
+        // Aggiorna la tabella
+        createTable(updatedProducts);
+    });
+
+}
+
 
 
 
@@ -412,52 +525,28 @@ export function cleanProducts() {
 
 
 
-
-
 document.addEventListener("DOMContentLoaded", async () => {
 
     await loadTemplates();
     //cleanProducts();
+    setUpMenu();
+    getTypeandDataFilterMenu();
+    disableDropdown("dropdownButtonGender", true);
 
-    //desable dropdown gender
-    disableDropdown("dropdownButtonGender", true)
-    checkTypeDropdown();
-    checkDropdown("sizeDropdown", "dropdownButtonSize");
-    checkDropdown("colorDropdown", "dropdownButtonColor");
-    checkDropdown("stateDropdown", "dropdownButtonState");
-    checkInputQuantity();
-    checkDescriptionInput();
-    checkInputImage();
-    eventSave();
-    serachProducts();
+    // Inizializza dropdown multipli
+    initTypeDropdown();
+    initDropdown("sizeDropdown", "dropdownButtonSize");
+    initDropdown("colorDropdown", "dropdownButtonColor");
+    initDropdown("stateDropdown", "dropdownButtonState");
+    initDropdown("genderDropdown", "dropdownButtonGender");
+
+    // Attiva submit
+    getInsertOptions();
+    searchProducts();
     searchIdProduct();
-
+    deleteProduct();
+   
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
