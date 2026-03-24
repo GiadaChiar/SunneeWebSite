@@ -6,7 +6,7 @@ import { changeTextContent, showPopUp, showPopUpSelection, cleanSection } from '
 import { loadTemplates,insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
 import type { Variant, BaseProduct } from "./interfaces";
-import { setUpMenu,getTypeandDataFilterMenu } from './menu';
+//import { setUpMenu,getTypeandDataFilterMenu } from './menu';
 
 
 
@@ -529,8 +529,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadTemplates();
     //cleanProducts();
-    setUpMenu();
-    getTypeandDataFilterMenu();
+   // setUpMenu();
+    //getTypeandDataFilterMenu();
     disableDropdown("dropdownButtonGender", true);
 
     // Inizializza dropdown multipli

@@ -1,6 +1,6 @@
 //templates functions
 
-import { checkRegistration, showPopUp } from "./dom";
+import { checkRegistration, showPopUp,cleanSection } from "./dom";
 import type { Variant, BaseProduct } from "./interfaces";
 
 //loader templates to save them in memory
@@ -61,6 +61,196 @@ export function insertTemplate(sectionId: string, templateId: string) {
 }
 
 
+
+
+
+
+
+
+
+
+
+export function insertProductClone(product: BaseProduct) {
+
+
+    const section = document.getElementById("shopProductHTML");
+    const template = templates["shopTemplate"];
+
+    if (!section || !template) {
+        console.error("Section or template not found");
+        return;
+    }
+
+    // Clona il template
+    const clone = template.content.cloneNode(true) as HTMLElement;
+
+    // Aggiorna i dati del prodotto
+    (clone.querySelector(".decriptionShop") as HTMLElement).textContent = product.description;
+    (clone.querySelector(".prizeShop") as HTMLElement).textContent = `${product.prize} €`;
+    (clone.querySelector(".imgShop") as HTMLImageElement).src = `../img/${product.image}`;
+
+    //craetion dynamic id
+    const collapseId = `sizeCollapse-${product.id}`;
+
+    const button = clone.querySelector("#filterButton") as HTMLButtonElement;
+    const collapse = clone.querySelector("#sizeCollapse") as HTMLElement;
+
+
+
+
+    // 3. collego bottone → collapse
+    if (button && collapse) {
+        collapse.id = collapseId; // cambio id del div
+        button.setAttribute("data-bs-target", `#${collapseId}`);
+    }
+
+
+
+    // Aggiunge i colori
+    const colorList = clone.querySelector(".colorshop");
+    if (colorList) {
+        const uniqueColors = Array.from(new Set(product.variants.map(v => v.color)));
+        uniqueColors.forEach((color, index) => {
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `color-${product.id}`;
+            input.value = color;
+            input.setAttribute("data-value", color);
+            input.classList.add("check-shop-color");
+            colorList.appendChild(input);
+            console.log(input.value)
+            if(index === 0){
+                input.checked =true;
+            }
+        });
+        
+    }
+
+    //aggiorno le taglie di default 
+    // Aggiorna lo stato dei pulsanti taglie
+            const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            sizeButtons.forEach(button => {
+                const sizeValue = button.dataset.value;
+                const available = product.variants.some(
+                    v => v.size === sizeValue 
+                );
+                button.dataset.state = available ? "enable" : "disable";
+            });
+                
+
+    // Appendi il clone alla sezione
+    section.appendChild(clone);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Listener globale per i colori della vetrina
+export function setupColorSelection(products: BaseProduct[]) {
+    const shopSection = document.getElementById("shopProductHTML");
+    if (!shopSection) return;
+
+    shopSection.addEventListener("click", (event) => {
+        const target = event.target as HTMLInputElement;
+        const productId = target.name.replace("color-", "");
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+        // Controlla che sia un input colore
+        if (target?.classList.contains("check-shop-color") && target.type === "radio") {
+            const clone = target.closest(".container") as HTMLElement;
+            if (!clone) return;
+
+
+            console.log("Colore selezionato:", target.value);
+            //find id product 
+
+            // Aggiorna lo stato dei pulsanti taglie
+            const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            sizeButtons.forEach(button => {
+                const sizeValue = button.dataset.value;
+                const available = product.variants.some(
+                    v => v.size === sizeValue && v.color === target.value
+                );
+                button.dataset.state = available ? "enable" : "disable";
+            });
+                
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 
 
@@ -136,43 +326,168 @@ export function insertProductClone(product: BaseProduct) {
 
 }
 
+*/
 
-// Listener globale per i colori della vetrina
-export function setupColorSelection(products: BaseProduct[]) {
+
+
+
+
+
+
+
+
+
+
+
+
+// function to insert clone shop but with filters 
+
+/*
+export function insertShopTemplateFilters ( products: BaseProduct[],type:string | null, gender?:string, color?:string, size?:string){
+    //if filter is false don't use it 
+    const filteredProducts = products.filter(p => {
+        if (type && p.type !== type) return false;
+        if (gender && p.gender !== gender) return false;
+        return true;
+    })
+    const vars: Variant[] = JSON.parse(localStorage.getItem("products.variants") || "[]");
+
+    const filteredVariants = vars.filter(v =>{
+        if (color && v.color !== color) return false;
+        if (size && v.size !== size) return false;
+        return true;
+    })
+    
+    cleanSection("shopTemplate"); //clean page shop
     const shopSection = document.getElementById("shopProductHTML");
     if (!shopSection) return;
 
-    shopSection.addEventListener("click", (event) => {
-        const target = event.target as HTMLInputElement;
-        const productId = target.name.replace("color-", "");
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-        // Controlla che sia un input colore
-        if (target?.classList.contains("check-shop-color") && target.type === "radio") {
-            const clone = target.closest(".container") as HTMLElement;
-            if (!clone) return;
+    //insert products 
+
+    filteredProducts.forEach(p=>{}) 
+     
 
 
-            console.log("Colore selezionato:", target.value);
-            //find id product 
+}*/
 
-            // Aggiorna lo stato dei pulsanti taglie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export function insertProductCloneFilter(product: BaseProduct) {
+
+    const section = document.getElementById("shopProductHTML");
+    const template = templates["shopTemplate"];
+
+    if (!section || !template) {
+        console.error("Section or template not found");
+        return;
+    }
+
+    // Clona il template
+    const clone = template.content.cloneNode(true) as HTMLElement;
+
+    // Aggiorna i dati del prodotto
+    (clone.querySelector(".decriptionShop") as HTMLElement).textContent = product.description;
+    (clone.querySelector(".prizeShop") as HTMLElement).textContent = `${product.prize} €`;
+    (clone.querySelector(".imgShop") as HTMLImageElement).src = `../img/${product.image}`;
+
+    //craetion dynamic id
+    const collapseId = `sizeCollapse-${product.id}`;
+
+    const button = clone.querySelector("#filterButton") as HTMLButtonElement;
+    const collapse = clone.querySelector("#sizeCollapse") as HTMLElement;
+
+
+
+
+    // 3. collego bottone → collapse
+    if (button && collapse) {
+        collapse.id = collapseId; // cambio id del div
+        button.setAttribute("data-bs-target", `#${collapseId}`);
+    }
+
+
+
+    // Aggiunge i colori
+    const colorList = clone.querySelector(".colorshop");
+    if (colorList) {
+        const uniqueColors = Array.from(new Set(product.variants.map(v => v.color)));
+        uniqueColors.forEach((color, index) => {
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `color-${product.id}`;
+            input.value = color;
+            input.setAttribute("data-value", color);
+            input.classList.add("check-shop-color");
+            colorList.appendChild(input);
+            console.log(input.value)
+            if(index === 0){
+                input.checked =true;
+            }
+        });
+        
+    }
+
+    //aggiorno le taglie di default 
+    // Aggiorna lo stato dei pulsanti taglie
             const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
             sizeButtons.forEach(button => {
                 const sizeValue = button.dataset.value;
                 const available = product.variants.some(
-                    v => v.size === sizeValue && v.color === target.value
+                    v => v.size === sizeValue 
                 );
                 button.dataset.state = available ? "enable" : "disable";
             });
                 
-        }
-    });
+
+    // Appendi il clone alla sezione
+    section.appendChild(clone);
+
 }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function to insert clone shop but with filters 
 
 

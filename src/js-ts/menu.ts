@@ -102,6 +102,7 @@ export function setUpMenu(){
     .then((divMenu)=>{
         changeLinkNavigation(divMenu); // upload state link 
         checkMenuSections();
+        getTypeandDataFilterMenu();
     })
     .catch(error=>{
         throw new Error("Error upload state menu")
@@ -119,17 +120,20 @@ export function getTypeandDataFilterMenu() {
         const target = event.target as HTMLElement;
 
         // risale fino al link con data-type
-        const dropdownItem = target.closest("a[data-category]") as HTMLAnchorElement;
+        const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
         if (!dropdownItem) return;
 
         // blocca la navigazione
         event.preventDefault();
 
         const type = dropdownItem.dataset.type;
-        const value = dropdownItem.dataset.category;
+        const gender = dropdownItem.dataset.gender;
 
         console.log("Tipologia cliccata:", type);
-        console.log("Valore cliccato:", value);
+        console.log("Valore cliccato:", gender);
+
+        //send data 
+        window.location.href = `shop.html?type=${type}&gender=${gender}`;
 
     });
 }

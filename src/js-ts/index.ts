@@ -4,7 +4,7 @@ import '../style/form.scss';
 
 
 
-import { setUpMenu,getTypeandDataFilterMenu } from './menu'
+import { setUpMenu } from './menu'
 import { fetchForm } from './form'
 
 
@@ -37,7 +37,6 @@ function getTypeandDataFilter(){
 document.addEventListener("DOMContentLoaded", () => {
     setUpMenu();
     fetchForm();
-    getTypeandDataFilterMenu();
     //getTypeandDataFilterMenu();
     //getTypeandDataFilter();
 });
