@@ -11,17 +11,14 @@ import { insertProductClone, setupColorSelection } from './templates';
 import { loadTemplates } from "./templates";
 import type { Variant, BaseProduct } from "./interfaces";
 import { showPopUp, cleanSection } from './dom';
+import { ProductsDefault } from './initProducts';
+//import productsJson from "./data/products.json";
 //loader templates to save them in memory
 const templates: Record<string, HTMLTemplateElement> = {};
 
 
-/*
 
-document.addEventListener("DOMContentLoaded", () => {
-    setUpMenu();
-    fetchForm();
-});
-*/
+
 
 
 /*
@@ -63,12 +60,16 @@ function insertProducts() {
 
 
 
+
+
 function insertShopTemplateFilters(type: string | null, gender: string | null) {
     //if filter is false don't use it 
     const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
 
+    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+
     console.log(type, gender)
-    const productsFirstFilter = products.filter(p => p.type === type && p.gender === gender);
+    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender);
     console.log("productsFirstFilter:", productsFirstFilter)
 
     if (productsFirstFilter.length === 0) {
@@ -81,13 +82,13 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
     productsFirstFilter.forEach(product => {
 
         insertProductClone(product);
-        setupColorSelection(products);
+
 
 
     })
+    setupColorSelection(productsFirstFilter);
 
-
-    checkfiltersPageShop(productsFirstFilter)
+    getfiltersPageShop(productsFirstFilter)
 
 
     //insert products  
@@ -128,39 +129,84 @@ function getFilterFormUrl() {
 
 
 
+function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string {
+    let selected = check.dataset.value || ""
+
+    if (check.classList.contains("anable")) {
+        check.classList.remove("anable");
+        check.classList.add("disable");
+
+        if (check instanceof HTMLInputElement) {
+            check.checked = false;
+
+        }
+        selected = "";
+        console.log("disattivato");
+    } else {
+
+        allElement.forEach(el => {
+            el.classList.remove("anable");
+            el.classList.add("disable");
+            if(el instanceof HTMLInputElement){
+                el.checked = false;
+            }
+            
+        });
+        check.classList.remove("disable");
+        check.classList.add("anable");
+        if ( check instanceof HTMLInputElement) {
+            check.checked = true;
+
+        }
+
+        selected = check.dataset.value || "";
+        console.log("attivato:", selected);
+    }
+    return selected;
+}
+
+
+function InsertTemplateShopFilter(color:string,size:string,productsBase: BaseProduct[]){
+    if (!color && !size) {
+                productsBase.forEach(product => {
+                    insertProductClone(product);
+                });
+                return;
+            }
+            const filtered = productsBase.filter(p => {
+                let colorMatch = true;
+                let sizeMatch = true;
+
+                if (color) {
+                    colorMatch = p.variants.some(v => v.color === color);
+                }
+                if (size) {
+                    sizeMatch = p.variants.some(v => v.size === size);
+                }
+                return colorMatch && sizeMatch;
+            });
+
+            cleanSection("shopProductHTML");
+            if (filtered.length === 0) {
+                showPopUp("Errore", "Nessun prodotto trovato, cambiare i filtri della ricarca")
+                return
+            }
+            filtered.forEach(product => {
+                insertProductClone(product);
+            });
+        }
+    
 
 
 
 
-//listener only one on shopPage 
-/*
-//global event listener to get data-type and value
-export function getTypeandDataFilterMenu() {
-    document.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-
-        // risale fino al link con data-type
-        const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
-        if (!dropdownItem) return;
-
-        // blocca la navigazione
-        event.preventDefault();
-
-        const type = dropdownItem.dataset.type;
-        const gender = dropdownItem.dataset.gender;
-
-        console.log("Tipologia cliccata:", type);
-        console.log("Valore cliccato:", gender);
-
-        //send data 
-        window.location.href = `shop.html?type=${type}&gender=${gender}`;
-
-    });
-}*/
 
 
 
-function checkfiltersPageShop(productsBase: BaseProduct[]) {
+
+
+
+function getfiltersPageShop(productsBase: BaseProduct[]) {
     const form = document.getElementById("filter");
     let selectedColorFilter = "";
     let selectedSizeFilter = "";
@@ -169,70 +215,33 @@ function checkfiltersPageShop(productsBase: BaseProduct[]) {
         const target = event.target as HTMLElement;
 
         if ((target as HTMLInputElement).type === "radio" && (target as HTMLInputElement).name === "color") {
-
             const clickedRadio = target as HTMLInputElement;
-            selectedColorFilter = clickedRadio.dataset.value || "";
-
             const allRadios = document.querySelectorAll<HTMLInputElement>('input[name="color"]')
             
-            allRadios.forEach(input =>{
-                input.classList.remove("anable");
-                input.classList.add("disable");
-            })
-            clickedRadio.classList.remove("anable");
-            clickedRadio.classList.add("disable");
+            selectedColorFilter = checkedFilterShop(clickedRadio, allRadios)
+            console.log("FINE FUNZIONE COLORE TROVATO:",selectedColorFilter)
         }
 
         if ((target as HTMLButtonElement).name === "size") {
             event.preventDefault();
             const clickedButton = target as HTMLButtonElement;
-            selectedSizeFilter  = clickedButton.dataset.value || "";
-            console.log("size",selectedSizeFilter)
             const allSizeButtons = document.querySelectorAll<HTMLButtonElement>('button[name="size"]');
 
-            allSizeButtons.forEach(btn => {
-                // resetta tutti a disable
-                btn.classList.remove("anable");
-                btn.classList.add("disable");
-            });
-
-            clickedButton.classList.remove("disable");
-            clickedButton.classList.add("anable");
+            selectedSizeFilter = checkedFilterShop(clickedButton, allSizeButtons)
+            console.log("FINE FUNZIONE Taglia TROVATO:",selectedSizeFilter)
         }
 
         if ((target as HTMLButtonElement).type === "submit" && (target as HTMLButtonElement).name === "searchFilters") {
-                event.preventDefault();
-            if (!selectedColorFilter && !selectedSizeFilter) {
-                showPopUp("Errore", "Inserisci almeno un filtro di ricerca")
-                return;
-            }
-            const filtered = productsBase.filter(p => {
-                let colorMatch = true;
-                let sizeMatch = true;
+            event.preventDefault();
 
-                if (selectedColorFilter) {
-                    colorMatch = p.variants.some(v => v.color === selectedColorFilter);
-                }
-                if (selectedSizeFilter) {
-                    sizeMatch = p.variants.some(v => v.size === selectedSizeFilter);
-                }
-                return colorMatch && sizeMatch;
-            });
+            console.log("COLORE FITRO PAGINA:",selectedColorFilter);
+            console.log("Taglia FITRO PAGINA:",selectedSizeFilter);
 
-            cleanSection("shopProductHTML");
-            if(filtered.length === 0){
-                    showPopUp("Errore", "Nessun prodotto trovato, cambiare i filtri della ricarca")
-                    return
-                }
-            filtered.forEach(product => {
-                insertProductClone(product);
-            });
+
+            InsertTemplateShopFilter(selectedColorFilter,selectedSizeFilter,productsBase);
         }
-
     })
-
 }
-
 
 
 
@@ -254,8 +263,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadTemplates();
     setUpMenu();
     fetchForm();
-    getFilterFormUrl();
-    //checkfiltersPageShop();
 
-    // insertProducts();
+
+    getFilterFormUrl();
+
+
 })

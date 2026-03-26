@@ -6,6 +6,7 @@ import { changeTextContent, showPopUp, showPopUpSelection, cleanSection } from '
 import { loadTemplates,insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
 import type { Variant, BaseProduct } from "./interfaces";
+import { generateId } from "./utils"
 //import { setUpMenu,getTypeandDataFilterMenu } from './menu';
 
 
@@ -106,7 +107,8 @@ function createTable(products: BaseProduct[]) {
         console.log(product.id)
     })
 
-    console.log(products)
+    console.log("prodotti:",products)
+    console.log(JSON.stringify(products, null, 2));
 
 }
 
@@ -310,12 +312,7 @@ function checkInputImage(): string | null {
 }
 
 
-function generateId(): string | null {
-    const value = Math.random().toString(32).substring(2, 9);
-    console.log("NUMERO GENERATO", value)
-    return value
 
-}
 
 
 

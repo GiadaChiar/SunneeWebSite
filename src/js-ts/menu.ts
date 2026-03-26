@@ -129,9 +129,6 @@ export function getTypeandDataFilterMenu() {
         const type = dropdownItem.dataset.type;
         const gender = dropdownItem.dataset.gender;
 
-        console.log("Tipologia cliccata:", type);
-        console.log("Valore cliccato:", gender);
-
         //send data 
         window.location.href = `shop.html?type=${type}&gender=${gender}`;
 

@@ -1,6 +1,6 @@
 export interface Variant {
     size: "xs" | "s" | "m" | "l" | "xl" | "2xl";
-    color: "green" | "white" | "black" | "blue" | "pink" | "floral" | "multicolored";
+    color: "green" | "white" | "black" | "blue" | "red" | "pink" | "floral" | "multicolored";
     quantity: number;
     state: "available" | "unavailable";
 }
@@ -13,7 +13,6 @@ export interface BaseProduct {
     description: string;
     variants: Variant[];
 }
-export declare const RelaxWoman: BaseProduct[];
 export interface RegisterForm {
     name: string;
     surname: string;
@@ -26,4 +25,5 @@ export interface RegisterFormReservate {
     password: string;
 }
 export declare const reservedUsers: RegisterFormReservate[];
+export declare const users: RegisterForm[];
 //# sourceMappingURL=interfaces.d.ts.map

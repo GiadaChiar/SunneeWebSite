@@ -14,6 +14,16 @@ import { setUpNewSection, loadTemplates,removeElementHtm} from './logInSections'
 import{ removeElementHtm,setUpNewSection,preventSubmitLogIn } from "./events"
 import{ loadTemplates } from "./templates"
 import{ checkRegistration,showUsers,cleanOldUsers } from"./dom"
+import { users } from "./interfaces";
+import type { RegisterForm} from "./interfaces";
+
+function showUsersAllUsers(){
+    const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const all = [...users,...userJson]
+    console.log(all)
+    console.log(userJson)
+}
+
 
 document.addEventListener("DOMContentLoaded", async() => {
     setUpMenu();
@@ -28,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     setUpNewSection("newRegistration","loginHTML","registrationTemplate");//new registration
     //clickAddInsertElement();
     //checkRegistration();
-    //cleanOldUsers(); to clean
+    //cleanOldUsers(); 
+    showUsersAllUsers()
 });
 

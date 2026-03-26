@@ -1,8 +1,10 @@
 //dom functions
-import type { RegisterForm } from "./interfaces"; //add type bacause type it isn't in js is typescript
+import type { RegisterForm} from "./interfaces"; //add type bacause type it isn't in js is typescript
 import { reservedUsers } from "./interfaces";
 import { insertTemplate } from "./templates";
-import { handleCheckBoxtPoPUp } from "./events"
+import { handleCheckBoxtPoPUp } from "./events";
+import { users } from "./interfaces";
+import { generateId } from "./utils";
 export let isAdminLogin = false;
 
 export function setAdminLogin(value: boolean) {
@@ -81,26 +83,40 @@ export function showPopUpSelection(title: string, message: string, checkright:st
 
 
 
-
 //REGISTRATION NEW USER 
 //function validation input forum ecc..
 
 //save new users
-function saveNewUser(newUser: RegisterForm) {
-    const usersJson = localStorage.getItem("users");
-    const users: RegisterForm[] = usersJson ? JSON.parse(usersJson) : [];
 
-    const existingUser = users.find(u => u.email === newUser.email);
-    if (existingUser) {
+
+function saveNewUser(newUser: RegisterForm) {
+
+    const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // normalizzo email
+    const email = newUser.email.trim().toLowerCase();
+
+    const existingUserJson = userJson.find(u => u.email.toLowerCase() === email);
+    
+    const existingUser = users.find(u => u.email.toLowerCase() === email);
+
+    if (existingUserJson || existingUser) {
         showPopUp("Errore", "Questa email è già registrata, vai nel log in");
+        setTimeout(() => {
+        window.location.href = "logIn.html";
+    }, 3000); 
         return false;
     }
 
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+
+
+    userJson.push(newUser);
+    localStorage.setItem("users", JSON.stringify(userJson));
+    const allUsers :RegisterForm[] = [...users, ...userJson]
+    console.log("TUTTI GLI USERS :",allUsers)
+
     return true;
 }
-
 
 
 
@@ -177,6 +193,8 @@ function ValidationPassword(): boolean {
 
 
 
+
+
 export function checkPassword(user: RegisterForm) {
     const isValid = ValidationPassword();
 
@@ -203,6 +221,11 @@ export function checkPassword(user: RegisterForm) {
             users[index] = user; // aggiorna l’utente con la password
         }
 
+        let idUser = generateId();
+        if(idUser){
+            user.id = idUser 
+        }
+
         // Salva di nuovo l’array
         localStorage.setItem("users", JSON.stringify(users));
 
@@ -214,6 +237,17 @@ export function checkPassword(user: RegisterForm) {
         }, { once: true }); // 'once: true' assicura che il listener si esegue solo una volta
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -233,6 +267,7 @@ export function checkRegistration() {
 
     if (isValid) {
         const newUser: RegisterForm = {
+            
             name: (document.getElementById("name") as HTMLInputElement).value,
             surname: (document.getElementById("surname") as HTMLInputElement).value,
             email: (document.getElementById("email") as HTMLInputElement).value,
@@ -279,8 +314,9 @@ export function checkRegistration() {
 //get the date about user 
 
 function getRegisteredUsers(): RegisterForm[] {
-    const usersJson = localStorage.getItem("users");
-    return usersJson ? JSON.parse(usersJson) : [];
+    const usersJson : RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const allUsers = [...usersJson, ...users]
+    return allUsers;
 }
 
 //check if it is user or admin autentification
@@ -322,6 +358,7 @@ function checkReservedLogin() {
     window.location.href = "admin.html";
 }, { once: true });
 }
+
 
 //autentification Users
 export function checkUserLogin() {
@@ -368,7 +405,7 @@ export function cleanOldUsers() {
     const users: RegisterForm[] = JSON.parse(usersJson);
 
     // filtra solo gli utenti che hanno una password definita
-    const filteredUsers = users.filter(user => user.password && user.password.trim() !== "");
+    const filteredUsers = users.filter(user => user.password ==="126k");
 
     // salva di nuovo
     localStorage.setItem("users", JSON.stringify(filteredUsers));

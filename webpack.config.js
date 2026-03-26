@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin=require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 //to reduce impact to images
@@ -9,42 +9,42 @@ const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 module.exports = {
     // 🔹 Entry point: punta al tuo file TypeScript
-    entry:{
-        index:'./src/js-ts/index.ts',
-        aboutUs:'./src/js-ts/aboutUs.ts',
-        logIn:'./src/js-ts/logIn.ts',
-        admin:'./src/js-ts/admin.ts',
-        shop:'./src/js-ts/shop.ts'
+    entry: {
+        index: './src/js-ts/index.ts',
+        aboutUs: './src/js-ts/aboutUs.ts',
+        logIn: './src/js-ts/logIn.ts',
+        admin: './src/js-ts/admin.ts',
+        shop: './src/js-ts/shop.ts'
 
     },
-     // 🔹 Output del bundle
+    // 🔹 Output del bundle
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        clean:true,// pulisce la cartella dist ad ogni build
+        clean: true,// pulisce la cartella dist ad ogni build
     },
-      // 🔹 Modalità sviluppo
+    // 🔹 Modalità sviluppo
     mode: 'development',
-     // 🔹 Risoluzione estensioni
+    // 🔹 Risoluzione estensioni
     resolve: {
-    extensions: ['.ts', '.js'], // così Webpack sa leggere .ts e .js
+        extensions: ['.ts', '.js'], // così Webpack sa leggere .ts e .js
     },
     // 🔹 Loader per TypeScript e SCSS
     module: {
         rules: [
-        {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-        },
-        {
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-            
+
             },
-                {
+            {
                 test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
         ],
     },
@@ -61,13 +61,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/pages/index.html',
             filename: 'index.html',
-            chunks:['index']
+            chunks: ['index']
         }),
 
         new HtmlWebpackPlugin({
             template: './src/pages/aboutUs.html',
             filename: 'aboutUs.html',
-            chunks:['aboutUs']
+            chunks: ['aboutUs']
         }),
         new HtmlWebpackPlugin({
             template: './src/components/form.html',
@@ -92,23 +92,25 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/pages/admin.html',
             filename: 'admin.html',
-            chunks:['admin']
+            chunks: ['admin']
         }),
         new HtmlWebpackPlugin({
             template: './src/pages/shop.html',
             filename: 'shop.html',
-            chunks:['shop']
+            chunks: ['shop']
         }),
         new MiniCssExtractPlugin({
-                filename: '[name].css',
+            filename: '[name].css',
         }),
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'src/style/img', to: 'img' },
                 { from: 'src/style/video', to: 'video' },
-               // { from: 'src/menu.html', to: 'menu.html'},
+                // { from: 'src/menu.html', to: 'menu.html'},
             ],
         }),
+
+
         //AGGIUNGI DOPO PER OTTIMIZZARE LE IMMAGINI -----------------------------TROPPO LENTO ORA 
         /*new ImageMinimizerPlugin({
             minimizer: {

@@ -162,6 +162,54 @@ export function insertProductClone(product: BaseProduct) {
 
 
 
+/*
+
+
+// Listener globale per i colori della vetrina
+export function setupColorSelection(products: BaseProduct[]) {
+    const shopSection = document.getElementById("shopProductHTML");
+    if (!shopSection) return;
+
+    shopSection.addEventListener("click", (event) => {
+        const target = event.target as HTMLInputElement;
+        const productId = target.name.replace("color-", "");
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+        // Controlla che sia un input colore
+        if (target?.classList.contains("check-shop-color") && target.type === "radio") {
+            const clone = target.closest(".container") as HTMLElement;
+            if (!clone) return;
+
+
+            console.log("Colore selezionato:", target.value);
+            //find id product 
+
+            // Aggiorna lo stato dei pulsanti taglie
+            const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            
+            sizeButtons.forEach(button => {
+                const sizeValue = button.dataset.value;
+                const available = product.variants.some(
+                    v => v.size === sizeValue && v.color === target.value
+                );
+                button.dataset.state = available ? "enable" : "disable";
+                
+            });
+                
+        }
+
+    });
+}
+
+
+*/
+
+
+
+/*
+
+
 
 
 
@@ -187,15 +235,61 @@ export function setupColorSelection(products: BaseProduct[]) {
 
             // Aggiorna lo stato dei pulsanti taglie
             const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            
             sizeButtons.forEach(button => {
                 const sizeValue = button.dataset.value;
                 const available = product.variants.some(
                     v => v.size === sizeValue && v.color === target.value
                 );
                 button.dataset.state = available ? "enable" : "disable";
-            });
                 
+            });
+            
         }
+
+    });
+}
+
+
+*/
+
+
+
+// Listener globale per i colori della vetrina
+export function setupColorSelection(products: BaseProduct[]) {
+    const shopSection = document.getElementById("shopProductHTML");
+    if (!shopSection) return;
+    
+
+    shopSection.addEventListener("click", (event) => {
+        const target = event.target as HTMLInputElement;
+        const productId = target.name.replace("color-", "");
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+        // Controlla che sia un input colore
+        if (target?.classList.contains("check-shop-color") && target.type === "radio") {
+            const clone = target.closest(".container") as HTMLElement;
+            if (!clone) return;
+
+
+            console.log("Colore selezionato:", target.value);
+            //find id product 
+
+            // Aggiorna lo stato dei pulsanti taglie
+            const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+            
+            sizeButtons.forEach(button => {
+                const sizeValue = button.dataset.value;
+                const available = product.variants.some(
+                    v => v.size === sizeValue && v.color === target.value
+                );
+                button.dataset.state = available ? "enable" : "disable";
+                
+            });
+            
+        }
+
     });
 }
 
