@@ -14,7 +14,8 @@ module.exports = {
         aboutUs: './src/js-ts/aboutUs.ts',
         logIn: './src/js-ts/logIn.ts',
         admin: './src/js-ts/admin.ts',
-        shop: './src/js-ts/shop.ts'
+        shop: './src/js-ts/shop.ts',
+        cart:'./src/js-ts/cart.ts'
 
     },
     // 🔹 Output del bundle
@@ -98,6 +99,11 @@ module.exports = {
             template: './src/pages/shop.html',
             filename: 'shop.html',
             chunks: ['shop']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/pages/cart.html',
+            filename: 'cart.html',
+            chunks: ['cart']
         }),
         new MiniCssExtractPlugin({
             filename: '[name].css',

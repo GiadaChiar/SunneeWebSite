@@ -1,0 +1,136 @@
+@use "variables" as vars;
+
+body {
+    font-family: vars.$font-Tan;
+
+    #cartTitle {
+        color: vars.$background-dark;
+    }
+
+    h1,
+    h3 {
+        text-align: center;
+        padding-bottom: 15px;
+    }
+
+    .container-cart {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        background-color: rgb(214, 205, 250);
+        border: solid 2px vars.$background-dark;
+        border-radius: 2%;
+        gap:0px;
+        margin-bottom: 15px;
+
+        .container-card-img {
+            //padding: 5px;
+            width: 55%;
+
+            img {
+                object-fit: cover;
+                max-width: 85%;
+                height: auto;
+            }
+        }
+        .container-card-text{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            width: 40%;
+            margin-left: 0px;
+            
+
+            .table{
+                border-color: black;
+            }
+            .add-remove{
+                display: flex;
+                justify-content: center;
+                font-family: vars.$font-Alice;
+                padding: 0px;
+                
+                
+                button{
+                    border: 1px solid vars.$background-dark;
+                    height:40px;
+                    width: 30px;
+                //border-radius: 100%;
+                font-size: 1.5rem;
+                    background-color: transparent;
+                }
+                .disable{
+                    background-color: vars.$background-dark;
+                    cursor:default;
+                }
+                .anable{
+                    &:hover{
+                        background-color: vars.$background-light;
+                    }
+                }
+                
+            }
+        }
+    }
+    #Total{
+        margin-top: 15px;
+        text-align: center;
+    }
+}
+    
+
+
+    // 🔹 MEDIA QUERY per schermi piccoli (tablet e mobile)
+    @media (max-width: 400px) {
+        .container-cart {
+            flex-direction: column; // elementi in colonna
+            gap: 10px;
+
+            .container-card-img,
+            .container-card-text {
+                width: 100%; // occupano tutta la larghezza
+            }
+
+            .container-card-img img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 400px) {
+        .container-cart {
+            flex-direction: column; // elementi in colonna
+            gap: 10px;
+
+            .container-card-img,
+            .container-card-text {
+                width: 100%; // occupano tutta la larghezza
+            }
+
+            .container-card-img img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    @media (min-width: 800px) {
+        #cartHTML{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap:15px;
+            .container-cart {
+        max-width: 45%;
+    }
+        }
+    #Total{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+            justify-content: center;
+            gap:15px;
+    }
+        
+}

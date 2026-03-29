@@ -1,5 +1,5 @@
 //dom functions
-import type { RegisterForm} from "./interfaces"; //add type bacause type it isn't in js is typescript
+import type { RegisterForm } from "./interfaces"; //add type bacause type it isn't in js is typescript
 import { reservedUsers } from "./interfaces";
 import { insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
@@ -34,7 +34,7 @@ export function changeTextContent(elementId: string, text: string) {
 
 }
 
-
+/*
 //function pop-up
 export function showPopUp(title: string, message: string) {
     const existingPopUp = document.getElementById("custom-popup");
@@ -52,10 +52,48 @@ export function showPopUp(title: string, message: string) {
     closeButton?.addEventListener("click", () => {
         cleanSection("PopUpHtml");
     });
+}*/
+
+
+export function showPopUp(title: string, message: string) {
+    const existingPopUp = document.getElementById("custom-popup");
+
+    if (existingPopUp) {
+        cleanSection("PopUpHtml");
+    }
+
+    insertTemplate("PopUpHtml", "popUp");
+    changeTextContent("popUpTitle", title);
+    changeTextContent("popUpMessage", message);
+
+    addCloseButton("custom-popup")
 }
 
 
-export function showPopUpSelection(title: string, message: string, checkright:string, checkleft:string ) {
+
+
+//close Button function 
+
+export function addCloseButton (containerId:string){
+    const container = document.getElementById(containerId);
+    if(!container)return
+
+
+    //class="btn-close" id="closeButton" aria-label="Close" type="button
+    const closeBtn = document.createElement("button");
+    //closeBtn.innerText = "✖";
+    closeBtn.classList.add("btn-close");
+    closeBtn.type = "button"
+
+    closeBtn.addEventListener("click", () => {
+        container.remove(); // elimina tutto il parent
+    });
+    container.style.position = "relative"; 
+    container.appendChild(closeBtn)
+}
+
+
+export function showPopUpSelection(title: string, message: string, checkright: string, checkleft: string) {
     const existingPopUp = document.getElementById("custom-popup");
 
     if (existingPopUp) {
@@ -71,9 +109,10 @@ export function showPopUpSelection(title: string, message: string, checkright:st
 
     const closeButton = document.getElementById("closeButton");
 
-    closeButton?.addEventListener("click", () => {
+    /*closeButton?.addEventListener("click", () => {
         cleanSection("PopUpHtml");
-    });
+    });*/
+    addCloseButton("PopUpHtml")
 }
 
 
@@ -97,14 +136,15 @@ function saveNewUser(newUser: RegisterForm) {
     const email = newUser.email.trim().toLowerCase();
 
     const existingUserJson = userJson.find(u => u.email.toLowerCase() === email);
-    
+
     const existingUser = users.find(u => u.email.toLowerCase() === email);
+    console.log("Nuovo users:",users)
 
     if (existingUserJson || existingUser) {
         showPopUp("Errore", "Questa email è già registrata, vai nel log in");
         setTimeout(() => {
-        window.location.href = "logIn.html";
-    }, 3000); 
+            window.location.href = "logIn.html";
+        }, 3000);
         return false;
     }
 
@@ -112,8 +152,8 @@ function saveNewUser(newUser: RegisterForm) {
 
     userJson.push(newUser);
     localStorage.setItem("users", JSON.stringify(userJson));
-    const allUsers :RegisterForm[] = [...users, ...userJson]
-    console.log("TUTTI GLI USERS :",allUsers)
+    const allUsers: RegisterForm[] = [...users, ...userJson]
+    console.log("TUTTI GLI USERS :", allUsers)
 
     return true;
 }
@@ -208,13 +248,13 @@ export function checkPassword(user: RegisterForm) {
         // Prendi gli utenti registrati
         const usersJson = localStorage.getItem("users");
         const users: RegisterForm[] = usersJson ? JSON.parse(usersJson) : [];
-    
+
 
         // Trova l’utente da aggiornare
         const existingPassword = users.find(u => u.password === user.password)
-        if(existingPassword){
+        if (existingPassword) {
             showPopUp("Errore", "Password non valida, riprova");
-        return false;
+            return false;
         }
         const index = users.findIndex(u => u.email === user.email);
         if (index !== -1) {
@@ -222,20 +262,22 @@ export function checkPassword(user: RegisterForm) {
         }
 
         let idUser = generateId();
-        if(idUser){
-            user.id = idUser 
+        if (idUser) {
+            user.id = idUser
         }
 
         // Salva di nuovo l’array
         localStorage.setItem("users", JSON.stringify(users));
 
         showPopUp("Inserito", "La password è stata registrata")
-        const closeButton = document.getElementById("closeButton");
+        window.location.href = "logIn.html"
+        /*const closeButton = document.getElementById("closeButton");
         closeButton?.addEventListener("click", () => {
             // quando chiudi il popup torni alla pagina principale
             window.location.href = "logIn.html"
         }, { once: true }); // 'once: true' assicura che il listener si esegue solo una volta
-    }
+    */
+        }
 }
 
 
@@ -267,7 +309,7 @@ export function checkRegistration() {
 
     if (isValid) {
         const newUser: RegisterForm = {
-            
+
             name: (document.getElementById("name") as HTMLInputElement).value,
             surname: (document.getElementById("surname") as HTMLInputElement).value,
             email: (document.getElementById("email") as HTMLInputElement).value,
@@ -312,23 +354,32 @@ export function checkRegistration() {
 
 //START LOG IN 
 //get the date about user 
-
+/*
 function getRegisteredUsers(): RegisterForm[] {
-    const usersJson : RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
     const allUsers = [...usersJson, ...users]
+    return allUsers;
+}*/
+
+
+
+export function getRegisteredUsers(): RegisterForm[] {
+    const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const allUsers = [...usersJson, ...users]
+
     return allUsers;
 }
 
 //check if it is user or admin autentification
-export function submitLogIn(){
+export function submitLogIn() {
     const loginForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
 
     loginForm?.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        if(isAdminLogin){
+        if (isAdminLogin) {
             checkReservedLogin(); // admin
-        }else{
+        } else {
             checkUserLogin(); // normale
         }
     });
@@ -350,40 +401,53 @@ function checkReservedLogin() {
         return;
     }
 
-    showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
 
-    const closeButton = document.getElementById("closeButton");
-    closeButton?.addEventListener("click", () => {
-    sessionStorage.setItem("adminLogged", "true");
+
+    showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
     window.location.href = "admin.html";
-}, { once: true });
+
+    /*const closeButton = document.getElementById("closeButton");
+    closeButton?.addEventListener("click", () => {
+        sessionStorage.setItem("adminLogged", "true");
+        window.location.href = "admin.html";
+
+    }, { once: true });*/
 }
 
 
 //autentification Users
-export function checkUserLogin() {
+export function checkUserLogin(): string | undefined {
 
     const emailInput = document.getElementById("logInEmail") as HTMLInputElement;
     const passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
-    
+
 
     const users = getRegisteredUsers();
     const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
     if (!registeredUser) {
         showPopUp("Errore", "Nessun utente registrato");
-        return;
+        return "";
     }
+
+    const userId = registeredUser.id
+    if(!userId) return ""
+    // 🔹 SALVO l'ID dell'utente in sessionStorage----------------------------------------------------------------------------------------------
+    sessionStorage.setItem("userId", userId.toString());
+
+    console.log("userId salvato:", userId);
+    
+    
+
 
     // accesso ok
     showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
     const closeButton = document.getElementById("closeButton");
-    closeButton?.addEventListener("click", () => {
-        // Vai alla pagina principale o home dopo login
-        window.location.href = "index.html";
-    }, { once: true });
-    // qui puoi fare redirect, ad esempio:
-    // window.location.href = "home.html";
+    
+    window.location.href = "index.html";
+
+    return userId.toString();
+    
 }
 
 
@@ -391,7 +455,7 @@ export function checkUserLogin() {
 
 
 
-export function showUsers(){
+export function showUsers() {
     const usersJson = localStorage.getItem("users");
     console.log(usersJson)
 
@@ -405,7 +469,7 @@ export function cleanOldUsers() {
     const users: RegisterForm[] = JSON.parse(usersJson);
 
     // filtra solo gli utenti che hanno una password definita
-    const filteredUsers = users.filter(user => user.password ==="126k");
+    const filteredUsers = users.filter(user => user.password === "126k");
 
     // salva di nuovo
     localStorage.setItem("users", JSON.stringify(filteredUsers));

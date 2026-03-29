@@ -14,6 +14,7 @@ export interface BaseProduct {
     variants: Variant[];
 }
 export interface RegisterForm {
+    id?: string;
     name: string;
     surname: string;
     email: string;
@@ -24,6 +25,35 @@ export interface RegisterFormReservate {
     email: string;
     password: string;
 }
+export interface CartItem {
+    productId: string;
+    size: Variant["size"];
+    color: Variant["color"];
+    quantity: number;
+}
 export declare const reservedUsers: RegisterFormReservate[];
 export declare const users: RegisterForm[];
+export declare class Cliente {
+    id: string;
+    name: string;
+    surname: string;
+    email: string;
+    preferPayment: string;
+    private cart;
+    constructor(data: RegisterForm);
+    addToCart(item: CartItem, products: BaseProduct[]): void;
+    removeFromCart(productId: string): void;
+    getCart(): CartItem[];
+    checkout(): void;
+    getDetailedCart(products: BaseProduct[]): ({
+        description: string;
+        price: number;
+        image: string;
+        productId: string;
+        size: Variant["size"];
+        color: Variant["color"];
+        quantity: number;
+    } | null)[];
+    loadCart(cartItems: CartItem[]): void;
+}
 //# sourceMappingURL=interfaces.d.ts.map

@@ -145,13 +145,15 @@ body {
         margin: 2px;
         font-size: 15px;
 
-        &[data-state="disable"] {
+
+        &[data-state = "unavailable"] {
             background-color: vars.$background-dark;
         }
 
-        /*&:hover{
-            background-color: vars.$background-dark;
-        }*/
+        &[data-state = "available"] {
+            background-color: rgb(231, 227, 227);
+        }
+
     }
 
     
@@ -230,7 +232,7 @@ body {
 }
 
 //style buttons 
-#filterSave,#order {
+#filterSave,.btn.btn-primary.w-100 {
             margin-top: 15px;
             font-family: vars.$font-Tan;
             background-color: vars.$background-dark;

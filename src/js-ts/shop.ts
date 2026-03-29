@@ -127,9 +127,9 @@ function getFilterFormUrl() {
 
 }
 
+/*
 
-
-function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string {
+export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string {
     let selected = check.dataset.value || ""
 
     if (check.classList.contains("anable")) {
@@ -164,6 +164,54 @@ function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElemen
     }
     return selected;
 }
+*/
+
+
+
+
+
+
+export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string | ""{
+    let selected = check.dataset.value || ""
+
+    if (check.classList.contains("anable")) {
+        check.classList.remove("anable");
+        check.classList.add("disable");
+
+        if (check instanceof HTMLInputElement) {
+            check.checked = false;
+
+        }
+        selected = "";
+        console.log("disattivato");
+    } else {
+
+        allElement.forEach(el => {
+            el.classList.remove("anable");
+            el.classList.add("disable");
+            if(el instanceof HTMLInputElement){
+                el.checked = false;
+            }
+            
+        });
+
+        if(check.dataset.state === "unavailable") return ""
+
+        check.classList.remove("disable");
+        check.classList.add("anable");
+        if ( check instanceof HTMLInputElement) {
+            check.checked = true;
+
+        }
+
+        selected = check.dataset.value || "";
+        console.log("attivato:", selected);
+    }
+    return selected;
+}
+
+
+
 
 
 function InsertTemplateShopFilter(color:string,size:string,productsBase: BaseProduct[]){

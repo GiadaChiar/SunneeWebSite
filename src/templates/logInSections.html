@@ -11,7 +11,7 @@
 <template id="popUp">
     <div class="popup-overlay" id="custom-popup">
         <div class="popup-box" role="alert">
-            <button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>
+            <!--<button class="btn-close" id="closeButton" aria-label="Close" type="button"></button>-->
             <h4 id="popUpTitle">Titolo</h4>
             <p id="popUpMessage">Messaggio</p>
         </div>
@@ -163,22 +163,51 @@
         <div class="collapse" id="sizeCollapse">
             <div class="card card-body" class="sizeCollapseSection">
                 <ul class="sizeFiltersShop">
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="xs"
-                        value="size">XS</button>
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="s"
-                        value="size">S</button>
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="m"
-                        value="size">M</button>
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="l"
-                        value="size">L</button>
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="xl"
-                        value="size">XL</button>
-                    <button class="filter-btn" data-filter-type="size" data-state="disable" data-value="2xl"
-                        value="size">2XL</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="xs" value="size">XS</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="s" value="size">S</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="m" value="size">M</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="l" value="size">L</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="xl" value="size">XL</button>
+                    <button class="filter-btn template disable" data-filter-type="size" data-state="unavailable"
+                        data-value="2xl" value="size">2XL</button>
                 </ul>
             </div>
             <div class="center">
-                <button type="submit" class="btn btn-primary w-100" id="order"> + Carrello</button>
+                <button type="button" class="btn btn-primary w-100" name="cart"> + Carrello</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<!--template cart-->
+<template id="cartTemplate">
+    <div class="container-cart">
+        <div class="container-card-img">
+            <img class="imgCart" src="../img/bikini_floreale.jpg" alt=" gir with blue bikini">
+        </div>
+        <div class="container-card-text">
+            <h2 class="description">Bikini Oceano</h2>
+            <h2 class="price">215 euro</h2>
+            <div class="table">
+                <table class="table table-bordered">
+                    <tr class=" table-secondary">
+                        <th>Taglia</th>
+                        <th>Colore</th>
+                    </tr>
+                    <td class="size">XL</td>
+                    <td class="color">Rosso</td>
+                </table>
+            </div>
+            <div class="add-remove">
+                <button class="bnt-less disable">-</button>
+                <h1 class="quantity">1</h1>
+                <button class="bnt-add anable">+</button>
             </div>
         </div>
     </div>

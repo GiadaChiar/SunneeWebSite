@@ -233,13 +233,11 @@ body #shopProductHTML #filterButton {
   margin: 2px;
   font-size: 15px;
 }
-.sizeFiltersShop .filter-btn[data-state=disable] {
+.sizeFiltersShop .filter-btn[data-state=unavailable] {
   background-color: #485d5b;
 }
-.sizeFiltersShop .filter-btn {
-  /*&:hover{
-      background-color: vars.$background-dark;
-  }*/
+.sizeFiltersShop .filter-btn[data-state=available] {
+  background-color: rgb(231, 227, 227);
 }
 
 .check-shop-color {
@@ -298,13 +296,13 @@ body #shopProductHTML #filterButton {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
 }
 
-#filterSave, #order {
+#filterSave, .btn.btn-primary.w-100 {
   margin-top: 15px;
   font-family: "Young Serif", serif;
   background-color: #485d5b;
   border-color: #FFF;
 }
-#filterSave:hover, #order:hover {
+#filterSave:hover, .btn.btn-primary.w-100:hover {
   border-color: #89acb1;
   transform: scale(1.02);
 }
