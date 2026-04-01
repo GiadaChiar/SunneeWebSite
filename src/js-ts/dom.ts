@@ -74,9 +74,9 @@ export function showPopUp(title: string, message: string) {
 
 //close Button function 
 
-export function addCloseButton (containerId:string){
+export function addCloseButton(containerId: string) {
     const container = document.getElementById(containerId);
-    if(!container)return
+    if (!container) return
 
 
     //class="btn-close" id="closeButton" aria-label="Close" type="button
@@ -88,10 +88,66 @@ export function addCloseButton (containerId:string){
     closeBtn.addEventListener("click", () => {
         container.remove(); // elimina tutto il parent
     });
-    container.style.position = "relative"; 
+    container.style.position = "relative";
     container.appendChild(closeBtn)
 }
 
+
+
+/*
+export function addCloseButton(container: string | HTMLElement) {
+    let element: HTMLElement | null;
+    
+    if (typeof container === "string") {
+        element = document.getElementById(container);
+    } else {
+        element = container;
+    }
+
+    if (!element) return;
+    //class="btn-close" id="closeButton" aria-label="Close" type="button
+    const closeBtn = document.createElement("button");
+    //closeBtn.innerText = "✖";
+    closeBtn.classList.add("btn-close");
+    closeBtn.type = "button"
+
+    closeBtn.addEventListener("click", () => {
+        element.remove(); // elimina tutto il parent
+    });
+
+    element.style.position = "relative";
+    element.appendChild(closeBtn)
+}
+*/
+
+
+/*export function addCloseButton(
+    container: string| HTMLElement ,
+    onRemove?: () => void
+) {
+    let element: HTMLElement | null;
+    
+    if (typeof container === "string") {
+        element = document.getElementById(container);
+    } else {
+        element = container;
+    }
+
+    if (!element) return;
+    //class="btn-close" id="closeButton" aria-label="Close" type="button
+    const closeBtn = document.createElement("button");
+    //closeBtn.innerText = "✖";
+    closeBtn.classList.add("btn-close");
+    closeBtn.type = "button"
+
+    closeBtn.addEventListener("click", () => {
+        element!.remove();
+    });
+
+    element.style.position = "relative";
+    element.appendChild(closeBtn)
+}
+*/
 
 export function showPopUpSelection(title: string, message: string, checkright: string, checkleft: string) {
     const existingPopUp = document.getElementById("custom-popup");
@@ -138,7 +194,7 @@ function saveNewUser(newUser: RegisterForm) {
     const existingUserJson = userJson.find(u => u.email.toLowerCase() === email);
 
     const existingUser = users.find(u => u.email.toLowerCase() === email);
-    console.log("Nuovo users:",users)
+    console.log("Nuovo users:", users)
 
     if (existingUserJson || existingUser) {
         showPopUp("Errore", "Questa email è già registrata, vai nel log in");
@@ -209,20 +265,20 @@ function ValidationPassword(): boolean {
     const confirm = confirmInput.value.trim();
 
     if (password.length < 8) {
-        showPopUp("Attenzione!", "La password deve essere di almeno 8 caratteri")
+        //showPopUp("Attenzione!", "La password deve essere di almeno 8 caratteri")
         return false;
     }
 
     // almeno una lettera e un numero
     const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
     if (!regex.test(password)) {
-        showPopUp("Attenzione!", "La password deve contenere almeno una lettera e un numero")
+        //showPopUp("Attenzione!", "La password deve contenere almeno una lettera e un numero")
         return false;
     }
 
     // conferma password
     if (password !== confirm) {
-        showPopUp("Errore!", "La password deve contenere almeno una lettera ed un carattere speciale, lunghezza minima, 8 caratteri.")
+        //showPopUp("Errore!", "La password deve contenere almeno una lettera ed un carattere speciale, lunghezza minima, 8 caratteri.")
         return false;
     }
 
@@ -239,7 +295,7 @@ export function checkPassword(user: RegisterForm) {
     const isValid = ValidationPassword();
 
     if (!isValid) {
-        showPopUp("Errore", "Le password errate e/o non corrispondono")
+        showPopUp("Errore", "La password deve contenere almeno una lettera ed un carattere speciale, lunghezza minima, 8 caratteri.")
         return;
     }
     if (isValid) {
@@ -277,7 +333,7 @@ export function checkPassword(user: RegisterForm) {
             window.location.href = "logIn.html"
         }, { once: true }); // 'once: true' assicura che il listener si esegue solo una volta
     */
-        }
+    }
 }
 
 
@@ -308,35 +364,44 @@ export function checkRegistration() {
     }
 
     if (isValid) {
-        const newUser: RegisterForm = {
+        const idGenerated = generateId();
+        if (idGenerated) {
+            const newUser: RegisterForm = {
 
-            name: (document.getElementById("name") as HTMLInputElement).value,
-            surname: (document.getElementById("surname") as HTMLInputElement).value,
-            email: (document.getElementById("email") as HTMLInputElement).value,
-            preferPayment: (document.getElementById("preferPayment") as HTMLSelectElement).value
-        }
+                name: (document.getElementById("name") as HTMLInputElement).value,
+                surname: (document.getElementById("surname") as HTMLInputElement).value,
+                email: (document.getElementById("email") as HTMLInputElement).value,
+                preferPayment: (document.getElementById("preferPayment") as HTMLSelectElement).value,
+                //add id 
+                id: idGenerated
 
-        const saved = saveNewUser(newUser);
+            }
+            const saved = saveNewUser(newUser);
 
-        if (!saved) {
+            if (!saved) {
+                if (submitButton) submitButton.disabled = false;
+                return; // email già esistente, fermiamo qui
+            }
+
+            //if it is valid
             if (submitButton) submitButton.disabled = false;
-            return; // email già esistente, fermiamo qui
+            // salvo in localStorage
+            /*localStorage.setItem("user", JSON.stringify(newUser))
+            console.log("Utente salvato:", newUser)*/
+
+
+            insertTemplate("loginHTML", "newPasswordTemplate");
+            //block submit page 
+            const passwordForm = document.getElementById("passwordForm") as HTMLFormElement | null;
+            passwordForm?.addEventListener("submit", (e) => {
+                e.preventDefault();  // blocca il reload automatico
+                if (newUser) checkPassword(newUser);
+            });
         }
 
-        //if it is valid
-        if (submitButton) submitButton.disabled = false;
-        // salvo in localStorage
-        /*localStorage.setItem("user", JSON.stringify(newUser))
-        console.log("Utente salvato:", newUser)*/
 
 
-        insertTemplate("loginHTML", "newPasswordTemplate");
-        //block submit page 
-        const passwordForm = document.getElementById("passwordForm") as HTMLFormElement | null;
-        passwordForm?.addEventListener("submit", (e) => {
-            e.preventDefault();  // blocca il reload automatico
-            if (newUser) checkPassword(newUser);
-        });
+
 
     }
 
@@ -426,28 +491,28 @@ export function checkUserLogin(): string | undefined {
     const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
     if (!registeredUser) {
-        showPopUp("Errore", "Nessun utente registrato");
+        showPopUp("Errore", "Password o utente errati");
         return "";
     }
 
     const userId = registeredUser.id
-    if(!userId) return ""
+    if (!userId) return ""
     // 🔹 SALVO l'ID dell'utente in sessionStorage----------------------------------------------------------------------------------------------
     sessionStorage.setItem("userId", userId.toString());
 
     console.log("userId salvato:", userId);
-    
-    
+
+
 
 
     // accesso ok
     showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
     const closeButton = document.getElementById("closeButton");
-    
+
     window.location.href = "index.html";
 
     return userId.toString();
-    
+
 }
 
 

@@ -69,9 +69,6 @@ export function insertTemplate(sectionId: string, templateId: string) {
 
 
 
-
-
-
 export function insertProductClone(product: BaseProduct) {
 
 
@@ -125,6 +122,19 @@ export function insertProductClone(product: BaseProduct) {
             console.log(input.value)
             if (index === 0) {
                 input.checked = true;
+                let colorFirstElement = color
+                console.log("COLORE ELEMENTO 0: ", colorFirstElement)
+                //return colorFirstElement
+                const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+
+
+                sizeButtons.forEach(button => {
+                    const sizeValue = button.dataset.value;
+                    const available = product.variants.some(
+                        v => v.size === sizeValue && v.color === colorFirstElement
+                    );
+                    button.dataset.state = available ? "available" : "unavailable";
+                });
             }
         });
 
@@ -132,20 +142,14 @@ export function insertProductClone(product: BaseProduct) {
 
     //aggiorno le taglie di default 
     // Aggiorna lo stato dei pulsanti taglie
-    const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
-    sizeButtons.forEach(button => {
-        const sizeValue = button.dataset.value;
-        const available = product.variants.some(
-            v => v.size === sizeValue
-        );
-        button.dataset.state = available ? "enable" : "disable";
-    });
+
 
 
     // Appendi il clone alla sezione
     section.appendChild(clone);
 
 }
+
 
 
 
@@ -278,27 +282,29 @@ export function setupColorSelection(products: BaseProduct[]) {
                 console.log("Cliente creato:", cliente);
 
                 if (savedCart) {
-                const cartItems: CartItem[] = JSON.parse(savedCart);
-                cliente.loadCart(cartItems); // carico eventuali elementi già presenti
-            
-            } //create my new client 
-            
+                    const cartItems: CartItem[] = JSON.parse(savedCart);
+                    cliente.loadCart(cartItems); // carico eventuali elementi già presenti
 
-            if (cliente) {
+                } //create my new client 
 
-                cliente.addToCart({
-                    productId: button.id,
-                    size: sizeElement as Variant["size"],
-                    color: colorElement as Variant["color"],
-                    quantity: 1
-                }, products);
-                //save info 
-                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-                window.location.href = "cart.html";
+
+                if (cliente && loggedUserId) {
+
+                    cliente.addToCart({
+                        userId: loggedUserId,
+                        productId: button.id,
+                        size: sizeElement as Variant["size"],
+                        color: colorElement as Variant["color"],
+                        quantity: 1
+                    }, products,loggedUserId!);
+                    //save info 
+                    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+                    console.log("IL cliente salvato è:", cliente)
+                    window.location.href = "cart.html";
+                }
+
             }
-
         }
-    }
 
     });
 }
@@ -410,6 +416,10 @@ export function insertProductCloneFilter(product: BaseProduct) {
 /// carrello :
 
 
+//
+
+
+
 
 
 
@@ -419,6 +429,7 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
 
     const section = document.getElementById("cartHTML");
     const template = templates["cartTemplate"];
+
 
     if (!section || !template) {
         console.error("Section or template not found");
@@ -433,20 +444,29 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
 
         //const desc = cartItems.description
 
-        const clone = template.content.cloneNode(true) as HTMLElement;
+        //const clone = template.content.cloneNode(true) as HTMLElement;
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const element = clone.firstElementChild as HTMLElement;
 
-        (clone.querySelector(".description") as HTMLElement).textContent = item.description;
-        (clone.querySelector(".price") as HTMLElement).textContent = `${item.price} €`;
-        (clone.querySelector(".size") as HTMLElement).textContent = traslate.size[item.size];
-        (clone.querySelector(".color") as HTMLElement).textContent = traslate.color[item.color];
-        (clone.querySelector(".imgCart") as HTMLImageElement).src = `../img/${item.image}`;
-        
+        (element.querySelector(".description") as HTMLElement).textContent = item.description;
+        (element.querySelector(".price") as HTMLElement).textContent = `${item.price} €`;
+        (element.querySelector(".size") as HTMLElement).textContent = traslate.size[item.size];
+        (element.querySelector(".color") as HTMLElement).textContent = traslate.color[item.color];
+        (element.querySelector(".imgCart") as HTMLImageElement).src = `../img/${item.image}`;
+        element.dataset.id = item.productId;//add id product
+        element.dataset.color = item.color;
+        element.dataset.size = item.size;
+
+
         section.appendChild(clone);
 
-        addCloseButton("cartTemplate")
+
     })
 
 
 
 }
+
+
+
 

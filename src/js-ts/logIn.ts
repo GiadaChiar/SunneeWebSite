@@ -20,8 +20,8 @@ import type { RegisterForm} from "./interfaces";
 function showUsersAllUsers(){
     const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
     const all = [...users,...userJson]
-    console.log(all)
-    console.log(userJson)
+    console.log("Tutti gli users:",all)
+    console.log("Gli suser salvati nello storico: ",userJson)
 }
 
 

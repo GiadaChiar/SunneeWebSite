@@ -73,7 +73,7 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
     console.log("productsFirstFilter:", productsFirstFilter)
 
     if (productsFirstFilter.length === 0) {
-        showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
+        //showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
         return;
     }
     cleanSection("shopProductHTML"); //clean page shop

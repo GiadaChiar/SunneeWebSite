@@ -14,7 +14,7 @@ export interface BaseProduct {
     variants: Variant[];
 }
 export interface RegisterForm {
-    id?: string;
+    id: string;
     name: string;
     surname: string;
     email: string;

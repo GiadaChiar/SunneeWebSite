@@ -72,7 +72,6 @@
         <div class="mb-3">
             <label for="preferPayment" class="form-label">Metodo di pagamento</label>
             <select id="preferPayment" class="form-select" novalidate>
-                <option value="">Seleziona metodo</option>
                 <option value="card">Carta di credito</option>
                 <option value="paypal">PayPal</option>
                 <option value="bank">Bonifico</option>
@@ -188,6 +187,7 @@
 <!--template cart-->
 <template id="cartTemplate">
     <div class="container-cart">
+        <button class="btn-close" type="button" name="closeButtonCart" data-id="{{productId}}" ></button>
         <div class="container-card-img">
             <img class="imgCart" src="../img/bikini_floreale.jpg" alt=" gir with blue bikini">
         </div>
@@ -200,13 +200,13 @@
                         <th>Taglia</th>
                         <th>Colore</th>
                     </tr>
-                    <td class="size">XL</td>
-                    <td class="color">Rosso</td>
+                    <td class="size" data-size="{{size}}">XL</td>
+                    <td class="color" data-color="{{color}}">Rosso</td>
                 </table>
             </div>
             <div class="add-remove">
                 <button class="bnt-less disable">-</button>
-                <h1 class="quantity">1</h1>
+                <h1 class="quantity" data-quantityproduct="{{quantity}}">1</h1>
                 <button class="bnt-add anable">+</button>
             </div>
         </div>

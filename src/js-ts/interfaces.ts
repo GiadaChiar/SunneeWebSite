@@ -24,7 +24,7 @@ export interface BaseProduct {
 
 ///CLIENT INTERFACE 
 export interface RegisterForm {
-    id?: string
+    id: string
     name: string;
     surname: string;
     email: string;
@@ -42,6 +42,7 @@ export interface RegisterFormReservate {
 
 //interface Cart
 export interface CartItem {
+    userId: string;
     productId: string;
     size: Variant["size"];
     color: Variant["color"];
@@ -63,7 +64,7 @@ export const reservedUsers: RegisterFormReservate[] = [
 
 export const users: RegisterForm[] = [
     {
-        "id" : "jugriut",
+        "id": "jugriut",
         "name": "Giovanni",
         "surname": "Francese",
         "email": "jjovany@gmail.com",
@@ -86,7 +87,7 @@ export const users: RegisterForm[] = [
         "preferPayment": "paypal",
         "password": "Rob124@ll"
     },
-    {   
+    {
         "id": "m7rj4tz",
         "name": "Luca",
         "surname": "De Martino",
@@ -94,7 +95,7 @@ export const users: RegisterForm[] = [
         "preferPayment": "bank",
         "password": "popodim1@"
     },
-    {   
+    {
         "id": "k9xv2qa",
         "name": "Sara",
         "surname": "Virgo",
@@ -128,7 +129,7 @@ export class Cliente {
 
     // 🛒 aggiungere prodotto al carrello se vi [ un oggetto uguale aggiunge la quantit' ]
 
-    addToCart(item: CartItem, products: BaseProduct[]) {
+    addToCart(item: CartItem, products: BaseProduct[], userId: string) {
         // trova il prodotto reale
         const product = products.find(p => p.id === item.productId); //trovo il prodotto tramite id 
         if (!product) {
@@ -156,7 +157,7 @@ export class Cliente {
         const currentQuantityInCart = existingItem ? existingItem.quantity : 0;
 
         if (item.quantity + currentQuantityInCart > variant.quantity) {
-            showPopUp("Errore",`Non puoi ordinare più di ${variant.quantity} pezzi disponibili`);
+            showPopUp("Errore", `Non puoi ordinare più di ${variant.quantity} pezzi disponibili`);
             return;
         }
 
@@ -164,12 +165,12 @@ export class Cliente {
         if (existingItem) {
             existingItem.quantity += item.quantity;
         } else {
-            this.cart.push(item);
+            this.cart.push({ ...item, userId });
         }
 
         console.log("Carrello aggiornato:", this.cart);
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
-        
+
     }
 
     // ❌ rimuovere prodotto
@@ -195,10 +196,10 @@ export class Cliente {
         // svuota carrello dopo ordine
         this.cart = [];
     }
-    
+    /*
     getDetailedCart(products: BaseProduct[]) {
         return this.cart.map(item => {
-            const product = products.find(p => p.id === item.productId);
+            const product = products.find(p => p.id === item.productId );
 
             if (!product) return null;
 
@@ -209,9 +210,28 @@ export class Cliente {
                 image: product.image,
             };
         }).filter(Boolean);//rimuove i prodotti non trovati
+    }*/
+
+    getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
+        const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+
+
+        return this.cart.map(item => {
+            const product = products.find(p => p.id === item.productId && loggedIdUser === item.userId );
+        
+        
+            if (!product) return null;
+
+            return {
+                ...item,
+                description: product.description,
+                price: product.prize,
+                image: product.image,
+            };
+        }).filter(Boolean);//rimuove i prodotti non trovati
     }
-    
+
     loadCart(cartItems: CartItem[]) {
-    this.cart = cartItems;
-}
+        this.cart = cartItems;
+    }
 }

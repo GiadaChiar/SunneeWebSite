@@ -310,11 +310,14 @@ body .container-cart .container-card-text .add-remove button {
   font-size: 1.5rem;
   background-color: transparent;
 }
-body .container-cart .container-card-text .add-remove .disable {
+body .container-cart .container-card-text .add-remove .bnt-less.disable, body .container-cart .container-card-text .add-remove .bnt-add.disable {
   background-color: #485d5b;
   cursor: default;
 }
-body .container-cart .container-card-text .add-remove .anable:hover {
+body .container-cart .container-card-text .add-remove .bnt-less.anable, body .container-cart .container-card-text .add-remove .bnt-add.disable {
+  background-color: transparent;
+}
+body .container-cart .container-card-text .add-remove .bnt-less.anable:hover, body .container-cart .container-card-text .add-remove .bnt-add.disable:hover {
   background-color: #FFF;
 }
 body #Total {
