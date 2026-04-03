@@ -1,4 +1,5 @@
 import type { RegisterForm } from "./interfaces";
+import { Cliente } from './interfaces';
 export declare let isAdminLogin: boolean;
 export declare function setAdminLogin(value: boolean): void;
 export declare function cleanSection(sectionId: string): void;
@@ -14,4 +15,5 @@ export declare function submitLogIn(): void;
 export declare function checkUserLogin(): string | undefined;
 export declare function showUsers(): void;
 export declare function cleanOldUsers(): void;
+export declare function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>): void;
 //# sourceMappingURL=dom.d.ts.map

@@ -173,9 +173,16 @@ export class Cliente {
 
     }
 
-    // ❌ rimuovere prodotto
+    /*// ❌ rimuovere prodotto
     removeFromCart(productId: string) {
         this.cart = this.cart.filter(p => p.productId !== productId);
+    }*/
+
+    removeFromCart(productId: string, color?: string, size?: string) {
+        this.cart = this.cart.filter(p =>
+            !(p.productId === productId && (!color || p.color === color) && (!size || p.size === size))
+        );
+        sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
     // 📦 vedere carrello contenuto
@@ -212,10 +219,11 @@ export class Cliente {
         }).filter(Boolean);//rimuove i prodotti non trovati
     }*/
 
-    getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
+    /*getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
         const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
 
-
+        console.log("logged user passato a getDetailcart: ",loggedIdUser)
+        console.log("")
         return this.cart.map(item => {
             const product = products.find(p => p.id === item.productId && loggedIdUser === item.userId );
         
@@ -229,6 +237,47 @@ export class Cliente {
                 image: product.image,
             };
         }).filter(Boolean);//rimuove i prodotti non trovati
+    }
+*/
+
+
+
+    getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
+        const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+        const allUsers = [...users, ...usersJson]
+
+        console.log("logged user passato a getDetailcart: ", loggedIdUser)
+        console.log("")
+        return this.cart.map(item => {
+            const product = products.find(p => p.id === item.productId);
+
+            const user = allUsers.find(u => loggedIdUser === u.id)
+
+            //check if already existed a cart 
+
+
+
+            if (!product || !user) return null;
+
+            return {
+                ...item,
+                description: product.description,
+                price: product.prize,
+                image: product.image,
+            };
+        }).filter(Boolean);//rimuove i prodotti non trovati
+    }
+
+    updateCartItem(productId: string, color: string, size: string, quantity: number) {
+        const item = this.cart.find(p => p.productId === productId && p.color === color && p.size === size);
+        if (!item) {
+            console.warn("Prodotto non trovato nel carrello");
+            return;
+        }
+
+        item.quantity = quantity;
+        console.log("Carrello aggiornato:", this.cart);
+        sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
     loadCart(cartItems: CartItem[]) {

@@ -26,6 +26,7 @@ export interface RegisterFormReservate {
     password: string;
 }
 export interface CartItem {
+    userId: string;
     productId: string;
     size: Variant["size"];
     color: Variant["color"];
@@ -41,19 +42,21 @@ export declare class Cliente {
     preferPayment: string;
     private cart;
     constructor(data: RegisterForm);
-    addToCart(item: CartItem, products: BaseProduct[]): void;
-    removeFromCart(productId: string): void;
+    addToCart(item: CartItem, products: BaseProduct[], userId: string): void;
+    removeFromCart(productId: string, color?: string, size?: string): void;
     getCart(): CartItem[];
     checkout(): void;
-    getDetailedCart(products: BaseProduct[]): ({
+    getDetailedCart(products: BaseProduct[], loggedIdUser: string): ({
         description: string;
         price: number;
         image: string;
+        userId: string;
         productId: string;
         size: Variant["size"];
         color: Variant["color"];
         quantity: number;
     } | null)[];
+    updateCartItem(productId: string, color: string, size: string, quantity: number): void;
     loadCart(cartItems: CartItem[]): void;
 }
 //# sourceMappingURL=interfaces.d.ts.map

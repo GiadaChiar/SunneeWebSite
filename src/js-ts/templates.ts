@@ -1,10 +1,11 @@
 //templates functions
 
-import { checkRegistration, showPopUp, cleanSection, getRegisteredUsers, changeTextContent, addCloseButton } from './dom';
+import { checkRegistration, showPopUp, cleanSection, getRegisteredUsers, changeTextContent, addCloseButton, setSUmTotCart} from './dom';
 import type { Variant, BaseProduct, RegisterForm, CartItem } from "./interfaces";
 import { checkedFilterShop } from "./shop";
 import { Cliente } from './interfaces';
-import { traslate } from './utils'
+import { traslate } from './utils';
+import { cartSetNumberProduct } from './events'
 
 
 //loader templates to save them in memory
@@ -422,8 +423,8 @@ export function insertProductCloneFilter(product: BaseProduct) {
 
 
 
-
-export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCart']>) {
+/*
+export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCart']>, idUser:string) {
     console.log("Dettagliiiiii carrello:", cartItems);
     //<h2 class="description">Bikini Oceano</h2>
 
@@ -439,7 +440,12 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
     console.log("trovatooo")
     //section.innerHTML = "";
 
-    cartItems.forEach(item => {
+    
+
+    const userProducts = cartItems.filter(p => p && p.userId === idUser)
+    if(!userProducts) return
+
+    userProducts.forEach(item => {
         if (!item) return;
 
         //const desc = cartItems.description
@@ -459,9 +465,82 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
 
 
         section.appendChild(clone);
-
-
     })
+
+    cartSetNumberProduct(idUser,userProducts);
+
+        //mettilo poi nella funzione sopra 
+    //default
+    setSUmTotCart(userProducts)
+
+
+
+}
+
+*/
+
+
+
+
+
+
+
+export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCart']>, idUser:string) {
+    console.log("Dettagliiiiii carrello:", cartItems);
+    //<h2 class="description">Bikini Oceano</h2>
+
+    const section = document.getElementById("cartHTML");
+    const template = templates["cartTemplate"];
+
+
+    if (!section || !template) {
+        console.error("Section or template not found");
+        return;
+    }
+
+    console.log("trovatooo")
+    //section.innerHTML = "";
+
+    
+
+    const userProducts = cartItems.filter(p => p && p.userId === idUser)
+    if(!userProducts) return
+
+    userProducts.forEach(item => {
+        if (!item) return;
+
+        //const desc = cartItems.description
+
+        //const clone = template.content.cloneNode(true) as HTMLElement;
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const element = clone.firstElementChild as HTMLElement;
+
+        (element.querySelector(".description") as HTMLElement).textContent = item.description;
+        (element.querySelector(".price") as HTMLElement).textContent = `${item.price} €`;
+        (element.querySelector(".size") as HTMLElement).textContent = traslate.size[item.size];
+        (element.querySelector(".color") as HTMLElement).textContent = traslate.color[item.color];
+        (element.querySelector(".imgCart") as HTMLImageElement).src = `../img/${item.image}`;
+        (element.querySelector(".quantity")as HTMLElement).textContent = item.quantity.toString();
+        element.dataset.id = item.productId;//add id product
+        element.dataset.color = item.color;
+        element.dataset.size = item.size;
+        
+
+        //se è 1 metti diasble a -
+        const buttonLess= element.querySelector(".bnt-less") as HTMLButtonElement;
+        if(item.quantity > 1){
+            buttonLess.classList.remove("disable");
+            buttonLess.classList.add("anable");
+        }
+
+        section.appendChild(clone);
+    })
+
+    cartSetNumberProduct(idUser,userProducts);
+
+        //mettilo poi nella funzione sopra 
+    //default
+    setSUmTotCart(userProducts)
 
 
 

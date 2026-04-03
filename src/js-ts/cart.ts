@@ -14,7 +14,7 @@ import { changeTextContent } from './dom';
 import { loadTemplates, changeCartTemplate } from "./templates";
 import { Cliente, } from './interfaces';
 import { ProductsDefault } from './initProducts';
-import { cartSetNumberProduct } from './events';
+import { cartSetNumberProduct,clickToOrderCart } from './events';
 
 
 
@@ -128,11 +128,13 @@ function getAllCartInfo() {
 
 
         
-        const detailedCart = cliente.getDetailedCart(allProducts,loggedUserId);
+        const detailedCart = cliente.getDetailedCart(allProducts,  loggedUserId);
         console.log("Carrello dettagliato:", detailedCart);
 
-        changeCartTemplate(detailedCart);
+        changeCartTemplate(detailedCart, loggedUserId);
 
+        
+        /*
         const allPrices = detailedCart.map(item => item?.price ?? 0) //if it is null -->0 
         .filter(price => price != null);//remuve null
         console.log("TUTTI I PREZZI", allPrices) 
@@ -141,7 +143,7 @@ function getAllCartInfo() {
         let result= totalPrice.toFixed(2); //2 number after , ex 2.22
         console.log("Totale carrello:", result);
         changeTextContent("sommaTot",`${result} €`);
-
+*/
         
     }
 }
@@ -169,7 +171,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     setUpMenu();
     fetchForm();
     getAllCartInfo();
-    cartSetNumberProduct();
+    //clickToOrderCart();
+    //cartSetNumberProduct();
+    clickToOrderCart("buyButton")
 
 
 });

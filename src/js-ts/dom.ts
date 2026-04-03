@@ -1,10 +1,11 @@
 //dom functions
-import type { RegisterForm } from "./interfaces"; //add type bacause type it isn't in js is typescript
+import type { CartItem, RegisterForm } from "./interfaces"; //add type bacause type it isn't in js is typescript
 import { reservedUsers } from "./interfaces";
 import { insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
 import { users } from "./interfaces";
 import { generateId } from "./utils";
+import { Cliente, } from './interfaces';
 export let isAdminLogin = false;
 
 export function setAdminLogin(value: boolean) {
@@ -94,60 +95,7 @@ export function addCloseButton(containerId: string) {
 
 
 
-/*
-export function addCloseButton(container: string | HTMLElement) {
-    let element: HTMLElement | null;
-    
-    if (typeof container === "string") {
-        element = document.getElementById(container);
-    } else {
-        element = container;
-    }
 
-    if (!element) return;
-    //class="btn-close" id="closeButton" aria-label="Close" type="button
-    const closeBtn = document.createElement("button");
-    //closeBtn.innerText = "✖";
-    closeBtn.classList.add("btn-close");
-    closeBtn.type = "button"
-
-    closeBtn.addEventListener("click", () => {
-        element.remove(); // elimina tutto il parent
-    });
-
-    element.style.position = "relative";
-    element.appendChild(closeBtn)
-}
-*/
-
-
-/*export function addCloseButton(
-    container: string| HTMLElement ,
-    onRemove?: () => void
-) {
-    let element: HTMLElement | null;
-    
-    if (typeof container === "string") {
-        element = document.getElementById(container);
-    } else {
-        element = container;
-    }
-
-    if (!element) return;
-    //class="btn-close" id="closeButton" aria-label="Close" type="button
-    const closeBtn = document.createElement("button");
-    //closeBtn.innerText = "✖";
-    closeBtn.classList.add("btn-close");
-    closeBtn.type = "button"
-
-    closeBtn.addEventListener("click", () => {
-        element!.remove();
-    });
-
-    element.style.position = "relative";
-    element.appendChild(closeBtn)
-}
-*/
 
 export function showPopUpSelection(title: string, message: string, checkright: string, checkleft: string) {
     const existingPopUp = document.getElementById("custom-popup");
@@ -436,9 +384,11 @@ export function getRegisteredUsers(): RegisterForm[] {
 }
 
 //check if it is user or admin autentification
-export function submitLogIn() {
+export function submitLogIn( ) {
     const loginForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
-
+   /* let emailInput = document.getElementById("logInEmail") as HTMLInputElement;
+    let passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
+*/
     loginForm?.addEventListener("submit", (e) => {
         e.preventDefault();
 
@@ -447,15 +397,19 @@ export function submitLogIn() {
         } else {
             checkUserLogin(); // normale
         }
-    });
+    }), { once: true }
 }
 
 
-//autentification Admin
-function checkReservedLogin() {
 
-    const emailInput = document.getElementById("logInEmail") as HTMLInputElement;
-    const passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
+
+/*
+
+function checkReservedLogin( emailInput: HTMLInputElement,
+    passwordInput: HTMLInputElement) {
+
+    if(!emailInput || !passwordInput) return
+
 
     const user = reservedUsers.find(
         u => u.email === emailInput.value && u.password === passwordInput.value
@@ -470,13 +424,75 @@ function checkReservedLogin() {
 
     showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
     window.location.href = "admin.html";
+}
 
-    /*const closeButton = document.getElementById("closeButton");
-    closeButton?.addEventListener("click", () => {
-        sessionStorage.setItem("adminLogged", "true");
-        window.location.href = "admin.html";
 
-    }, { once: true });*/
+//autentification Users
+export function checkUserLogin(emailInput: HTMLInputElement,
+    passwordInput: HTMLInputElement): string | undefined {
+
+   
+
+
+    const users = getRegisteredUsers();
+    const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
+
+    if (!registeredUser) {
+        showPopUp("Errore", "Password o utente errati");
+        return "";
+    }
+
+    const userId = registeredUser.id
+    if (!userId) return ""
+    // 🔹 SALVO l'ID dell'utente in sessionStorage----------------------------------------------------------------------------------------------
+    sessionStorage.setItem("userId", userId.toString());
+
+    console.log("userId salvato:", userId);
+
+
+
+
+    // accesso ok
+    showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
+    const closeButton = document.getElementById("closeButton");
+
+    window.location.href = "index.html";
+
+    return userId.toString();
+
+}
+
+*/
+
+
+
+
+
+
+
+//autentification Admin
+function checkReservedLogin() {
+
+    let emailInput = document.getElementById("logInEmail") as HTMLInputElement;
+    let passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
+
+    const user = reservedUsers.find(
+        u => u.email === emailInput.value && u.password === passwordInput.value
+    );
+
+    if (!user) {
+        showPopUp("Errore", "Accesso non autorizzato");
+        return;
+    }
+
+
+
+    showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
+    window.location.href = "admin.html";
+    emailInput.textContent = "";
+    passwordInput.textContent = "";
+
+   
 }
 
 
@@ -553,10 +569,56 @@ export function cleanOldUsers() {
 
 
 
+//Change text sum template cart
+
+
+/*
+export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>){
+
+    const allPrices = products.map(item => item?.price ?? 0) //if it is null -->0 
+        .filter(price => price != null);//remuve null
+        console.log("TUTTI I PREZZI", allPrices) 
+
+        const totalPrice = allPrices.reduce((sum, price) => sum + price, 0);
+        let result= totalPrice.toFixed(2); //2 number after , ex 2.22
+        console.log("Totale carrello:", result);
+        changeTextContent("sommaTot",`${result} €`);
+}
+*/
+
+
+/*
+
+export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) {
+
+    //por each products price and quantity
+    const productInfo = products.map(p => ({
+        price: p?.price ?? 0,
+        quantity: p?.quantity ?? 0,
+        total: (p?.price ?? 0) * (p?.quantity ?? 0)
+    }));
+
+    const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
+    console.log("La somma totale è :", totalCart)
+    let result= totalCart.toFixed(2); 
+    changeTextContent("sommaTot",`${result} €`);
+}
+*/
 
 
 
 
+export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) {
 
+    //por each products price and quantity
+    const productInfo = products.map(p => ({
+        price: p?.price ?? 0,
+        quantity: p?.quantity ?? 0,
+        total: (p?.price ?? 0) * (p?.quantity ?? 0)
+    }));
 
-
+    const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
+    console.log("La somma totale è :", totalCart)
+    let result= totalCart.toFixed(2); 
+    changeTextContent("sommaTot",`${result} €`);
+}
