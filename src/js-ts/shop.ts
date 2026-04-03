@@ -60,7 +60,7 @@ function insertProducts() {
 
 
 
-
+/*
 
 function insertShopTemplateFilters(type: string | null, gender: string | null) {
     //if filter is false don't use it 
@@ -69,13 +69,17 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
     const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
 
     console.log(type, gender)
-    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender);
-    console.log("productsFirstFilter:", productsFirstFilter)
+    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender );
+    
+    
+
 
     if (productsFirstFilter.length === 0) {
         //showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
         return;
     }
+
+    
     cleanSection("shopProductHTML"); //clean page shop
 
 
@@ -95,9 +99,60 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
 
 }
 
+*/
 
 
 
+
+
+
+function insertShopTemplateFilters(type: string | null, gender: string | null) {
+    //if filter is false don't use it 
+    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+
+    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+
+    console.log(type, gender)
+    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender )
+    .map(product => { const availableVariants = product.variants.filter(v => v.state === "available");
+        return{
+
+        ...product,
+            variants: availableVariants
+        };
+    })
+    .filter(product => product.variants.length > 0)
+    
+    
+    /*const available = product.productsFirstFilter(
+            v => v.size === sizeValue
+        );
+    console.log("productsFirstFilter:", productsFirstFilter)*/
+
+    if (productsFirstFilter.length === 0) {
+        //showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
+        return;
+    }
+
+    
+    cleanSection("shopProductHTML"); //clean page shop
+
+
+    productsFirstFilter.forEach(product => {
+
+        insertProductClone(product);
+
+
+
+    })
+    setupColorSelection(productsFirstFilter);
+
+    getfiltersPageShop(productsFirstFilter)
+
+
+    //insert products  
+
+}
 
 
 

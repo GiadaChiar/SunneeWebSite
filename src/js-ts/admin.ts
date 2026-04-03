@@ -3,7 +3,7 @@ import '../style/admin.scss';
 import '../style/poUp.scss';
 import { changeTextContent, showPopUp, showPopUpSelection, cleanSection } from './dom';
 //console.log("TEMPLATES:", templates);
-import { loadTemplates,insertTemplate } from "./templates";
+import { loadTemplates, insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
 import type { Variant, BaseProduct } from "./interfaces";
 import { generateId } from "./utils"
@@ -107,7 +107,7 @@ function createTable(products: BaseProduct[]) {
         console.log(product.id)
     })
 
-    console.log("prodotti:",products)
+    console.log("prodotti:", products)
     console.log(JSON.stringify(products, null, 2));
 
 }
@@ -160,7 +160,7 @@ function genderMenu(valueDropdown: string) {
     if (valueDropdown === "cap") {
         disableDropdown("dropdownButtonGender", true);
         changeTextContent("dropdownButtonGender", "unisex");
-        selectedGender ="unisex";
+        selectedGender = "unisex";
         return selectedGender;
     }
 
@@ -193,7 +193,7 @@ function initTypeDropdown() {
                 changeTextContent("dropdownButtonType", nameUnderMenu);
                 genderMenu(valueUnderMenu)
                 document.getElementById("dropdownButtonType")
-    ?.setAttribute("data-value", valueUnderMenu);
+                    ?.setAttribute("data-value", valueUnderMenu);
                 selectedType = valueUnderMenu
                 return selectedType;
             }
@@ -202,7 +202,7 @@ function initTypeDropdown() {
 
                 changeTextContent("dropdownButtonType", nameDropdown)
                 document.getElementById("dropdownButtonType")
-    ?.setAttribute("data-value", valueDropdown);
+                    ?.setAttribute("data-value", valueDropdown);
                 selectedType = valueDropdown;
                 return selectedType;
                 //handleSelectedValueType(valueDropdown, nameDropdown)
@@ -226,28 +226,28 @@ function initDropdown(dropdownId: string, buttonId: string) {
 
         // Aggiorna testo bottone
         changeTextContent(buttonId, name);
-        
-        
+
+
         // Se è il tipo, gestisci il gender
         if (dropdownId === "typeDropdown") {
             genderMenu(value);
         }
         if (dropdownId === "sizeDropdown") {
-                    selectedSize = value
-                    return selectedSize
-                }
-                if (dropdownId === "colorDropdown") {
-                    selectedColor = value
-                    return selectedColor
-                }
-                if (dropdownId === "stateDropdown") {
-                    selectedState = value
-                    return selectedState
-                }
-                if (dropdownId === "genderDropdown") {
-                    selectedGender = value
-                    return selectedGender
-                }
+            selectedSize = value
+            return selectedSize
+        }
+        if (dropdownId === "colorDropdown") {
+            selectedColor = value
+            return selectedColor
+        }
+        if (dropdownId === "stateDropdown") {
+            selectedState = value
+            return selectedState
+        }
+        if (dropdownId === "genderDropdown") {
+            selectedGender = value
+            return selectedGender
+        }
     });
 }
 
@@ -405,7 +405,7 @@ function getInsertOptions() {
         //selectedType = getDropdownValue("dropdownButtonType");
         //selectedSize = getDropdownValue("dropdownButtonSize");
         //selectedColor = getDropdownValue("dropdownButtonColor");
-       // selectedGender = getDropdownValue("dropdownButtonGender");
+        // selectedGender = getDropdownValue("dropdownButtonGender");
 
         selectedDescription = checkDescriptionInput();
         selectedQuantity = checkInputQuantity();
@@ -418,17 +418,17 @@ function getInsertOptions() {
 
         const isValid =
             selectedType !== null &&
-    selectedSize !== null &&
-    selectedColor !== null &&
-    selectedGender !== null &&
-    selectedImage !== null &&
-    selectedDescription !== null &&
-    selectedPrize !== null &&
-    selectedQuantity !== null;
+            selectedSize !== null &&
+            selectedColor !== null &&
+            selectedGender !== null &&
+            selectedImage !== null &&
+            selectedDescription !== null &&
+            selectedPrize !== null &&
+            selectedQuantity !== null;
         if (isValid) {
-                if (!selectedState) {
-                    selectedState = selectedQuantity > 0 ? "available" : "unavailable";
-                }
+            if (!selectedState) {
+                selectedState = selectedQuantity > 0 ? "available" : "unavailable";
+            }
             selectedId = generateId()
             insertProduct()
             console.log("CAMPI INSERITIII")
@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadTemplates();
     //cleanProducts();
-   // setUpMenu();
+    // setUpMenu();
     //getTypeandDataFilterMenu();
     disableDropdown("dropdownButtonGender", true);
 
@@ -542,7 +542,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     searchProducts();
     searchIdProduct();
     deleteProduct();
-   
+
 });
 
 

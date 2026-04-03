@@ -338,6 +338,7 @@ export function insertProductCloneFilter(product: BaseProduct) {
 
     // Clona il template
     const clone = template.content.cloneNode(true) as HTMLElement;
+    
 
     // Aggiorna i dati del prodotto
     (clone.querySelector(".decriptionShop") as HTMLElement).textContent = product.description;

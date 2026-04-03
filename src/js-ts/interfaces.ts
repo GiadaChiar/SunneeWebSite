@@ -185,6 +185,13 @@ export class Cliente {
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
+    cleanFromCart(UserId: string){
+        this.cart = this.cart.filter(p=>
+            p.userId !== UserId
+        );
+        sessionStorage.setItem("cart", JSON.stringify(this.cart));
+    }
+
     // 📦 vedere carrello contenuto
     getCart() {
         return this.cart;

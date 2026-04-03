@@ -234,6 +234,10 @@ export function cartSetNumberProduct(userLogId: string, productsCart: ReturnType
             } else {
                 productcart.quantity = textQuantity;
                 console.log("prodotto carrello modificato qunatità ora è: ", productcart.quantity);
+                cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, textQuantity);
+
+                // salva di nuovo
+                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()))
 
                 setSUmTotCart(productsCart);
             }
@@ -551,31 +555,31 @@ export function cartSetNumberProduct(userLogId: string, productsCart: ReturnType
                 lessButton.classList.remove("anable")
                 lessButton.classList.add("disable");
             }*/
-           /*
-        }
+/*
+}
 
 
 
-        //if I click delete btn 
-        if (deleteButton) {
-            if (!clone) return;
-            console.log("DELETE BUTTON cliccato!");
-            const productId = clone.dataset.id;
-            console.log("INIZIOOOO  CARRELLO", savedCart)
-            if (productId) {
-                console.log(productId, productColor, productSize)
-                cliente.removeFromCart(productId, productColor, productSize)
-                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-                const updatedDetailedCart = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
+//if I click delete btn 
+if (deleteButton) {
+ if (!clone) return;
+ console.log("DELETE BUTTON cliccato!");
+ const productId = clone.dataset.id;
+ console.log("INIZIOOOO  CARRELLO", savedCart)
+ if (productId) {
+     console.log(productId, productColor, productSize)
+     cliente.removeFromCart(productId, productColor, productSize)
+     sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+     const updatedDetailedCart = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
 
-                // poi aggiorna il DOM
-                setSUmTotCart(updatedDetailedCart);
-                clone.remove();
-            }
+     // poi aggiorna il DOM
+     setSUmTotCart(updatedDetailedCart);
+     clone.remove();
+ }
 
-            return
-        }
-    })
+ return
+}
+})
 
 }
 
@@ -597,15 +601,119 @@ function uploadQunatityAterOrder() {
 }
 
 
-export function clickToOrderCart(sectionId: string) {
+export async function clickToOrderCart(sectionId: string) {
     const orderButton = document.getElementById("buyButton") as HTMLButtonElement;
-    orderButton.addEventListener("click", () => {
+    orderButton.addEventListener("click", async () => {
         console.log("cliccatooojnijbugfbi")
-        showPopUpSelection("Attenzione", "Gradisci procedere con l'acquisto?", "SI", "NO")
-        showPopUp("Conferma", "L'aquisto è andata a buon termine")
+        showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
+        const choice = await handleCheckBoxtPoPUp();
+        if (choice === "no") return
+
+
+
+        const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+
+        const loggedUserId = sessionStorage.getItem("userId");
+
+        const users = getRegisteredUsers();
+
+        const userData = users.find(u => u.id === loggedUserId);
+        if (!userData) return;
+
+        const cliente = new Cliente(userData);
+
+        cliente.loadCart(savedCarts.filter(c => c.userId === loggedUserId))
+        console.log("USER LOGGATO IN QUESTO MOMENTO: ", loggedUserId)
+
+        const myCart = savedCarts.filter(item => item.userId === loggedUserId)
+        console.log("TROVATOOO", myCart)
+
+
+        //all products
+        const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+
+        const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+
+        const produsctInfo = myCart.map(p => ({
+            id: p?.productId,
+            color: p?.color,
+            size: p?.size,
+            quantityOrder: p?.quantity,
+
+
+        }))
+
+        console.log(produsctInfo)
+
+
+
+        produsctInfo.forEach(item => {
+            const product = allProducts.find(p => p.id === item.id);
+
+            if (!product) {
+                console.warn("Prodotto non trovato:", item.id);
+                return;
+            }
+
+            const variant = product.variants.find(v =>
+                v.color === item.color && v.size === item.size
+            );
+
+            if (!variant) {
+                console.warn("Variante non trovata:", item);
+                return;
+            }
+
+
+            console.log("PRIMA:", variant.quantity); 
+
+            if(variant.quantity < item.quantityOrder){
+                showPopUp("ERRORE","La quantità disponibile è minore di quella richiesta")
+            }
+
+    
+            variant.quantity -= item.quantityOrder;
+
+            
+
+            console.log("DOPO:", variant.quantity);
+            if(variant.quantity === 0){
+                variant.state = "unavailable";
+            }
+
+            //save 
+            localStorage.setItem("products", JSON.stringify(products));
+
+
+            //clean cart
+            if(loggedUserId)
+            cliente.cleanFromCart(loggedUserId)
+
+        });
+
+
+
+        /*export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) {
+        
+            //por each products price and quantity
+            const productInfo = products.map(p => ({
+                price: p?.price ?? 0,
+                quantity: p?.quantity ?? 0,
+                total: (p?.price ?? 0) * (p?.quantity ?? 0)
+            }));
+        
+            const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
+            console.log("La somma totale è :", totalCart)
+            let result= totalCart.toFixed(2); 
+            changeTextContent("sommaTot",`${result} €`);
+        }
+        */
+
+
         cleanSection("cartHTML"); //clean template 
         cleanSection("Total");
-        uploadQunatityAterOrder()
+        showPopUp("Conferma", "Pagamento effettuato con successo")
+        //uploadQuantityAfterOrder()
 
     })
 }
