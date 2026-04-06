@@ -9,7 +9,7 @@ import { fetchForm } from './form'
 document.addEventListener("DOMContentLoaded", ()=>{
     setUpMenu();
     fetchForm();
-    getTypeandDataFilterMenu();
+    //getTypeandDataFilterMenu();
 
 });
 

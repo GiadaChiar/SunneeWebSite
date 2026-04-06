@@ -44,6 +44,7 @@ export declare class Cliente {
     constructor(data: RegisterForm);
     addToCart(item: CartItem, products: BaseProduct[], userId: string): void;
     removeFromCart(productId: string, color?: string, size?: string): void;
+    cleanFromCart(UserId: string): void;
     getCart(): CartItem[];
     checkout(): void;
     getDetailedCart(products: BaseProduct[], loggedIdUser: string): ({

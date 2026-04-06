@@ -1,8 +1,11 @@
 import type { RegisterForm } from "./interfaces";
-import { Cliente } from './interfaces';
-export declare let isAdminLogin: boolean;
-export declare function setAdminLogin(value: boolean): void;
+import { Cliente } from "./interfaces";
+import type { BaseProduct } from "./interfaces";
+export declare function getRegisteredUsers(): RegisterForm[];
+export declare function showUsersAllUsers(): void;
 export declare function cleanSection(sectionId: string): void;
+export declare function showUsers(): void;
+export declare function cleanOldUsers(): void;
 export declare function changeTextContent(elementId: string, text: string): void;
 export declare function showPopUp(title: string, message: string): void;
 export declare function addCloseButton(containerId: string): void;
@@ -10,10 +13,18 @@ export declare function showPopUpSelection(title: string, message: string, check
 export declare function ValidationNewUser(): boolean;
 export declare function checkPassword(user: RegisterForm): false | undefined;
 export declare function checkRegistration(): void;
-export declare function getRegisteredUsers(): RegisterForm[];
-export declare function submitLogIn(): void;
+export declare function checkReservedLogin(): void;
 export declare function checkUserLogin(): string | undefined;
-export declare function showUsers(): void;
-export declare function cleanOldUsers(): void;
+export declare function disableDropdown(dropdownId: string, bool: boolean): void;
+export declare function showHidden(subMenuId: string): void;
+export declare function genderMenu(valueDropdown: string): string | null;
+export declare function checkInputQuantity(): number | null;
+export declare function checkPrizeInput(): number | null;
+export declare function checkDescriptionInput(): string | null;
+export declare function checkInputImage(): string | null;
+export declare function insertProduct(): Promise<void>;
+export declare function createTable(products: BaseProduct[]): void;
+export declare function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>): string | "";
+export declare function checkColorCardShop(products: BaseProduct[], target: HTMLInputElement, clone: HTMLElement): string | "";
 export declare function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>): void;
 //# sourceMappingURL=dom.d.ts.map

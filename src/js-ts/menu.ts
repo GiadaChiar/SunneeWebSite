@@ -12,6 +12,7 @@ function fetchMenu() {
             if (!divMenu) {
                 //throw new Error(" Menu Element not found");
                 console.log(" Menu Element not found");
+                return;
             }
             divMenu.innerHTML = html;
             return divMenu;
@@ -20,34 +21,55 @@ function fetchMenu() {
 
 
 
+/*
+function fetchMenu() {
+    return fetch("menu.html")
+        .then(res => res.text()) //then response in text form
+        .then(html => {
+            const divMenu = document.getElementById("menu");
+            if (!divMenu) {
+                //throw new Error(" Menu Element not found");
+                console.log(" Menu Element not found");
+                return;
+            } else {
+                divMenu.innerHTML = html;
+                return divMenu;
+            }
+
+        })
+}
+*/
+
+
+
 
 // Update hash links to point to index.html if on another page
 function changeLinkNavigation(divMenu: HTMLElement) {
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
     //const currentPage = window.location.pathname.split("/").pop();
-        if (!divMenu) {
-            throw new Error("Element not founded");
-        }
-        const links = divMenu.querySelectorAll("a[data-page]")
-        links.forEach(link => {
-            const hrefLink = link.getAttribute("data-page");
-            if (hrefLink !== "universal") {
-                if (hrefLink == currentPage){
-                    if(link.classList.contains("active")){
-                        link.classList.replace("active","disabled")
-                        /* link.addEventListener("click", (event: Event) => {
-                        //event.preventDefault();  // impedisce la navigazione
-                        });*/
-                    }
+    if (!divMenu) {
+        throw new Error("Element not founded");
+    }
+    const links = divMenu.querySelectorAll("a[data-page]")
+    links.forEach(link => {
+        const hrefLink = link.getAttribute("data-page");
+        if (hrefLink !== "universal") {
+            if (hrefLink == currentPage) {
+                if (link.classList.contains("active")) {
+                    link.classList.replace("active", "disabled")
+                    /* link.addEventListener("click", (event: Event) => {
+                    //event.preventDefault();  // impedisce la navigazione
+                    });*/
                 }
-                else {
-                    link.classList.replace("disabled","active")
-                    // Rimuovi il listener che bloccava il click
-                    const handler = (event: Event) => event.preventDefault();
-                    link.removeEventListener("click", handler);
-                                    }
             }
-        })
+            else {
+                link.classList.replace("disabled", "active")
+                // Rimuovi il listener che bloccava il click
+                const handler = (event: Event) => event.preventDefault();
+                link.removeEventListener("click", handler);
+            }
+        }
+    })
 
     return currentPage;
 }
@@ -77,11 +99,11 @@ function checkMenuSections() {
     swimSuitBtn.addEventListener("click", (e) => { e.preventDefault(); toggleSwimSuit(); });
     accessoriesBtn.addEventListener("click", (e) => { e.preventDefault(); toggleAccessories(); });
 
-    closeClickOutside(swimSuit,swimSuitBtn,accessories,accessoriesBtn)
+    closeClickOutside(swimSuit, swimSuitBtn, accessories, accessoriesBtn)
 
 }
 
-function closeClickOutside(swimSuit: HTMLElement,swimSuitBtn: HTMLElement,accessories: HTMLElement,accessoriesBtn: HTMLElement){
+function closeClickOutside(swimSuit: HTMLElement, swimSuitBtn: HTMLElement, accessories: HTMLElement, accessoriesBtn: HTMLElement) {
     document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
         if (
@@ -97,16 +119,17 @@ function closeClickOutside(swimSuit: HTMLElement,swimSuitBtn: HTMLElement,access
 }
 
 // Final function to export 
-export function setUpMenu(){
+export function setUpMenu() {
     fetchMenu()
-    .then((divMenu)=>{
-        changeLinkNavigation(divMenu); // upload state link 
-        checkMenuSections();
-        getTypeandDataFilterMenu();
-    })
-    .catch(error=>{
-        throw new Error("Error upload state menu")
-    });
+        .then((divMenu) => {
+            changeLinkNavigation(divMenu as HTMLElement); // upload state link 
+            checkMenuSections();
+            getTypeandDataFilterMenu();
+        })
+        .catch(error => {
+            console.log("Error upload state menu");
+            
+        });
 }
 
 

@@ -7,159 +7,12 @@ import '../style/poUp.scss';
 
 import { setUpMenu } from './menu';
 import { fetchForm } from './form';
-import { insertProductClone, setupColorSelection } from './templates';
+import { insertProductClone } from './templates';
 import { loadTemplates } from "./templates";
-import type { Variant, BaseProduct } from "./interfaces";
+import { setupColorSelection, getfiltersPageShop } from "./events";
+import type { BaseProduct } from "./interfaces";
 import { showPopUp, cleanSection } from './dom';
 import { ProductsDefault } from './initProducts';
-//import productsJson from "./data/products.json";
-//loader templates to save them in memory
-const templates: Record<string, HTMLTemplateElement> = {};
-
-
-
-
-
-
-/*
-
-//foreach create template 
-//insertTemplate(sectionId: string, templateId: string)
-//get products
-function insertProducts() {
-    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-    if (!products || products.length === 0) {
-        showPopUp("Errore", "Caricamento della vetrina fallito");
-        return;
-    }
-
-    // Inserisci tutti i prodotti
-    products.forEach(product => {
-        insertProductClone(product);
-    });
-
-    // Imposta un solo listener globale per tutti i colori
-    setupColorSelection(products);
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-function insertShopTemplateFilters(type: string | null, gender: string | null) {
-    //if filter is false don't use it 
-    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-
-    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
-
-    console.log(type, gender)
-    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender );
-    
-    
-
-
-    if (productsFirstFilter.length === 0) {
-        //showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
-        return;
-    }
-
-    
-    cleanSection("shopProductHTML"); //clean page shop
-
-
-    productsFirstFilter.forEach(product => {
-
-        insertProductClone(product);
-
-
-
-    })
-    setupColorSelection(productsFirstFilter);
-
-    getfiltersPageShop(productsFirstFilter)
-
-
-    //insert products  
-
-}
-
-*/
-
-
-
-
-
-
-function insertShopTemplateFilters(type: string | null, gender: string | null) {
-    //if filter is false don't use it 
-    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-
-    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
-
-    console.log(type, gender)
-    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender )
-    .map(product => { const availableVariants = product.variants.filter(v => v.state === "available");
-        return{
-
-        ...product,
-            variants: availableVariants
-        };
-    })
-    .filter(product => product.variants.length > 0)
-    
-    
-    /*const available = product.productsFirstFilter(
-            v => v.size === sizeValue
-        );
-    console.log("productsFirstFilter:", productsFirstFilter)*/
-
-    if (productsFirstFilter.length === 0) {
-        //showPopUp("Errore", "Nessun prodotto trovato cambiare i parametri di ricerca");
-        return;
-    }
-
-    
-    cleanSection("shopProductHTML"); //clean page shop
-
-
-    productsFirstFilter.forEach(product => {
-
-        insertProductClone(product);
-
-
-
-    })
-    setupColorSelection(productsFirstFilter);
-
-    getfiltersPageShop(productsFirstFilter)
-
-
-    //insert products  
-
-}
-
-
-
-
-
-
-
 
 
 
@@ -179,171 +32,51 @@ function getFilterFormUrl() {
     insertShopTemplateFilters(type, gender)
 
     return { type, gender };
-
 }
 
-/*
 
-export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string {
-    let selected = check.dataset.value || ""
 
-    if (check.classList.contains("anable")) {
-        check.classList.remove("anable");
-        check.classList.add("disable");
 
-        if (check instanceof HTMLInputElement) {
-            check.checked = false;
 
-        }
-        selected = "";
-        console.log("disattivato");
-    } else {
 
-        allElement.forEach(el => {
-            el.classList.remove("anable");
-            el.classList.add("disable");
-            if(el instanceof HTMLInputElement){
-                el.checked = false;
-            }
-            
-        });
-        check.classList.remove("disable");
-        check.classList.add("anable");
-        if ( check instanceof HTMLInputElement) {
-            check.checked = true;
 
-        }
 
-        selected = check.dataset.value || "";
-        console.log("attivato:", selected);
+
+function insertShopTemplateFilters(type: string | null, gender: string | null) {
+    //if filter is false don't use it 
+    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+
+    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+
+    console.log(type, gender)
+    const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender)
+        .map(product => {
+            const availableVariants = product.variants.filter(v => v.state === "available");
+            return {
+
+                ...product,
+                variants: availableVariants
+            };
+        })
+        .filter(product => product.variants.length > 0)
+
+    if (productsFirstFilter.length === 0) {
+        return;
     }
-    return selected;
-}
-*/
+
+    cleanSection("shopProductHTML"); //clean page shop
 
 
+    productsFirstFilter.forEach(product => {
 
+        insertProductClone(product);
 
-
-
-export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string | ""{
-    let selected = check.dataset.value || ""
-
-    if (check.classList.contains("anable")) {
-        check.classList.remove("anable");
-        check.classList.add("disable");
-
-        if (check instanceof HTMLInputElement) {
-            check.checked = false;
-
-        }
-        selected = "";
-        console.log("disattivato");
-    } else {
-
-        allElement.forEach(el => {
-            el.classList.remove("anable");
-            el.classList.add("disable");
-            if(el instanceof HTMLInputElement){
-                el.checked = false;
-            }
-            
-        });
-
-        if(check.dataset.state === "unavailable") return ""
-
-        check.classList.remove("disable");
-        check.classList.add("anable");
-        if ( check instanceof HTMLInputElement) {
-            check.checked = true;
-
-        }
-
-        selected = check.dataset.value || "";
-        console.log("attivato:", selected);
-    }
-    return selected;
-}
-
-
-
-
-
-function InsertTemplateShopFilter(color:string,size:string,productsBase: BaseProduct[]){
-    if (!color && !size) {
-                productsBase.forEach(product => {
-                    insertProductClone(product);
-                });
-                return;
-            }
-            const filtered = productsBase.filter(p => {
-                let colorMatch = true;
-                let sizeMatch = true;
-
-                if (color) {
-                    colorMatch = p.variants.some(v => v.color === color);
-                }
-                if (size) {
-                    sizeMatch = p.variants.some(v => v.size === size);
-                }
-                return colorMatch && sizeMatch;
-            });
-
-            cleanSection("shopProductHTML");
-            if (filtered.length === 0) {
-                showPopUp("Errore", "Nessun prodotto trovato, cambiare i filtri della ricarca")
-                return
-            }
-            filtered.forEach(product => {
-                insertProductClone(product);
-            });
-        }
-    
-
-
-
-
-
-
-
-
-
-
-function getfiltersPageShop(productsBase: BaseProduct[]) {
-    const form = document.getElementById("filter");
-    let selectedColorFilter = "";
-    let selectedSizeFilter = "";
-
-    form?.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-
-        if ((target as HTMLInputElement).type === "radio" && (target as HTMLInputElement).name === "color") {
-            const clickedRadio = target as HTMLInputElement;
-            const allRadios = document.querySelectorAll<HTMLInputElement>('input[name="color"]')
-            
-            selectedColorFilter = checkedFilterShop(clickedRadio, allRadios)
-            console.log("FINE FUNZIONE COLORE TROVATO:",selectedColorFilter)
-        }
-
-        if ((target as HTMLButtonElement).name === "size") {
-            event.preventDefault();
-            const clickedButton = target as HTMLButtonElement;
-            const allSizeButtons = document.querySelectorAll<HTMLButtonElement>('button[name="size"]');
-
-            selectedSizeFilter = checkedFilterShop(clickedButton, allSizeButtons)
-            console.log("FINE FUNZIONE Taglia TROVATO:",selectedSizeFilter)
-        }
-
-        if ((target as HTMLButtonElement).type === "submit" && (target as HTMLButtonElement).name === "searchFilters") {
-            event.preventDefault();
-
-            console.log("COLORE FITRO PAGINA:",selectedColorFilter);
-            console.log("Taglia FITRO PAGINA:",selectedSizeFilter);
-
-
-            InsertTemplateShopFilter(selectedColorFilter,selectedSizeFilter,productsBase);
-        }
     })
+    setupColorSelection(productsFirstFilter);
+
+    getfiltersPageShop(productsFirstFilter)
+    //insert products  
+
 }
 
 
@@ -353,10 +86,53 @@ function getfiltersPageShop(productsBase: BaseProduct[]) {
 
 
 
+export function InsertTemplateShopFilter(color: string, size: string, productsBase: BaseProduct[]) {
+    cleanSection("shopProductHTML");
+    cleanSection("shopProductHTML");
+    
+    if (!color && !size) {
+        productsBase.forEach(product => {
+            insertProductClone(product);
+        });
+        return;
+    }
+
+    const filtered = productsBase
+        .map(p => {
+            // exists product
+            const exists = p.variants.some(v =>
+
+            (color ?  v.color === color : true)&&
+                (size ? (v.size === size && v.state === "available"): true)
+            );
+
+    if (!exists) {
+        return null;
+    }
+
+    let variants = p.variants;
+
+    if (color) {
+        variants = variants.filter(v => v.color === color);
+    }
+
+    return {
+        ...p,
+        variants
+    };
+})
+        .filter(p => p !== null);
 
 
+if (filtered.length === 0) {
+    showPopUp("Errore", "Nessun prodotto trovato, cambiare i filtri della ricerca");
+    return;
+}
+filtered.forEach(product => {
+    insertProductClone(product);
+});
 
-
+}
 
 
 
@@ -366,8 +142,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadTemplates();
     setUpMenu();
     fetchForm();
-
-
     getFilterFormUrl();
 
 

@@ -3,14 +3,34 @@ import type { CartItem, RegisterForm } from "./interfaces"; //add type bacause t
 import { reservedUsers } from "./interfaces";
 import { insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
-import { users } from "./interfaces";
-import { generateId } from "./utils";
-import { Cliente, } from './interfaces';
-export let isAdminLogin = false;
+import { users, Cliente } from "./interfaces";
+import { generateId, selectedValues } from "./utils";
+import type { Variant, BaseProduct } from "./interfaces";
 
-export function setAdminLogin(value: boolean) {
-    isAdminLogin = value;
+
+
+
+
+//--------------------------------------------------STANDARD FUNCTIONs -----------------------------------------------------------------
+
+
+
+//ALL users standard and localStorage
+
+export function getRegisteredUsers(): RegisterForm[] {
+    const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const allUsers = [...usersJson, ...users]
+
+    return allUsers;
 }
+
+export function showUsersAllUsers() {
+    const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
+    const all = [...users, ...userJson]
+    console.log("Tutti gli users:", all)
+    console.log("Gli suser salvati nello storico: ", userJson)
+}
+
 
 //clean element to HTML pages
 export function cleanSection(sectionId: string) {
@@ -25,6 +45,25 @@ export function cleanSection(sectionId: string) {
 }
 
 
+export function showUsers() {
+    const usersJson = localStorage.getItem("users");
+    console.log(usersJson)
+
+}
+
+
+export function cleanOldUsers() {
+    const usersJson = localStorage.getItem("users");
+    if (!usersJson) return; // niente da pulire
+
+    const users: RegisterForm[] = JSON.parse(usersJson);
+    const filteredUsers = users.filter(user => user.password === "126k");//it is impossible clean all 
+    localStorage.setItem("users", JSON.stringify(filteredUsers));
+
+    console.log("Utenti rimasti dopo la pulizia:", filteredUsers);
+}
+
+
 //Function change text content
 
 export function changeTextContent(elementId: string, text: string) {
@@ -32,30 +71,11 @@ export function changeTextContent(elementId: string, text: string) {
     const element = document.getElementById(elementId);
     if (element)
         element.textContent = text
-
 }
 
-/*
-//function pop-up
-export function showPopUp(title: string, message: string) {
-    const existingPopUp = document.getElementById("custom-popup");
-
-    if (existingPopUp) {
-        cleanSection("PopUpHtml");
-    }
-
-    insertTemplate("PopUpHtml", "popUp");
-    changeTextContent("popUpTitle", title);
-    changeTextContent("popUpMessage", message);
-
-    const closeButton = document.getElementById("closeButton");
-
-    closeButton?.addEventListener("click", () => {
-        cleanSection("PopUpHtml");
-    });
-}*/
 
 
+//show information popUp
 export function showPopUp(title: string, message: string) {
     const existingPopUp = document.getElementById("custom-popup");
 
@@ -95,7 +115,7 @@ export function addCloseButton(containerId: string) {
 
 
 
-
+//info and quanstion multy opstions popUp
 
 export function showPopUpSelection(title: string, message: string, checkright: string, checkleft: string) {
     const existingPopUp = document.getElementById("custom-popup");
@@ -125,20 +145,17 @@ export function showPopUpSelection(title: string, message: string, checkright: s
 
 
 
+//------------------------------------------------------REGISTRATION NEW USER -------------------------------------------------
 
-//REGISTRATION NEW USER 
-//function validation input forum ecc..
 
 //save new users
-
 
 function saveNewUser(newUser: RegisterForm) {
 
     const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
 
-    // normalizzo email
+    //standard email
     const email = newUser.email.trim().toLowerCase();
-
     const existingUserJson = userJson.find(u => u.email.toLowerCase() === email);
 
     const existingUser = users.find(u => u.email.toLowerCase() === email);
@@ -152,8 +169,6 @@ function saveNewUser(newUser: RegisterForm) {
         return false;
     }
 
-
-
     userJson.push(newUser);
     localStorage.setItem("users", JSON.stringify(userJson));
     const allUsers: RegisterForm[] = [...users, ...userJson]
@@ -165,7 +180,7 @@ function saveNewUser(newUser: RegisterForm) {
 
 
 
-
+//check validation input new user
 export function ValidationNewUser(): boolean {
     const nameInput = document.getElementById("name") as HTMLInputElement;
     const surnameInput = document.getElementById("surname") as HTMLInputElement;
@@ -201,7 +216,7 @@ export function ValidationNewUser(): boolean {
 
 
 
-
+//check validation password new user
 function ValidationPassword(): boolean {
 
     const passwordInput = document.getElementById("password") as HTMLInputElement;
@@ -213,20 +228,17 @@ function ValidationPassword(): boolean {
     const confirm = confirmInput.value.trim();
 
     if (password.length < 8) {
-        //showPopUp("Attenzione!", "La password deve essere di almeno 8 caratteri")
         return false;
     }
 
-    // almeno una lettera e un numero
+    // at least a letter and a number
     const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
     if (!regex.test(password)) {
-        //showPopUp("Attenzione!", "La password deve contenere almeno una lettera e un numero")
         return false;
     }
 
-    // conferma password
+    // check passwords
     if (password !== confirm) {
-        //showPopUp("Errore!", "La password deve contenere almeno una lettera ed un carattere speciale, lunghezza minima, 8 caratteri.")
         return false;
     }
 
@@ -249,12 +261,12 @@ export function checkPassword(user: RegisterForm) {
     if (isValid) {
         user.password = (document.getElementById("password") as HTMLInputElement).value;
 
-        // Prendi gli utenti registrati
+        // get register users
         const usersJson = localStorage.getItem("users");
         const users: RegisterForm[] = usersJson ? JSON.parse(usersJson) : [];
 
 
-        // Trova l’utente da aggiornare
+        // find user to upload password
         const existingPassword = users.find(u => u.password === user.password)
         if (existingPassword) {
             showPopUp("Errore", "Password non valida, riprova");
@@ -262,7 +274,7 @@ export function checkPassword(user: RegisterForm) {
         }
         const index = users.findIndex(u => u.email === user.email);
         if (index !== -1) {
-            users[index] = user; // aggiorna l’utente con la password
+            users[index] = user;
         }
 
         let idUser = generateId();
@@ -270,26 +282,13 @@ export function checkPassword(user: RegisterForm) {
             user.id = idUser
         }
 
-        // Salva di nuovo l’array
+        // save change
         localStorage.setItem("users", JSON.stringify(users));
 
         showPopUp("Inserito", "La password è stata registrata")
         window.location.href = "logIn.html"
-        /*const closeButton = document.getElementById("closeButton");
-        closeButton?.addEventListener("click", () => {
-            // quando chiudi il popup torni alla pagina principale
-            window.location.href = "logIn.html"
-        }, { once: true }); // 'once: true' assicura che il listener si esegue solo una volta
-    */
     }
 }
-
-
-
-
-
-
-
 
 
 
@@ -328,15 +327,11 @@ export function checkRegistration() {
 
             if (!saved) {
                 if (submitButton) submitButton.disabled = false;
-                return; // email già esistente, fermiamo qui
+                return; // already existing email
             }
 
             //if it is valid
             if (submitButton) submitButton.disabled = false;
-            // salvo in localStorage
-            /*localStorage.setItem("user", JSON.stringify(newUser))
-            console.log("Utente salvato:", newUser)*/
-
 
             insertTemplate("loginHTML", "newPasswordTemplate");
             //block submit page 
@@ -346,135 +341,27 @@ export function checkRegistration() {
                 if (newUser) checkPassword(newUser);
             });
         }
-
-
-
-
-
     }
 
-
-}
-
-//END REGISTRATION NEW USER 
-
-
-
-
-
-
-
-
-//START LOG IN 
-//get the date about user 
-/*
-function getRegisteredUsers(): RegisterForm[] {
-    const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
-    const allUsers = [...usersJson, ...users]
-    return allUsers;
-}*/
-
-
-
-export function getRegisteredUsers(): RegisterForm[] {
-    const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
-    const allUsers = [...usersJson, ...users]
-
-    return allUsers;
-}
-
-//check if it is user or admin autentification
-export function submitLogIn( ) {
-    const loginForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
-   /* let emailInput = document.getElementById("logInEmail") as HTMLInputElement;
-    let passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
-*/
-    loginForm?.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        if (isAdminLogin) {
-            checkReservedLogin(); // admin
-        } else {
-            checkUserLogin(); // normale
-        }
-    }), { once: true }
 }
 
 
 
 
-/*
 
-function checkReservedLogin( emailInput: HTMLInputElement,
-    passwordInput: HTMLInputElement) {
-
-    if(!emailInput || !passwordInput) return
-
-
-    const user = reservedUsers.find(
-        u => u.email === emailInput.value && u.password === passwordInput.value
-    );
-
-    if (!user) {
-        showPopUp("Errore", "Accesso non autorizzato");
-        return;
-    }
-
-
-
-    showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
-    window.location.href = "admin.html";
-}
-
-
-//autentification Users
-export function checkUserLogin(emailInput: HTMLInputElement,
-    passwordInput: HTMLInputElement): string | undefined {
-
-   
-
-
-    const users = getRegisteredUsers();
-    const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
-
-    if (!registeredUser) {
-        showPopUp("Errore", "Password o utente errati");
-        return "";
-    }
-
-    const userId = registeredUser.id
-    if (!userId) return ""
-    // 🔹 SALVO l'ID dell'utente in sessionStorage----------------------------------------------------------------------------------------------
-    sessionStorage.setItem("userId", userId.toString());
-
-    console.log("userId salvato:", userId);
-
-
-
-
-    // accesso ok
-    showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
-    const closeButton = document.getElementById("closeButton");
-
-    window.location.href = "index.html";
-
-    return userId.toString();
-
-}
-
-*/
-
-
-
+//----------------------------------------START LOGIN USER-------------------------------------------------------
 
 
 
 
 //autentification Admin
-function checkReservedLogin() {
+export function checkReservedLogin() {
+
 
     let emailInput = document.getElementById("logInEmail") as HTMLInputElement;
     let passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
+    emailInput.textContent = "";
+    passwordInput.textContent = "";
 
     const user = reservedUsers.find(
         u => u.email === emailInput.value && u.password === passwordInput.value
@@ -485,14 +372,9 @@ function checkReservedLogin() {
         return;
     }
 
-
-
     showPopUp("Accesso consentito", "Benvenuto nell'area riservata");
     window.location.href = "admin.html";
-    emailInput.textContent = "";
-    passwordInput.textContent = "";
 
-   
 }
 
 
@@ -501,8 +383,8 @@ export function checkUserLogin(): string | undefined {
 
     const emailInput = document.getElementById("logInEmail") as HTMLInputElement;
     const passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
-
-
+    emailInput.textContent = "";
+    passwordInput.textContent = "";
     const users = getRegisteredUsers();
     const registeredUser = users.find(u => u.email === emailInput.value && u.password === passwordInput.value);
 
@@ -513,15 +395,12 @@ export function checkUserLogin(): string | undefined {
 
     const userId = registeredUser.id
     if (!userId) return ""
-    // 🔹 SALVO l'ID dell'utente in sessionStorage----------------------------------------------------------------------------------------------
+    //save user to localstorage
     sessionStorage.setItem("userId", userId.toString());
 
     console.log("userId salvato:", userId);
 
-
-
-
-    // accesso ok
+    // ok access
     showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
     const closeButton = document.getElementById("closeButton");
 
@@ -534,64 +413,346 @@ export function checkUserLogin(): string | undefined {
 
 
 
+//-------------------------------ADMIN SECTION----------------------------------------------------------
 
 
-export function showUsers() {
-    const usersJson = localStorage.getItem("users");
-    console.log(usersJson)
+//disable dropdown in the filter to add or change products
+
+export function disableDropdown(dropdownId: string, bool: boolean) {
+    const dropdownButton = document.getElementById(dropdownId) as HTMLButtonElement;
+    if (dropdownButton) {
+        dropdownButton.disabled = bool; // disable
+    }
+}
+
+
+export function showHidden(subMenuId: string) {
+    const subMenu = document.getElementById(subMenuId)
+    if (subMenu) {
+        if (subMenu.dataset.show === "none") {
+            subMenu.dataset.show = "see"
+        } else {
+            subMenu.dataset.show = "none"
+        }
+    }
 
 }
 
 
-export function cleanOldUsers() {
-    const usersJson = localStorage.getItem("users");
-    if (!usersJson) return; // niente da pulire
+//set gender in base typedropdown
 
-    const users: RegisterForm[] = JSON.parse(usersJson);
+export function genderMenu(valueDropdown: string) {
+    if (valueDropdown === "sarong") {
+        disableDropdown("dropdownButtonGender", true);
+        changeTextContent("dropdownButtonGender", "donna");
+        selectedValues.selectedGender = "woman";
+        return selectedValues.selectedGender;
+    }
+    if (valueDropdown === "cap") {
+        disableDropdown("dropdownButtonGender", true);
+        changeTextContent("dropdownButtonGender", "unisex");
+        selectedValues.selectedGender = "unisex";
+        return selectedValues.selectedGender;
+    }
+    selectedValues.selectedGender = null;
+    changeTextContent("dropdownButtonGender", "Genere");
+    disableDropdown("dropdownButtonGender", false)
+    return null
 
-    // filtra solo gli utenti che hanno una password definita
-    const filteredUsers = users.filter(user => user.password === "126k");
-
-    // salva di nuovo
-    localStorage.setItem("users", JSON.stringify(filteredUsers));
-
-    console.log("Utenti rimasti dopo la pulizia:", filteredUsers);
 }
 
 
 
-//check password and user reservate area
+//----check inmput -------------//
+export function checkInputQuantity(): number | null {
+    const quantityInput = (document.getElementById("quantityInput") as HTMLInputElement);
+    let value = quantityInput.value.trim();
+    const num = parseInt(value, 10);
 
+    if (isNaN(num) || num < 0) {
+        showPopUp("Inserimento Errato", "Inserisci come quantità un numero intero positivo");
+        quantityInput.value = "";
+        return null;
+    }
 
-
-
-
-
-
-
-//Change text sum template cart
-
-
-/*
-export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>){
-
-    const allPrices = products.map(item => item?.price ?? 0) //if it is null -->0 
-        .filter(price => price != null);//remuve null
-        console.log("TUTTI I PREZZI", allPrices) 
-
-        const totalPrice = allPrices.reduce((sum, price) => sum + price, 0);
-        let result= totalPrice.toFixed(2); //2 number after , ex 2.22
-        console.log("Totale carrello:", result);
-        changeTextContent("sommaTot",`${result} €`);
+    return num;
 }
-*/
 
 
-/*
+export function checkPrizeInput(): number | null {
+    const prizeInput = document.getElementById("prizeInput") as HTMLInputElement;
+    let value = prizeInput.value;
+    if (!value) return null;
+    console.log("prezzo:", value)
 
+    return Number(value);
+
+}
+
+export function checkDescriptionInput(): string | null {
+    const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement
+    let value = descriptionInput.value
+    if (!value) return null
+    console.log("descrizione:", value)
+    return value;
+}
+
+
+
+export function checkInputImage(): string | null {
+    const imageInput = document.getElementById("imageInput") as HTMLInputElement;
+
+    let pathImage = imageInput.value
+    let value = pathImage.replace("C:\\fakepath\\", "");
+    console.log("link:", value)
+    return value;
+}
+
+
+
+
+
+export async function insertProduct() {
+    // all product 
+    const existingProducts: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+    //search if already existing 
+    let product = existingProducts.find(p => p.type === selectedValues.selectedType && p.gender === selectedValues.selectedGender && p.image === selectedValues.selectedImage && p.description === selectedValues.selectedDescription);
+
+    const variant = {
+        size: selectedValues.selectedSize as Variant["size"],
+        color: selectedValues.selectedColor as Variant["color"],
+        quantity: selectedValues.selectedQuantity!,
+        state: selectedValues.selectedState as "available" | "unavailable"
+    };
+
+    if (product) {
+        const variantExists = product.variants.some(v => v.size === variant.size && v.color === variant.color);
+        if (product.prize !== selectedValues.selectedPrize) {
+            product.prize = selectedValues.selectedPrize!;
+            showPopUp("Aggiornamento", "Prezzo aggiornato correttamente");
+        }
+
+        if (variantExists) {
+            showPopUpSelection("Attenzione", "Prodotto già esistente, procedere con la modifica?", "SI", "NO")
+
+            const choice = await handleCheckBoxtPoPUp();
+            if (choice === "no") return
+            //if yes
+            product.variants = product.variants.map(v =>
+                v.size === variant.size && v.color === variant.color ? { ...v, quantity: variant.quantity, state: variant.state } : v
+            );
+            showPopUp("Aggiornamento", "Modifica effettuata correttamente")
+        } else {
+            //add variable
+            product.variants.push(variant);
+            showPopUp("Aggiornamento", "Modifica /Inserimeto effettuato correttamente")
+
+        }
+    } else {
+        // New product with variable
+        product = {
+            id: selectedValues.selectedId!,
+            type: selectedValues.selectedType as BaseProduct["type"],
+            gender: selectedValues.selectedGender as BaseProduct["gender"],
+            image: selectedValues.selectedImage!,
+            description: selectedValues.selectedDescription!,
+            prize: selectedValues.selectedPrize!,
+            variants: [variant]
+        };
+        existingProducts.push(product);
+        console.log("Nuovo prodotto creato:", product);
+        showPopUp("Inserimeto", "Inserimeto effettuato correttamente")
+    }
+    localStorage.setItem("products", JSON.stringify(existingProducts));
+    console.log(existingProducts)
+}
+
+
+//create table 
+export function createTable(products: BaseProduct[]) {
+    const existingTable = document.getElementById("tableTemplateShow")
+    if (existingTable) {
+        cleanSection("tableHTML")
+    }
+    insertTemplate("tableHTML", "tableTemplate");
+
+    const productsSection = document.getElementById("products-table")
+
+    if (!productsSection) return
+
+    products.forEach(product => {
+        //header products
+        const productHeader = document.createElement("tr");
+        productHeader.classList.add("table-active");
+        productHeader.innerHTML = `
+            <td>Id</td>
+            <td>Tipologia</td>
+            <td>Genere</td>
+            <td>Immagine</td>
+            <td>Prezzo</td>
+            <td>Descrizione</td>
+            
+        `;
+        productsSection.append(productHeader)
+
+        const tr = document.createElement("tr");
+        tr.classList.add("table-success");
+        tr.innerHTML += `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.type}</td>
+            <td>${product.gender}</td>
+            <td><img src="../img/${product.image}" width="50"</td>
+            <td>${product.prize}</td>
+            <td>${product.description}</td>
+        </tr>
+        `;
+        productsSection.append(tr)
+
+        //header variants
+        const variantHeader = document.createElement("tr");
+        variantHeader.classList.add("table-secondary");
+        variantHeader.innerHTML = `
+            <td>Variabili</td>
+            <td>Taglia</td>
+            <td>Colore</td>
+            <td>Quantità</td>
+            <td>Stato</td>
+            <td>-</td>
+        `;
+
+        productsSection.appendChild(variantHeader);
+
+
+
+        product.variants.forEach(variant => {
+            const variantRow = document.createElement("tr");
+            variantRow.innerHTML += `
+        <tr>
+            <td>Caratteristiche:</td>
+            <td>${variant.size}</td>
+            <td>${variant.color}</td>
+            <td>${variant.quantity}</td>
+            <td>${variant.state}</td>
+            <td>-</td>
+        </tr>
+        `;
+
+            productsSection.appendChild(variantRow);
+        });
+        console.log(product.id)
+    })
+
+    console.log("prodotti:", products)
+    console.log(JSON.stringify(products, null, 2));
+
+}
+
+//no change text 
+function getDropdownValue(buttonId: string): string | null {
+    const button = document.getElementById(buttonId);
+
+    if (!button || !button.textContent) return null;
+
+    return button.textContent.trim();
+}
+
+
+
+//----------------------------------------SHOP SECTION-----------------------------------------------------
+
+
+
+
+
+
+
+export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>):string | ""{
+    let selected = check.dataset.value || ""
+
+    if (check.classList.contains("anable")) {
+        check.classList.remove("anable");
+        check.classList.add("disable");
+
+        if (check instanceof HTMLInputElement) {
+            check.checked = false;
+
+        }
+        selected = "";
+        console.log("disattivato");
+    } else {
+
+        allElement.forEach(el => {
+            el.classList.remove("anable");
+            el.classList.add("disable");
+            if(el instanceof HTMLInputElement){
+                el.checked = false;
+            }
+            
+        });
+
+        if(check.dataset.state === "unavailable") return ""
+
+        check.classList.remove("disable");
+        check.classList.add("anable");
+        if ( check instanceof HTMLInputElement) {
+            check.checked = true;
+
+        }
+
+        selected = check.dataset.value || "";
+        console.log("attivato:", selected);
+    }
+    return selected;
+}
+
+
+
+
+
+
+
+export function checkColorCardShop(products: BaseProduct[], target: HTMLInputElement, clone: HTMLElement): string | "" {
+    if (!clone) return "";
+
+    const productId = target.name.replace("color-", "");
+
+    const product = products.find(p => p.id === productId);
+    if (!product) return "";
+
+
+    console.log("Colore selezionato:", target.value);
+    //find id product 
+
+    // Aggiorna lo stato dei pulsanti taglie
+    const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+
+    sizeButtons.forEach(button => {
+        const sizeValue = button.dataset.value;
+        const available = product.variants.some(
+            v => v.size === sizeValue && v.color === target.value
+        );
+        button.dataset.state = available ? "available" : "unavailable";
+
+    });
+    return target.value
+
+}
+
+
+
+
+
+
+
+
+//---------------------CART SECTION------------------------------------------------------
+
+
+// calc total to pay
 export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) {
 
-    //por each products price and quantity
+    //for each products price and quantity
     const productInfo = products.map(p => ({
         price: p?.price ?? 0,
         quantity: p?.quantity ?? 0,
@@ -600,25 +761,6 @@ export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) 
 
     const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
     console.log("La somma totale è :", totalCart)
-    let result= totalCart.toFixed(2); 
-    changeTextContent("sommaTot",`${result} €`);
-}
-*/
-
-
-
-
-export function setSUmTotCart(products: ReturnType<Cliente['getDetailedCart']>) {
-
-    //por each products price and quantity
-    const productInfo = products.map(p => ({
-        price: p?.price ?? 0,
-        quantity: p?.quantity ?? 0,
-        total: (p?.price ?? 0) * (p?.quantity ?? 0)
-    }));
-
-    const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
-    console.log("La somma totale è :", totalCart)
-    let result= totalCart.toFixed(2); 
-    changeTextContent("sommaTot",`${result} €`);
+    let result = totalCart.toFixed(2);
+    changeTextContent("sommaTot", `${result} €`);
 }

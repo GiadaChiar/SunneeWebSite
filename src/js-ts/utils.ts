@@ -11,6 +11,67 @@ export function generateId(): string | null {
 }
 
 
+//----------LOG IN SECTION--------------------------------------------------
+
+
+// global state page login to admin login and standard user
+let isAdminLogin = false;
+
+export function setAdminLogin(value: boolean) {
+    isAdminLogin = value;
+}
+
+export function getAdminLogin() {
+    return isAdminLogin;
+}
+
+
+//---------------ADMIN SECTION--------------------------------------------------
+/*
+export let selectedType: string | null = null;
+export let selectedSize: string | null = null;
+export let selectedColor: string | null = null;
+export let selectedGender: string | null = null;
+export let selectedState: string | null = null;
+export let selectedQuantity: number | null = null;
+export let selectedPrize: number | null = null;
+export let selectedDescription: string | null = null;
+export let selectedImage: string | null = null;
+export let selectedId: string | null = null;
+export let selectedValue: string | null = null;
+
+*/
+
+export let selectedValues = {
+    selectedType: null as string | null,
+    selectedSize: null as string | null,
+    selectedColor: null as string | null,
+    selectedGender: null as string | null,
+    selectedState: null as string | null,
+    selectedQuantity: null as number | null,
+    selectedPrize: null as number | null,
+    selectedDescription: null as string | null,
+    selectedImage: null as string | null,
+    selectedId: null as string | null,
+    selectedValue: null as string | null
+};
+
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //traslation
 // TYPES
