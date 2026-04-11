@@ -1,24 +1,16 @@
 
 //event functions
 
-import { cleanSection, changeTextContent, checkUserLogin, showPopUp, setSUmTotCart, getRegisteredUsers, showPopUpSelection, checkReservedLogin, showHidden, genderMenu,checkDescriptionInput,checkPassword,checkPrizeInput,checkInputQuantity,checkRegistration,checkInputImage,insertProduct,createTable, checkedFilterShop,checkColorCardShop } from "./dom";
-import { Cliente } from './interfaces';
-import { insertTemplate, changeCartTemplate } from './templates';
+import { cleanSection, changeTextContent, showPopUp, setSumTotCart, showPopUpSelection, showHidden, genderMenu, createTable, checkedFilterShop } from './dom';
+import { Cliente, ProductService } from './interfaces';
+import { insertTemplate } from './templates';
 import { ProductsDefault } from './initProducts';
-import { InsertTemplateShopFilter} from "./shop";
-import type { BaseProduct, Variant, CartItem } from './interfaces';
-import { setAdminLogin, getAdminLogin,selectedValues,generateId } from './utils';
-
-
-
-
-
-
-
-
-
-
-
+import { InsertTemplateShopFilter } from "./shop";
+import type { BaseProduct, Variant, CartItem} from './interfaces';
+import { setAdminLogin, getAdminLogin, generateId } from './utils';
+import { checkUserLogin,checkReservedLogin, getRegisteredUsers } from './userServices';
+import { checkDescriptionInput, checkPrizeInput, checkInputQuantity, checkInputImage } from './validation'
+import { insertProduct,checkColorCardShop } from './productService';
 
 
 
@@ -29,24 +21,20 @@ import { setAdminLogin, getAdminLogin,selectedValues,generateId } from './utils'
 
 
 
-
 export function preventSubmitLogIn() {
     const registrationForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
     registrationForm?.addEventListener("submit", (e) => {
         e.preventDefault();
         checkUserLogin();
     });
-
 }
-
-
 
 
 
 ///PopUpSelect the box listener
 export function handleCheckBoxtPoPUp(): Promise<"yes" | "no"> {
     return new Promise((resolve) => {
-        
+
         const popup = document.getElementById("custom-popup");
         if (!popup) return;
 
@@ -62,10 +50,6 @@ export function handleCheckBoxtPoPUp(): Promise<"yes" | "no"> {
         });
     })
 }
-
-
-
-
 
 
 
@@ -111,9 +95,6 @@ export function submitLogIn() {
 
 
 
-
-
-
 //check event for registration 
 export function setUpNewSection(eventId: string, sectionId: string, templateId: string) {
 
@@ -125,36 +106,18 @@ export function setUpNewSection(eventId: string, sectionId: string, templateId: 
     }
 
     linkClicked.addEventListener("click", (event) => {
-
         event.preventDefault();
-
         insertTemplate(sectionId, templateId);
-
     });
-
 }
-
-
 
 
 //--------------------------------------------------ADMIN SECTION -----------------------------------------------------------------
 
-//PROVA A METTERE UN SOLO LISTENER O A DIMINUIRNE IL NUMERO **************************************************************
-/*
-container?.addEventListener("click", (event) => {
-    const target = event.target as HTMLElement;
-    if (!target) return;
-
-    if(target.id === "submitSearch") {...}
-    if(target.id === "searchById") {...}
-    if(target.id === "deleteProduct") {...}
-})
-
-*/
 
 
 
-export function initTypeDropdown() {
+export function initTypeDropdown():void {
     const buttonType = document.getElementById("typeDropdown");
 
     buttonType?.addEventListener("click", (event) => {
@@ -168,25 +131,27 @@ export function initTypeDropdown() {
                 event.preventDefault();//still open
                 event.stopPropagation();
                 showHidden("submenuType");
+                return
             }
             if (target.closest("#submenuType")) {
                 const nameUnderMenu = target.getAttribute("name") || "";
                 let valueUnderMenu = target.getAttribute("data-value") || "";
                 changeTextContent("dropdownButtonType", nameUnderMenu);
-                genderMenu(valueUnderMenu)
+
                 document.getElementById("dropdownButtonType")
                     ?.setAttribute("data-value", valueUnderMenu);
-                selectedValues.selectedType = valueUnderMenu
-                return selectedValues.selectedType;
+                
+                genderMenu(valueUnderMenu);
+                return
             }
             if (valueDropdown !== "swimSuit" && valueDropdown !== null && nameDropdown !== null) {
-                genderMenu(valueDropdown)
 
                 changeTextContent("dropdownButtonType", nameDropdown)
                 document.getElementById("dropdownButtonType")
                     ?.setAttribute("data-value", valueDropdown);
-                selectedValues.selectedType = valueDropdown;
-                return selectedValues.selectedType;
+
+                    genderMenu(valueDropdown)
+                    return 
             }
         }
     })
@@ -194,142 +159,152 @@ export function initTypeDropdown() {
 
 
 
-//click on multy dropdown
-export function initDropdown(dropdownId: string, buttonId: string) {
-    const dropdown = document.getElementById(dropdownId);
-    dropdown?.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-        if (!target.classList.contains("dropdown-item")) return;
-
-        const name = target.getAttribute("name") || "";
-        const value = target.getAttribute("value") || "";
-
-        // change button text
-        changeTextContent(buttonId, name);
-
-
-        // in base type you have a specific gender or a selection
-        if (dropdownId === "typeDropdown") {
-            genderMenu(value);
-        }
-        if (dropdownId === "sizeDropdown") {
-            selectedValues.selectedSize = value
-            return selectedValues.selectedSize
-        }
-        if (dropdownId === "colorDropdown") {
-            selectedValues.selectedColor = value
-            return selectedValues.selectedColor
-        }
-        if (dropdownId === "stateDropdown") {
-            selectedValues.selectedState = value
-            return selectedValues.selectedState
-        }
-        if (dropdownId === "genderDropdown") {
-            selectedValues.selectedGender = value
-            return selectedValues.selectedGender
-        }
-    });
+function getTypeValue(): string | null {
+    return document
+        .getElementById("dropdownButtonType")
+        ?.getAttribute("data-value") || null;
 }
 
 
 
-
-
-
-
-
-export function getInsertOptions() {
-    const form = document.getElementById("dropdwons")
-    form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-
-        selectedValues.selectedDescription = checkDescriptionInput();
-        selectedValues.selectedQuantity = checkInputQuantity();
-
-        if (selectedValues.selectedQuantity === null) return
-
-        selectedValues.selectedPrize = checkPrizeInput();
-        selectedValues.selectedImage = checkInputImage();
-
-
-        const isValid =
-            selectedValues.selectedType !== null &&
-            selectedValues.selectedSize !== null &&
-            selectedValues.selectedColor !== null &&
-            selectedValues.selectedGender !== null &&
-            selectedValues.selectedImage !== null &&
-            selectedValues.selectedDescription !== null &&
-            selectedValues.selectedPrize !== null &&
-            selectedValues.selectedQuantity !== null;
-        if (isValid) {
-            if (!selectedValues.selectedState) {
-                selectedValues.selectedState = selectedValues.selectedQuantity > 0 ? "available" : "unavailable";
-            }
-            selectedValues.selectedId = generateId()
-            insertProduct()
-            console.log("CAMPI INSERITIII")
-            console.log("tipologia:", selectedValues.selectedType);
-            console.log("prezzo", selectedValues.selectedPrize);
-            console.log("genere:", selectedValues.selectedGender);
-            console.log("id", selectedValues.selectedId);
-            console.log("descrizione", selectedValues.selectedDescription);
-            console.log("immagine", selectedValues.selectedImage);
-            console.log("quantità:", selectedValues.selectedQuantity);
-            console.log("stato", selectedValues.selectedState);
-        } else {
-            showPopUp("Errore", "Compila tutti i campi obbligatori")
-        }
-    });
-
-}
-
-
-export function initSearchSection() {
-    const container = document.querySelector(".search-container");
-    const insertIdSearch = document.getElementById("searchIdInput") as HTMLInputElement;
-
-    container?.addEventListener("click", (event) => {
+export function initGlobalClickListener() {
+    document.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
         if (!target) return;
 
-        const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+        initGenericDropdown(target, "sizeDropdown", "dropdownButtonSize");
+        initGenericDropdown(target, "colorDropdown", "dropdownButtonColor");
+        initGenericDropdown(target, "stateDropdown", "dropdownButtonState");
+        initGenericDropdown(target, "genderDropdown", "dropdownButtonGender");
+    });
+}
 
-        // show all
+function initGenericDropdown(target: HTMLElement, dropdownId: string, buttonId: string) {
+    if (!target.classList.contains("dropdown-item")) return;
+    if (!target.closest(`#${dropdownId}`)) return;
+    
+    const name = target.getAttribute("name") || "";
+    const value = target.getAttribute("value") || "";
+
+    // change button text
+    changeTextContent(buttonId, name);
+
+    //save value in dom like type 
+    document
+        .getElementById(buttonId)
+        ?.setAttribute("data-value", value);
+
+    // in base type you have a specific gender or a selection
+    if (dropdownId === "typeDropdown") {
+        genderMenu(value);
+        return;
+    }
+    
+};
+
+
+
+function getDropdownValue(buttonId: string): string | null {
+    return document
+        .getElementById(buttonId)
+        ?.getAttribute("data-value") || null;
+}
+
+
+
+// BUILD PRODUCT
+// ----------------------
+export function buildProductFromForm(): BaseProduct | null {
+    const type = getTypeValue();
+    if (!type) return null;
+
+    genderMenu(type); 
+    const gender = getDropdownValue("dropdownButtonGender");
+
+    const size = getDropdownValue("dropdownButtonSize");
+    const color = getDropdownValue("dropdownButtonColor");
+    const state = getDropdownValue("dropdownButtonState");
+    
+    const quantity = checkInputQuantity();
+    const prize = checkPrizeInput();
+    const description = checkDescriptionInput();
+    const image = checkInputImage();
+
+    
+    if (
+        !type || !size || !color || !gender ||
+        quantity === null || prize === null || !description || !image
+    ) {
+        return null;
+    }
+
+    return {
+        id: generateId(),
+        type: type as BaseProduct["type"],
+        gender: gender as BaseProduct["gender"],
+        prize,
+        image,
+        description,
+        variants: [
+            {
+                size: size as Variant["size"],
+                color: color as Variant["color"],
+                quantity,
+                state: (state as Variant["state"]) || (quantity > 0 ? "available" : "unavailable")
+            }
+        ]
+    };
+}
+
+
+
+
+
+export function handleFormSubmit() {
+    const form = document.getElementById("submitSave");
+
+    form?.addEventListener("click", async (event) => {
+        event.preventDefault(); 
+
+        const productData = buildProductFromForm();
+        if (!productData) {
+            showPopUp("Errore", "Compila tutti i campi");
+            return;
+        }
+
+        await insertProduct(productData); // usa la logica business fuori dalla classe
+
+        console.log("Prodotto inserito o aggiornato", productData);
+    });
+}
+
+
+
+
+
+// ----------------------
+// SEARCH / DELETE
+// ----------------------
+export function initSearchSection() {
+    const container = document.querySelector(".search-container");
+    const input = document.getElementById("searchIdInput") as HTMLInputElement;
+
+    container?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+
         if (target.id === "submitSearch") {
-            createTable(products);
-            return;
+            createTable(ProductService.getAll());
         }
 
-        // search
         if (target.id === "searchById") {
-            const insertId = insertIdSearch.value.trim();
-            if (!insertId) return;
-
-            const existingProduct = products.find(p => p.id === insertId);
-            if (existingProduct) {
-                createTable([existingProduct]);
-            } else {
-                showPopUp("Errore", "Prodotto non trovato, id errato o inesistente");
-            }
-            return;
+            const product = ProductService.findById(input.value);
+            if (product) createTable([product]);
+            else showPopUp("Errore", "Prodotto non trovato");
         }
 
-        // delete
         if (target.id === "deleteProduct") {
-            const insertId = insertIdSearch.value.trim();
-            if (!insertId) return;
-
-            const updatedProducts = products.filter(p => p.id !== insertId);
-            if (updatedProducts.length === products.length) {
-                showPopUp("Errore", "Prodotto non trovato, id errato o inesistente");
-                return;
-            }
-
-            localStorage.setItem("products", JSON.stringify(updatedProducts));
-            showPopUp("Successo", "Prodotto eliminato correttamente");
-            createTable(updatedProducts);
-            return;
+            ProductService.delete(input.value);
+            createTable(ProductService.getAll());
         }
     });
 }
@@ -340,109 +315,111 @@ export function initSearchSection() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let cliente: Cliente | null = null;
 
-// global listener for shop page
 export function setupColorSelection(products: BaseProduct[]) {
     const shopSection = document.getElementById("shopProductHTML");
     if (!shopSection) return;
+
     let sizeElement = "";
 
-        shopSection.addEventListener("click", (event) => {
-            const button = (event.target as HTMLElement).closest("button") as HTMLButtonElement;
-            const target = event.target as HTMLInputElement;
-            const clone = target.closest(".container") as HTMLElement;
-            const loggedUserId = sessionStorage.getItem("userId");
-                console.log("userId trovato:", loggedUserId);
-            let selectedColor = clone.querySelector<HTMLInputElement>(
-                    'input.check-shop-color:checked'
-                )?.value || "";
-                console.log("COLORE SELEZIONATO:", selectedColor);
+    shopSection.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const button = target.closest("button") as HTMLButtonElement;
+        const clone = target.closest(".container") as HTMLElement;
+        const loggedUserId = sessionStorage.getItem("userId");
 
-            // check card color selected
-            if (target?.classList.contains("check-shop-color") && target.type === "radio") {
+        let selectedColor = getSelectedColor(target, clone, products);
+        sizeElement = handleSizeSelection(button, sizeElement);
 
-                selectedColor = checkColorCardShop(products, target, clone)
-                console.log("COLOREEEEE:", selectedColor)
-            }
+        handleAddToCart(button, clone, selectedColor, sizeElement, products, loggedUserId);
+    });
+}
 
-            //buttons size inside the cart 
-            if (button && button.classList.contains("template")) {
-                console.log("bottone size cliccato")
-                //get all buttons to change class
-                const allButtons = document.querySelectorAll<HTMLButtonElement>('button[data-filter-type="size"]')
-                sizeElement = checkedFilterShop(button, allButtons)
-                console.log("FINE FUNZIONE Taglia TROVATO:", sizeElement)
-            }
 
-            //button car inside the cart 
-            if (button && button.type === "button" && button.name === "cart") {
-                if (!clone) return;
-                console.log("CLICCATO CARELLAOO");
-                
 
-                if (loggedUserId) {
-                    console.log("ID dell'utente loggato:", loggedUserId);
-                } else {
-                    showPopUp("Attenzione", "Fai il login per procedere all'acquisto")
-                }
-                if (selectedColor === "") {
-                    showPopUp("Errore", "Seleziona il colore desiderato")
-                    return
-                }
-                if (sizeElement === "") {
-                    showPopUp("Errore", "Seleziona la taglia desiderata");
-                    return
-                }
-                const idProduct = button.id
-                console.log("Id prodotto:", idProduct)
-                console.log("Color product:", selectedColor)
-                console.log("size product:", sizeElement)
+function getSelectedColor(
+    target: HTMLElement,
+    clone: HTMLElement,
+    products: BaseProduct[]
+): string {
+    let selectedColor =
+        clone?.querySelector<HTMLInputElement>('input.check-shop-color:checked')?.value || "";
 
-                //serch my client logged 
-                const users = getRegisteredUsers();
-                const savedCart = sessionStorage.getItem("cart");//old carts
+    if (target?.classList.contains("check-shop-color") && (target as HTMLInputElement).type === "radio") {
+        selectedColor = checkColorCardShop(products, target as HTMLInputElement, clone);
+    }
 
-                const userData = users.find(u => u.id === loggedUserId);
-                if (userData) {
-                    cliente = new Cliente(userData);
-                    console.log("Cliente creato:", cliente);
+    return selectedColor;
+}
 
-                    if (savedCart) {
-                        const cartItems: CartItem[] = JSON.parse(savedCart);
-                        cliente.loadCart(cartItems); // carico eventuali elementi già presenti
-                    } //create my new client 
 
-                    if (cliente && loggedUserId) {
-                        cliente.addToCart({
-                            userId: loggedUserId,
-                            productId: button.id,
-                            size: sizeElement as Variant["size"],
-                            color: selectedColor as Variant["color"],
-                            quantity: 1
-                        }, products, loggedUserId!);
-                        //save info 
-                        sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-                        console.log("IL cliente salvato è:", cliente)
-                        window.location.href = "cart.html";
-                    }
-                }
-            }
-        });
+function handleSizeSelection(
+    button: HTMLButtonElement | null,
+    currentSize: string
+): string {
+    if (button && button.classList.contains("template")) {
+        const allButtons = document.querySelectorAll<HTMLButtonElement>(
+            'button[data-filter-type="size"]'
+        );
+
+        return checkedFilterShop(button, allButtons);
+    }
+
+    return currentSize;
+}
+
+
+
+function handleAddToCart(
+    button: HTMLButtonElement | null,
+    clone: HTMLElement,
+    selectedColor: string,
+    sizeElement: string,
+    products: BaseProduct[],
+    loggedUserId: string | null
+) {
+    if (!button || button.type !== "button" || button.name !== "cart") return;
+    if (!clone) return;
+
+    if (!loggedUserId) {
+        showPopUp("Attenzione", "Fai il login per procedere all'acquisto");
+        return;
+    }
+
+    if (selectedColor === "") {
+        showPopUp("Errore", "Seleziona il colore desiderato");
+        return;
+    }
+
+    if (sizeElement === "") {
+        showPopUp("Errore", "Seleziona la taglia desiderata");
+        return;
+    }
+
+    const users = getRegisteredUsers();
+    const savedCart = sessionStorage.getItem("cart");
+    const userData = users.find(u => u.id === loggedUserId);
+
+    if (!userData) return;
+
+    const cliente = new Cliente(userData);
+
+    if (savedCart) {
+        const cartItems: CartItem[] = JSON.parse(savedCart);
+        cliente.loadCart(cartItems);
+    }
+
+    cliente.addToCart({
+        userId: loggedUserId,
+        productId: button.id,
+        size: sizeElement as Variant["size"],
+        color: selectedColor as Variant["color"],
+        quantity: 1
+    }, products, loggedUserId);
+
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+    window.location.href = "cart.html";
 }
 
 
@@ -490,175 +467,214 @@ export function getfiltersPageShop(productsBase: BaseProduct[]) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //----------------------CART SECTION ---------------------------------------------------
 
 
 
+export function cartSetNumberProduct(
+    userLogId: string,
+    productsCart: ReturnType<Cliente['getDetailedCart']>
+) {
+    const sectionCart = document.getElementById("cartSection");
+    if (!sectionCart) return;
 
+    sectionCart.addEventListener("click", (event) => {
+        const context = buildCartContext(event, userLogId);
+        if (!context) return;
 
+        const {
+            cliente,
+            target,
+            clone,
+            addButton,
+            lessButtonClick,
+            deleteButton,
+            quantityElement,
+            textQuantity,
+            allProducts
+        } = context;
 
+        handleAdd(
+            addButton,
+            context,
+            productsCart,
+            allProducts
+        );
 
-export function cartSetNumberProduct(userLogId: string, productsCart: ReturnType<Cliente['getDetailedCart']>) {
-    const sectionCart = document.getElementById("cartSection")
-    if (!sectionCart) return
-    console.log("okkk")
+        handleLess(
+            lessButtonClick,
+            context,
+            productsCart
+        );
 
-    sectionCart?.addEventListener("click", (event) => {
-
-        const users = getRegisteredUsers();
-        const userData = users.find(u => u.id === userLogId);
-        if (!userData) return;
-
-        const cliente = new Cliente(userData);
-        const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
-        cliente.loadCart(savedCarts.filter(c => c.userId === userLogId))
-        const target = event.target as HTMLElement;
-        const addButton = target.closest(".bnt-add") as HTMLButtonElement | null;
-        const clikedLessButton = target.closest(".bnt-less") as HTMLButtonElement | null;
-        const clone = target.closest(".container-cart") as HTMLElement | null;
-        const deleteButton = target.closest(".btn-close") as HTMLButtonElement | null
-        const savedCart = sessionStorage.getItem("cart");
-        const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-        const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
-
-        if (!clone) return
-
-        let productId = clone.dataset.id;
-        let productSize = clone.dataset.size;
-        let productColor = clone.dataset.color;
-        let quantityElement = clone.querySelector(".quantity") as HTMLElement | null;
-
-        if (!quantityElement) return
-
-        let textQuantity = parseInt(quantityElement.textContent || "0");
-        const lessButton = clone.querySelector(".bnt-less") as HTMLButtonElement | null;
-        console.log("Quantità standard:", textQuantity)
-
-        if (addButton) {
-            console.log("Quantità da catalogo disponibile:", productId, productColor, productSize)
-
-            const product = allProducts.find(p => p.id === productId)
-            if (product) {
-                const selectedProduct = product.variants.find(v => v.color === productColor && v.size === productSize)
-                const quantityProduct = selectedProduct?.quantity
-                console.log("Quantità disponibile:", quantityProduct)
-
-                if (quantityProduct && textQuantity >= quantityProduct) {
-                    console.log("Prodotto disponibile:", quantityProduct, "Prodotto ordinabile >= ", textQuantity)
-                    addButton.classList.remove("anable")
-                    addButton.classList.add("disable");
-                    console.log("Quantità non disponible");
-                    showPopUp("Attenzione", "E' stato raggiunto il numero massimo di prodotti disponibili")
-                    return;
-                }
-            }
-
-            let productcart = productsCart.find(p => p && p.userId === userLogId && p.productId === productId && p.color === productColor && p.size === productSize)
-            if (productcart) {
-                textQuantity++;
-                productcart.quantity = textQuantity;
-                console.log("prodotto carrello modificato qunatità ora è: ", productcart.quantity)
-
-                cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, textQuantity);
-
-                // salva di nuovo
-                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-                setSUmTotCart(productsCart);
-
-                //quantityElement?.textContent = quantityNumebr.toString();
-                console.log("BOTTONE +++ TROVATOOO", textQuantity)
-                quantityElement.textContent = textQuantity.toString()
-                if (textQuantity > 1 && lessButton && lessButton.classList.contains("disable")) {
-                    lessButton.classList.remove("disable")
-                    lessButton.classList.add("anable")
-                }
-            }
-        } if (clikedLessButton && textQuantity > 1) {
-            textQuantity--;
-            let productcart = productsCart.find(p => p && p.userId === userLogId && p.productId === productId && p.color === productColor && p.size === productSize)
-            if (!productcart) {
-                console.log("Quantità non trovata", productcart)
-            } else {
-                productcart.quantity = textQuantity;
-                console.log("prodotto carrello modificato qunatità ora è: ", productcart.quantity);
-                cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, textQuantity);
-
-                //save it 
-                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()))
-                setSUmTotCart(productsCart);
-            }
-
-            quantityElement.textContent = textQuantity.toString();
-            if (textQuantity <= 1 && lessButton) {
-                lessButton.classList.remove("anable")
-                lessButton.classList.add("disable");
-            }
-        }
-
-        //if I click delete btn 
-        if (deleteButton) {
-            if (!clone) return;
-            console.log("DELETE BUTTON cliccato!");
-            const productId = clone.dataset.id;
-            console.log("INIZIOOOO  CARRELLO", savedCart)
-            if (productId) {
-                console.log(productId, productColor, productSize)
-                cliente.removeFromCart(productId, productColor, productSize)
-                sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-                const updatedDetailedCart = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
-
-                // update dom
-                setSUmTotCart(updatedDetailedCart);
-                clone.remove();
-            }
-            return
-        }
-    })
-
+        handleDelete(
+            deleteButton,
+            context,
+            productsCart,
+            userLogId
+        );
+    });
 }
 
 
 
 
+function buildCartContext(event: Event, userLogId: string) {
+    const target = event.target as HTMLElement;
+    const clone = target.closest(".container-cart") as HTMLElement | null;
+    if (!clone) return null;
+
+    const users = getRegisteredUsers();
+    const userData = users.find(u => u.id === userLogId);
+    if (!userData) return null;
+
+    const cliente = new Cliente(userData);
+    const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    cliente.loadCart(savedCarts.filter(c => c.userId === userLogId));
+
+    const addButton = target.closest(".bnt-add") as HTMLButtonElement | null;
+    const lessButtonClick = target.closest(".bnt-less") as HTMLButtonElement | null;
+    const deleteButton = target.closest(".btn-close") as HTMLButtonElement | null;
+
+    const quantityElement = clone.querySelector(".quantity") as HTMLElement | null;
+    if (!quantityElement) return null;
+
+    const textQuantity = parseInt(quantityElement.textContent || "0");
+
+    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+    const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+
+    return {
+        target,
+        clone,
+        cliente,
+        addButton,
+        lessButtonClick,
+        deleteButton,
+        quantityElement,
+        textQuantity,
+        allProducts
+    };
+}
+
+
+
+function handleAdd(
+    addButton: HTMLButtonElement | null,
+    ctx: any,
+    productsCart: any[],
+    allProducts: BaseProduct[]
+) {
+    if (!addButton) return;
+
+    const { clone, textQuantity, quantityElement, cliente } = ctx;
+
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    const product = allProducts.find(p => p.id === productId);
+
+    if (product) {
+        const variant = product.variants.find(
+            v => v.color === productColor && v.size === productSize
+        );
+
+        if (variant?.quantity && textQuantity >= variant.quantity) {
+            addButton.classList.remove("anable");
+            addButton.classList.add("disable");
+            showPopUp("Attenzione", "E' stato raggiunto il numero massimo di prodotti disponibili");
+            return;
+        }
+    }
+
+    const productcart = productsCart.find(
+        p => p.userId === cliente.id &&
+            p.productId === productId &&
+            p.color === productColor &&
+            p.size === productSize
+    );
+
+    if (!productcart) return;
+
+    const newQty = textQuantity + 1;
+    productcart.quantity = newQty;
+
+    cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+    setSumTotCart(productsCart);
+
+    quantityElement.textContent = newQty.toString();
+}
 
 
 
 
+function handleLess(
+    lessButton: HTMLButtonElement | null,
+    ctx: any,
+    productsCart: any[]
+) {
+    if (!lessButton) return;
 
-//DIVIDO LA FUNZIONE MAESTRA LA PRIMA è QUELLA DA RICHIAMARE  ----------------------/
+    const { clone, textQuantity, quantityElement, cliente } = ctx;
+
+    if (textQuantity <= 1) return;
+
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    const productcart = productsCart.find(
+        p => p.userId === cliente.id &&
+            p.productId === productId &&
+            p.color === productColor &&
+            p.size === productSize
+    );
+
+    if (!productcart) return;
+
+    const newQty = textQuantity - 1;
+    productcart.quantity = newQty;
+
+    cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+    setSumTotCart(productsCart);
+
+    quantityElement.textContent = newQty.toString();
+}
 
 
 
 
+function handleDelete(
+    deleteButton: HTMLButtonElement | null,
+    ctx: any,
+    productsCart: any[],
+    userLogId: string
+) {
+    if (!deleteButton) return;
 
+    const { clone, cliente } = ctx;
 
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
 
+    if (!productId) return;
 
+    cliente.removeFromCart(productId, productColor, productSize);
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
 
+    const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+    const updated = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
 
+    setSumTotCart(updated);
+    clone.remove();
+}
 
-
-//FINE SPETTEZA,E-------------------------------------------------------------------
 
 
 
@@ -669,13 +685,13 @@ export async function clickToOrderCart(sectionId: string) {
         console.log("cliccatooojnijbugfbi")
         showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
         const choice = await handleCheckBoxtPoPUp();
-        if (choice === "no") return
+        if (choice === "no") return;
 
         const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
         const loggedUserId = sessionStorage.getItem("userId");
         const users = getRegisteredUsers();
         const userData = users.find(u => u.id === loggedUserId);
-        
+
         if (!userData) return;
 
         const cliente = new Cliente(userData);
@@ -737,6 +753,5 @@ export async function clickToOrderCart(sectionId: string) {
         cleanSection("cartHTML"); //clean template 
         cleanSection("Total");
         showPopUp("Conferma", "Pagamento effettuato con successo")
-
     })
 }

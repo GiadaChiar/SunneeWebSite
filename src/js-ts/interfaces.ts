@@ -50,6 +50,8 @@ export interface CartItem {
 }
 
 
+//login Admin
+
 export const reservedUsers: RegisterFormReservate[] = [
     {
         email: "admin@site.com",
@@ -61,6 +63,7 @@ export const reservedUsers: RegisterFormReservate[] = [
     }
 ];
 
+//login default users
 
 export const users: RegisterForm[] = [
     {
@@ -108,7 +111,7 @@ export const users: RegisterForm[] = [
 
 
 
-
+//client Class
 export class Cliente {
     id: string;
     name: string;
@@ -117,8 +120,8 @@ export class Cliente {
     preferPayment: string;
 
     private cart: CartItem[] = [];
-    //usare i metodi per modificarlo
 
+    //metods to changed it
     constructor(data: RegisterForm) {
         this.id = data.id || crypto.randomUUID();
         this.name = data.name;
@@ -127,18 +130,18 @@ export class Cliente {
         this.preferPayment = data.preferPayment;
     }
 
-    // 🛒 aggiungere prodotto al carrello se vi [ un oggetto uguale aggiunge la quantit' ]
+    //find product and add to Cart
 
     addToCart(item: CartItem, products: BaseProduct[], userId: string) {
-        // trova il prodotto reale
-        const product = products.find(p => p.id === item.productId); //trovo il prodotto tramite id 
+        //find it by id
+        const product = products.find(p => p.id === item.productId); 
         if (!product) {
             console.log("Prodotto non trovato");
             return;
         }
 
 
-        // trova la variante scelta
+        // find it by his variant
         const variant = product.variants.find(
             v => v.color === item.color && v.size === item.size
         );
@@ -146,7 +149,7 @@ export class Cliente {
             console.log("Variante non disponibile");
             return;
         }
-        // controllo disponibilità
+        // check if it already exists
         const existingItem = this.cart.find(
             p =>
                 p.productId === item.productId &&
@@ -161,7 +164,7 @@ export class Cliente {
             return;
         }
 
-        // aggiungi al carrello
+        // add to cart
         if (existingItem) {
             existingItem.quantity += item.quantity;
         } else {
@@ -170,14 +173,10 @@ export class Cliente {
 
         console.log("Carrello aggiornato:", this.cart);
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
-
     }
 
-    /*// ❌ rimuovere prodotto
-    removeFromCart(productId: string) {
-        this.cart = this.cart.filter(p => p.productId !== productId);
-    }*/
 
+    //remove product
     removeFromCart(productId: string, color?: string, size?: string) {
         this.cart = this.cart.filter(p =>
             !(p.productId === productId && (!color || p.color === color) && (!size || p.size === size))
@@ -192,12 +191,12 @@ export class Cliente {
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
-    // 📦 vedere carrello contenuto
+    //show cart
     getCart() {
         return this.cart;
     }
 
-    // 💳 effettuare ordine vede se il carrello è vuoto e svuota il carrello dopo l'ordine
+    // make order
     checkout() {
         if (this.cart.length === 0) {
             console.log("Carrello vuoto");
@@ -207,48 +206,12 @@ export class Cliente {
         console.log("Ordine effettuato da:", this.name);
         console.log("Prodotti:", this.cart);
 
-        // svuota carrello dopo ordine
+        // clean cart
         this.cart = [];
     }
-    /*
-    getDetailedCart(products: BaseProduct[]) {
-        return this.cart.map(item => {
-            const product = products.find(p => p.id === item.productId );
+    
 
-            if (!product) return null;
-
-            return {
-                ...item,
-                description: product.description,
-                price: product.prize,
-                image: product.image,
-            };
-        }).filter(Boolean);//rimuove i prodotti non trovati
-    }*/
-
-    /*getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
-        const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
-
-        console.log("logged user passato a getDetailcart: ",loggedIdUser)
-        console.log("")
-        return this.cart.map(item => {
-            const product = products.find(p => p.id === item.productId && loggedIdUser === item.userId );
-        
-        
-            if (!product) return null;
-
-            return {
-                ...item,
-                description: product.description,
-                price: product.prize,
-                image: product.image,
-            };
-        }).filter(Boolean);//rimuove i prodotti non trovati
-    }
-*/
-
-
-
+// cart info
     getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
         const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
         const allUsers = [...users, ...usersJson]
@@ -262,10 +225,7 @@ export class Cliente {
 
             //check if already existed a cart 
 
-
-
             if (!product || !user) return null;
-
             return {
                 ...item,
                 description: product.description,
@@ -289,5 +249,73 @@ export class Cliente {
 
     loadCart(cartItems: CartItem[]) {
         this.cart = cartItems;
+    }
+}
+
+
+
+//class to insert product 
+export class Product {
+    id: string;
+    type: BaseProduct["type"];
+    gender: BaseProduct["gender"];
+    prize: number;
+    image: string;
+    description: string;
+    variants: Variant[];
+
+    constructor(data: BaseProduct) {
+        this.id = data.id;
+        this.type = data.type;
+        this.gender = data.gender;
+        this.prize = data.prize;
+        this.image = data.image;
+        this.description = data.description;
+        this.variants = data.variants || [];
+    }
+
+    addVariant(variant: Variant) {
+        this.variants.push(variant);
+    }
+
+    updateVariant(index: number, variant: Variant) {
+        this.variants[index] = variant;
+    }
+
+    removeVariant(index: number) {
+        this.variants.splice(index, 1);
+    }
+
+    isAvailable(): boolean {
+        return this.variants.some(v => v.state === "available");
+    }
+}
+
+//add products
+export class ProductService {
+    private static KEY = "products";
+
+    static getAll(): Product[] {
+        const data = JSON.parse(localStorage.getItem(this.KEY) || "[]");
+        return data.map((p: any) => new Product(p));
+    }
+
+    static saveAll(products: Product[]) {
+        localStorage.setItem(this.KEY, JSON.stringify(products));
+    }
+
+    static add(product: Product) {
+        const products = this.getAll();
+        products.push(product);
+        this.saveAll(products);
+    }
+
+    static delete(id: string) {
+        const products = this.getAll().filter(p => p.id !== id);
+        this.saveAll(products);
+    }
+
+    static findById(id: string): Product | undefined {
+        return this.getAll().find(p => p.id === id);
     }
 }

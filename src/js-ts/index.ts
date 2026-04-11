@@ -3,11 +3,8 @@ import '../style/menu.scss';
 import '../style/form.scss';
 
 
-
 import { setUpMenu } from './menu'
 import { fetchForm } from './form'
-
-
 
 
 

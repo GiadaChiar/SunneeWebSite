@@ -60,4 +60,26 @@ export declare class Cliente {
     updateCartItem(productId: string, color: string, size: string, quantity: number): void;
     loadCart(cartItems: CartItem[]): void;
 }
+export declare class Product {
+    id: string;
+    type: BaseProduct["type"];
+    gender: BaseProduct["gender"];
+    prize: number;
+    image: string;
+    description: string;
+    variants: Variant[];
+    constructor(data: BaseProduct);
+    addVariant(variant: Variant): void;
+    updateVariant(index: number, variant: Variant): void;
+    removeVariant(index: number): void;
+    isAvailable(): boolean;
+}
+export declare class ProductService {
+    private static KEY;
+    static getAll(): Product[];
+    static saveAll(products: Product[]): void;
+    static add(product: Product): void;
+    static delete(id: string): void;
+    static findById(id: string): Product | undefined;
+}
 //# sourceMappingURL=interfaces.d.ts.map

@@ -50,8 +50,6 @@ function getAllCartInfo() {
         const cartItems: CartItem[] = JSON.parse(savedCart);
         cliente.loadCart(cartItems);
 
-
-        
         const detailedCart = cliente.getDetailedCart(allProducts,  loggedUserId);
         console.log("Carrello dettagliato:", detailedCart);
 

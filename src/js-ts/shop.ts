@@ -38,10 +38,6 @@ function getFilterFormUrl() {
 
 
 
-
-
-
-
 function insertShopTemplateFilters(type: string | null, gender: string | null) {
     //if filter is false don't use it 
     const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");

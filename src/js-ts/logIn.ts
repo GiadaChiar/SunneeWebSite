@@ -7,8 +7,8 @@ import { setUpMenu,getTypeandDataFilterMenu } from './menu'
 import { fetchForm } from './form'
 
 import{ setReservateLogIn,setUpNewSection,preventSubmitLogIn} from "./events"
-import{ loadTemplates } from "./templates"
-import{showUsers,cleanOldUsers, showUsersAllUsers} from"./dom"
+import{ loadTemplates } from "./templates";
+import { showUsersAllUsers, showUsers, cleanOldUsers } from './userServices';
 
 
 

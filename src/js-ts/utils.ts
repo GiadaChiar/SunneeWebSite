@@ -3,12 +3,13 @@ import type { Variant } from "./interfaces";
 
 
 //generate id 
-export function generateId(): string | null {
+export function generateId(): string  {
     const value = Math.random().toString(32).substring(2, 9);
     console.log("NUMERO GENERATO", value)
     return value
 
 }
+
 
 
 //----------LOG IN SECTION--------------------------------------------------
@@ -27,53 +28,10 @@ export function getAdminLogin() {
 
 
 //---------------ADMIN SECTION--------------------------------------------------
-/*
-export let selectedType: string | null = null;
-export let selectedSize: string | null = null;
-export let selectedColor: string | null = null;
-export let selectedGender: string | null = null;
-export let selectedState: string | null = null;
-export let selectedQuantity: number | null = null;
-export let selectedPrize: number | null = null;
-export let selectedDescription: string | null = null;
-export let selectedImage: string | null = null;
-export let selectedId: string | null = null;
-export let selectedValue: string | null = null;
-
-*/
-
-export let selectedValues = {
-    selectedType: null as string | null,
-    selectedSize: null as string | null,
-    selectedColor: null as string | null,
-    selectedGender: null as string | null,
-    selectedState: null as string | null,
-    selectedQuantity: null as number | null,
-    selectedPrize: null as number | null,
-    selectedDescription: null as string | null,
-    selectedImage: null as string | null,
-    selectedId: null as string | null,
-    selectedValue: null as string | null
-};
 
 
 
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//traslation
+//translation
 // TYPES
 type Size = Variant["size"];
 type Color = Variant["color"];
@@ -102,7 +60,7 @@ const colorTranslations: Record<Color, string> = {
 
 
 
-export const traslate = {
+export const translate = {
     size: sizeTranslations,
     color: colorTranslations,
 };

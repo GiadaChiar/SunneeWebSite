@@ -1,11 +1,11 @@
 //templates functions
 
-import { checkRegistration, showPopUp, cleanSection, getRegisteredUsers, changeTextContent, addCloseButton, setSUmTotCart,checkedFilterShop  } from './dom';
-import type { Variant, BaseProduct, RegisterForm, CartItem } from "./interfaces";
-//import { checkedFilterShop } from "./events";
+import {  setSumTotCart } from './dom';
+import type { BaseProduct } from "./interfaces";
 import { Cliente } from './interfaces';
-import { traslate } from './utils';
-import { cartSetNumberProduct } from './events'
+import { translate } from './utils';
+import { cartSetNumberProduct } from './events';
+import { checkRegistration } from './userServices';
 
 
 
@@ -87,7 +87,7 @@ export function insertProductClone(product: BaseProduct) {
 
     // clone template
     const clone = template.content.cloneNode(true) as HTMLElement;
-    // Aggiorna i dati del prodotto
+    // update info
     (clone.querySelector(".decriptionShop") as HTMLElement).textContent = product.description;
     (clone.querySelector(".prizeShop") as HTMLElement).textContent = `${product.prize} €`;
     (clone.querySelector(".imgShop") as HTMLImageElement).src = `../img/${product.image}`;
@@ -168,8 +168,8 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
 
         (element.querySelector(".description") as HTMLElement).textContent = item.description;
         (element.querySelector(".price") as HTMLElement).textContent = `${item.price} €`;
-        (element.querySelector(".size") as HTMLElement).textContent = traslate.size[item.size];
-        (element.querySelector(".color") as HTMLElement).textContent = traslate.color[item.color];
+        (element.querySelector(".size") as HTMLElement).textContent = translate.size[item.size];
+        (element.querySelector(".color") as HTMLElement).textContent = translate.color[item.color];
         (element.querySelector(".imgCart") as HTMLImageElement).src = `../img/${item.image}`;
         (element.querySelector(".quantity") as HTMLElement).textContent = item.quantity.toString();
         element.dataset.id = item.productId;//add id product
@@ -189,42 +189,13 @@ export function changeCartTemplate(cartItems: ReturnType<Cliente['getDetailedCar
 
     cartSetNumberProduct(idUser, userProducts);
     //sum function total to pay
-    setSUmTotCart(userProducts)
+    setSumTotCart(userProducts)
 
 
 
 }
 
 
-
-
-
-function checkColorCardShop(products: BaseProduct[], target: HTMLInputElement, clone: HTMLElement): string | "" {
-    if (!clone) return "";
-
-    const productId = target.name.replace("color-", "");
-
-    const product = products.find(p => p.id === productId);
-    if (!product) return "";
-
-
-    console.log("Colore selezionato:", target.value);
-    //find id product 
-
-    // Aggiorna lo stato dei pulsanti taglie
-    const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
-
-    sizeButtons.forEach(button => {
-        const sizeValue = button.dataset.value;
-        const available = product.variants.some(
-            v => v.size === sizeValue && v.color === target.value
-        );
-        button.dataset.state = available ? "available" : "unavailable";
-
-    });
-    return target.value
-
-}
 
 
 

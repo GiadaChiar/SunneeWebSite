@@ -3,7 +3,7 @@ import '../style/admin.scss';
 import '../style/poUp.scss';
 import { disableDropdown } from './dom';
 import { loadTemplates } from "./templates";
-import { initTypeDropdown, initDropdown, getInsertOptions,initSearchSection } from "./events";
+import { initTypeDropdown, handleFormSubmit, initSearchSection,initGlobalClickListener } from "./events";
 import type { BaseProduct } from "./interfaces";
 
 
@@ -22,23 +22,16 @@ export function cleanProducts() {
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-
     await loadTemplates();
+
     disableDropdown("dropdownButtonGender", true);
 
-    //init dropdown
     initTypeDropdown();
-    initDropdown("sizeDropdown", "dropdownButtonSize");
-    initDropdown("colorDropdown", "dropdownButtonColor");
-    initDropdown("stateDropdown", "dropdownButtonState");
-    initDropdown("genderDropdown", "dropdownButtonGender");
-
-
-    getInsertOptions();
+    initGlobalClickListener();
+    handleFormSubmit();
     initSearchSection();
-
+    //cleanProducts();
 });
-
 
 
 

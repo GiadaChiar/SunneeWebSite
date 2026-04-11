@@ -21,32 +21,11 @@ function fetchMenu() {
 
 
 
-/*
-function fetchMenu() {
-    return fetch("menu.html")
-        .then(res => res.text()) //then response in text form
-        .then(html => {
-            const divMenu = document.getElementById("menu");
-            if (!divMenu) {
-                //throw new Error(" Menu Element not found");
-                console.log(" Menu Element not found");
-                return;
-            } else {
-                divMenu.innerHTML = html;
-                return divMenu;
-            }
-
-        })
-}
-*/
-
-
-
 
 // Update hash links to point to index.html if on another page
 function changeLinkNavigation(divMenu: HTMLElement) {
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
-    //const currentPage = window.location.pathname.split("/").pop();
+    
     if (!divMenu) {
         throw new Error("Element not founded");
     }
@@ -57,14 +36,11 @@ function changeLinkNavigation(divMenu: HTMLElement) {
             if (hrefLink == currentPage) {
                 if (link.classList.contains("active")) {
                     link.classList.replace("active", "disabled")
-                    /* link.addEventListener("click", (event: Event) => {
-                    //event.preventDefault();  // impedisce la navigazione
-                    });*/
                 }
             }
             else {
                 link.classList.replace("disabled", "active")
-                // Rimuovi il listener che bloccava il click
+                // remove listener to prevent click
                 const handler = (event: Event) => event.preventDefault();
                 link.removeEventListener("click", handler);
             }
@@ -84,18 +60,18 @@ function checkMenuSections() {
 
     if (!swimSuit || !accessories || !swimSuitBtn || !accessoriesBtn) return;
 
-    // Funzione generica per aprire/chiudere
+    // generic function open/close
     function toggleMenu(menuToOpen: HTMLElement, menuToClose: HTMLElement) {
         const isOpen = menuToOpen.dataset.menu === "open";
         menuToOpen.dataset.menu = isOpen ? "close" : "open";
         menuToClose.dataset.menu = "close";
     }
 
-    // Funzioni specifiche
+    
     function toggleSwimSuit() { toggleMenu(swimSuit, accessories); }
     function toggleAccessories() { toggleMenu(accessories, swimSuit); }
 
-    // Click sui bottoni
+    // buttons clicks
     swimSuitBtn.addEventListener("click", (e) => { e.preventDefault(); toggleSwimSuit(); });
     accessoriesBtn.addEventListener("click", (e) => { e.preventDefault(); toggleAccessories(); });
 
@@ -142,11 +118,9 @@ export function getTypeandDataFilterMenu() {
     document.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
 
-        // risale fino al link con data-type
         const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
         if (!dropdownItem) return;
 
-        // blocca la navigazione
         event.preventDefault();
 
         const type = dropdownItem.dataset.type;

@@ -1,4 +1,4 @@
-export declare function generateId(): string | null;
+export declare function generateId(): string;
 export declare function setAdminLogin(value: boolean): void;
 export declare function getAdminLogin(): boolean;
 export declare let selectedValues: {
