@@ -13,9 +13,7 @@ import type { BaseProduct } from "./interfaces";
 /// clean products 
 export function cleanProducts() {
     localStorage.removeItem("products")
-    console.log("Prodotti eliminati")
     const existingProducts: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-    console.log("rimasti:", existingProducts)
 }
 
 
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     initGlobalClickListener();
     handleFormSubmit();
     initSearchSection();
-    //cleanProducts();
 });
 
 

@@ -72,13 +72,9 @@ export function checkColorCardShop(products: BaseProduct[], target: HTMLInputEle
     if (!clone) return "";
 
     const productId = target.name.replace("color-", "");
-
     const product = products.find(p => p.id === productId);
+
     if (!product) return "";
-
-
-    console.log("Colore selezionato:", target.value);
-    //find id product 
 
     // update size
     const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");

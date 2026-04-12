@@ -8,7 +8,7 @@ import { fetchForm } from './form'
 
 import{ setReservateLogIn,setUpNewSection,preventSubmitLogIn} from "./events"
 import{ loadTemplates } from "./templates";
-import { showUsersAllUsers, showUsers, cleanOldUsers } from './userServices';
+import { showUsersAllUsers, showUsers} from './userServices';
 
 
 
@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", async() => {
     preventSubmitLogIn();
     getTypeandDataFilterMenu();
     showUsers();
-    //cleanOldUsers(); 
     showUsersAllUsers()
 });
 

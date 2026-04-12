@@ -94,17 +94,16 @@ export function checkPrizeInput(): number | null {
     const prizeInput = document.getElementById("prizeInput") as HTMLInputElement;
     let value = prizeInput.value;
     if (!value) return null;
-    console.log("prezzo:", value)
 
     return Number(value);
-
 }
+
 
 export function checkDescriptionInput(): string | null {
     const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement
     let value = descriptionInput.value
     if (!value) return null
-    console.log("descrizione:", value)
+    
     return value;
 }
 
@@ -115,7 +114,7 @@ export function checkInputImage(): string | null {
 
     let pathImage = imageInput.value
     let value = pathImage.replace("C:\\fakepath\\", "");
-    console.log("link:", value)
+    
     return value;
 }
 

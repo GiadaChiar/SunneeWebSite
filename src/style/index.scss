@@ -1,199 +1,179 @@
-@use 'variables' as vars;
+@use "variables" as vars;
 
-//universal component 
+//universal component
 
 //blue bar line
 
-.blue_bar{
+.blue_bar {
     height: 4.5px;
-    margin:10px;
+    margin: 10px;
     background-color: vars.$background-blue;
 }
 
 //dropdown button TREND (link uomo/donna)
-.dropdown{
+.dropdown {
     display: flex;
     align-items: center;
     justify-content: space-around;
     text-decoration: underline;
-    
-    //padding-bottom: 100px;
 
-    .btn.btn-secondary.dropdown-toggle{
+    .btn.btn-secondary.dropdown-toggle {
         background-color: transparent;
         border: none;
-        color:vars.$background-dark;
+        color: vars.$background-dark;
         font-family: vars.$font-Tan;
-        
+    }
 
-    } 
-    &:hover{
+    &:hover {
         color: vars.$background-blue;
     }
 
-    .dropdown-menu:hover{
-        background-color:vars.$background-blue;
+    .dropdown-menu:hover {
+        background-color: vars.$background-blue;
     }
-
 }
 
-//imagines 
-.images{
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            gap: 10px;
-            margin-top: 25px;
-            margin-bottom: 45px;
+//imagines
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 25px;
+    margin-bottom: 45px;
 
-            .image_container{
-                width: 25%;
-                height:40%;
+    .image_container {
+        width: 25%;
+        height: 40%;
 
-
-                img{
-                    object-fit: cover;
-                    max-width: 85%;
-                    height: auto;
-
-                }
-            }
+        img {
+            object-fit: cover;
+            max-width: 85%;
+            height: auto;
+        }
     }
+}
 
 //titles on sections
-.title_section{
-        font-family: vars.$font-Tan;
-        color: vars.$background-dark;
-        text-align: center;
-        margin-bottom: 10px;
-    }
+.title_section {
+    font-family: vars.$font-Tan;
+    color: vars.$background-dark;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
-//p bold strong 
-.p_bold{
-            text-align: center;
-            margin-bottom: 10px;
-            font-family: vars.$font-Tan;
-        }
+//p bold strong
+.p_bold {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: vars.$font-Tan;
+}
 
-
-
-
-body{
+body {
     background-color: vars.$background-light;
-    .video_container{
-        
+
+    .video_container {
         width: 60%;
-        width: 100%; 
+        width: 100%;
         margin: 0 auto;
         overflow: hidden;
-        position:relative;
+        position: relative;
         margin-bottom: 40px;
-        
-        
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            
-        video{
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-        
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
         }
-        h3{
+
+        h3 {
             font-family: vars.$font-Tan;
             color: vars.$background-light;
             position: absolute;
             text-align: center;
-            margin:auto;
-            top:25%;
-            left: 50%;        
-            transform: translate(-50%, -50%); // Centratura perfetta
-            width:90%;
-            
-            
+            margin: auto;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            width: 90%;
         }
     }
 
-    //elaganza section 
-    #elegance{
-        a{
+    //elaganza section
+    #elegance {
+        a {
             font-family: vars.$font-Tan;
             color: vars.$background-dark;
         }
-        p{
+
+        p {
             text-align: center;
             margin-bottom: 10px;
-            font-family:vars.$font-Alice;
+            font-family: vars.$font-Alice;
         }
-        
     }
 
-    //secstion forza
-    #strong{
-        .video_container{
+    //section forza
+    #strong {
+        .video_container {
             width: 80%;
             box-shadow: none;
         }
     }
 
-    //sesction passione
-    #passion{
-        .images{
-            
-            .image_container_blu{
-            margin-top: 25px;
-            max-width: 40%;
-            height: auto;
-            padding-bottom: 25px;
-            border:25px solid vars.$background-blue;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            
-            
-
-            img{
-                object-fit: cover;
-                width: 100%;
+    //section passione
+    #passion {
+        .images {
+            .image_container_blu {
+                margin-top: 25px;
+                max-width: 40%;
                 height: auto;
-                margin-bottom: 10px;
-            }
+                padding-bottom: 25px;
+                border: 25px solid vars.$background-blue;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
 
-            
+                img {
+                    object-fit: cover;
+                    width: 100%;
+                    height: auto;
+                    margin-bottom: 10px;
+                }
             }
-
         }
-        
-
     }
-    //kids section 
-    #kids{
-        .video_container{
+
+    //kids section
+    #kids {
+        .video_container {
             padding-top: 50px;
             padding-bottom: 40px;
-            img{
+
+            img {
                 object-fit: cover;
                 max-width: 100%;
                 position: relative;
-
             }
-            h2{
+
+            h2 {
                 font-family: vars.$font-Tan;
                 font-size: vars.$font-size-h2;
                 color: vars.$background-dark;
                 position: absolute;
                 text-align: center;
-                margin:auto;
-                top:28%;
-                left: 50%;        
-                transform: translate(-50%, -50%); // Centratura perfetta
-                width:90%;      
-                
-                
+                margin: auto;
+                top: 28%;
+                left: 50%;
+                transform: translate(-50%, -50%); 
+                width: 90%;
             }
-
         }
-        .p_bold{
+
+        .p_bold {
             text-align: left;
             margin-right: 45px;
             margin-left: 45px;

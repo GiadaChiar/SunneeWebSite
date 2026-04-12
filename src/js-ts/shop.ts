@@ -26,9 +26,6 @@ function getFilterFormUrl() {
     const type = params.get("type");
     const gender = params.get("gender")
 
-
-    console.log("CATEGORY:", type);
-    console.log("GENDER:", gender);
     insertShopTemplateFilters(type, gender)
 
     return { type, gender };
@@ -44,7 +41,6 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
 
     const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
 
-    console.log(type, gender)
     const productsFirstFilter = allProducts.filter(p => p.type === type && p.gender === gender)
         .map(product => {
             const availableVariants = product.variants.filter(v => v.state === "available");
@@ -62,11 +58,9 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
 
     cleanSection("shopProductHTML"); //clean page shop
 
-
     productsFirstFilter.forEach(product => {
 
         insertProductClone(product);
-
     })
     setupColorSelection(productsFirstFilter);
 
@@ -74,9 +68,6 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
     //insert products  
 
 }
-
-
-
 
 
 
@@ -139,6 +130,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     setUpMenu();
     fetchForm();
     getFilterFormUrl();
-
-
 })

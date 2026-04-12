@@ -7,10 +7,7 @@ export function fetchForm() {
         .then(html => {
             const divForm = document.getElementById("contacts");
 
-            if (!divForm) {
-                console.warn("container Form not found");
-                return;
-            }
+            if (!divForm) return;
 
             divForm.innerHTML = html;
             return divForm;

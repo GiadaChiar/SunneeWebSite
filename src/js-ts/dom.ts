@@ -16,7 +16,6 @@ export function cleanSection(sectionId: string) {
     const section = document.getElementById(sectionId);
 
     if (!section) {
-        console.error("Section not found");
         return;
     }
     section.innerHTML = "";
@@ -91,9 +90,6 @@ export function showPopUpSelection(title: string, message: string, checkright: s
 
     const closeButton = document.getElementById("closeButton");
 
-    /*closeButton?.addEventListener("click", () => {
-        cleanSection("PopUpHtml");
-    });*/
     addCloseButton("PopUpHtml")
 }
 
@@ -224,10 +220,7 @@ export function createTable(products: BaseProduct[]) {
         `;
             productsSection.appendChild(variantRow);
         });
-        console.log(product.id)
     })
-    console.log("prodotti:", products)
-    console.log(JSON.stringify(products, null, 2));
 }
 
 
@@ -249,7 +242,6 @@ export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTM
             check.checked = false;
         }
         selected = "";
-        console.log("disattivato");
     } else {
 
         allElement.forEach(el => {
@@ -269,7 +261,6 @@ export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTM
         }
 
         selected = check.dataset.value || "";
-        console.log("attivato:", selected);
     }
     return selected;
 }
@@ -290,7 +281,7 @@ export function setSumTotCart(products: ReturnType<Cliente['getDetailedCart']>) 
     }));
 
     const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
-    console.log("La somma totale è :", totalCart)
+    
     let result = totalCart.toFixed(2);
     changeTextContent("sommaTot", `${result} €`);
 }

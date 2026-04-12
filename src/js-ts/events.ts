@@ -271,9 +271,7 @@ export function handleFormSubmit() {
             return;
         }
 
-        await insertProduct(productData); // usa la logica business fuori dalla classe
-
-        console.log("Prodotto inserito o aggiornato", productData);
+        await insertProduct(productData); 
     });
 }
 
@@ -438,7 +436,6 @@ export function getfiltersPageShop(productsBase: BaseProduct[]) {
             const allRadios = document.querySelectorAll<HTMLInputElement>('input[name="color"]')
 
             selectedColorFilter = checkedFilterShop(clickedRadio, allRadios)
-            console.log("FINE FUNZIONE COLORE TROVATO:", selectedColorFilter)
         }
 
         if ((target as HTMLButtonElement).name === "size") {
@@ -447,15 +444,10 @@ export function getfiltersPageShop(productsBase: BaseProduct[]) {
             const allSizeButtons = document.querySelectorAll<HTMLButtonElement>('button[name="size"]');
 
             selectedSizeFilter = checkedFilterShop(clickedButton, allSizeButtons)
-            console.log("FINE FUNZIONE Taglia TROVATO:", selectedSizeFilter)
         }
 
         if ((target as HTMLButtonElement).type === "submit" && (target as HTMLButtonElement).name === "searchFilters") {
             event.preventDefault();
-
-            console.log("COLORE FITRO PAGINA:", selectedColorFilter);
-            console.log("Taglia FITRO PAGINA:", selectedSizeFilter);
-
 
             InsertTemplateShopFilter(selectedColorFilter, selectedSizeFilter, productsBase);
         }
@@ -648,14 +640,7 @@ function handleLess(
 
         if (!productcart) return;
 
-        console.log("textQuantity before: ", textQuantity)
-
         const newQty = Number(textQuantity - 1);
-
-        console.log("text quantity after: ", newQty)
-
-        console.log("variantquantity : ", variant?.quantity)
-
         const addButton = clone.querySelector(".bnt-add");
 
         if (addButton) {
@@ -678,9 +663,6 @@ function handleLess(
             lessButton.classList.add("enable");
         }
         productcart.quantity = newQty;
-
-
-
 
         cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
 
@@ -726,7 +708,7 @@ function handleDelete(
 export async function clickToOrderCart(sectionId: string) {
     const orderButton = document.getElementById("buyButton") as HTMLButtonElement;
     orderButton.addEventListener("click", async () => {
-        console.log("cliccatooojnijbugfbi")
+        
         showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
         const choice = await handleCheckBoxtPoPUp();
         if (choice === "no") return;
@@ -739,13 +721,9 @@ export async function clickToOrderCart(sectionId: string) {
         if (!userData) return;
 
         const cliente = new Cliente(userData);
-
         cliente.loadCart(savedCarts.filter(c => c.userId === loggedUserId))
-        console.log("USER LOGGATO IN QUESTO MOMENTO: ", loggedUserId)
-
         const myCart = savedCarts.filter(item => item.userId === loggedUserId)
-        console.log("TROVATOOO", myCart)
-
+        
         //all products
         const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
         const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
@@ -756,33 +734,24 @@ export async function clickToOrderCart(sectionId: string) {
             size: p?.size,
             quantityOrder: p?.quantity,
         }))
-        console.log(produsctInfo)
 
         produsctInfo.forEach(item => {
             const product = allProducts.find(p => p.id === item.id);
 
-            if (!product) {
-                console.warn("Prodotto non trovato:", item.id);
-                return;
-            }
+            if (!product) return;
 
             const variant = product.variants.find(v =>
                 v.color === item.color && v.size === item.size
             );
 
-            if (!variant) {
-                console.warn("Variante non trovata:", item);
-                return;
-            }
+            if (!variant)return;
 
-            console.log("PRIMA:", variant.quantity);
             if (variant.quantity < item.quantityOrder) {
                 showPopUp("ERRORE", "La quantità disponibile è minore di quella richiesta")
             }
 
             variant.quantity -= item.quantityOrder;
 
-            console.log("DOPO:", variant.quantity);
             if (variant.quantity === 0) {
                 variant.state = "unavailable";
             }

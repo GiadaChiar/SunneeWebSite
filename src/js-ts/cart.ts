@@ -28,30 +28,27 @@ function getAllCartInfo() {
     
     const allUsers = [...users,...usersJson]
 
-    console.log("Users loggato:",loggedUserId)
     if (!loggedUserId) return;
 
     const user = allUsers.find(u => u.id === loggedUserId);
-    console.log("User trovato", user)
+
     if (!user) return;
     const nameUser = user.name
-    console.log("nome utente loggato:", nameUser)
+    
     changeTextContent("cartTitle", "Buono Shopping " + nameUser)
 
     const cliente = new Cliente(user);
-    console.log(" IL MIO CLIENTE ", cliente);
 
     const savedCart = sessionStorage.getItem("cart");
     const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
     const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
 
     if (savedCart) {
-        console.log(savedCart)
+
         const cartItems: CartItem[] = JSON.parse(savedCart);
         cliente.loadCart(cartItems);
 
         const detailedCart = cliente.getDetailedCart(allProducts,  loggedUserId);
-        console.log("Carrello dettagliato:", detailedCart);
 
         changeCartTemplate(detailedCart, loggedUserId);
         

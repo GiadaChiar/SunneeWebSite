@@ -9,11 +9,7 @@ function fetchMenu() {
         .then(res => res.text()) //then response in text form
         .then(html => {
             const divMenu = document.getElementById("menu")as HTMLElement;
-            if (!divMenu) {
-                //throw new Error(" Menu Element not found");
-                console.log(" Menu Element not found");
-                return;
-            }
+            if (!divMenu) return;
             divMenu.innerHTML = html;
             return divMenu;
         })
@@ -104,7 +100,6 @@ export function setUpMenu() {
         })
         .catch(error => {
             console.log("Error upload state menu");
-            
         });
 }
 

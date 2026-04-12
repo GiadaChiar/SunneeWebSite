@@ -40,7 +40,7 @@ export interface RegisterFormReservate {
 
 
 
-//interface Cart
+//Cart interface
 export interface CartItem {
     userId: string;
     productId: string;
@@ -135,20 +135,14 @@ export class Cliente {
     addToCart(item: CartItem, products: BaseProduct[], userId: string) {
         //find it by id
         const product = products.find(p => p.id === item.productId); 
-        if (!product) {
-            console.log("Prodotto non trovato");
-            return;
-        }
-
+        if (!product) return;
 
         // find it by his variant
         const variant = product.variants.find(
             v => v.color === item.color && v.size === item.size
         );
-        if (!variant) {
-            console.log("Variante non disponibile");
-            return;
-        }
+
+        if (!variant)return;
         // check if it already exists
         const existingItem = this.cart.find(
             p =>
@@ -171,7 +165,6 @@ export class Cliente {
             this.cart.push({ ...item, userId });
         }
 
-        console.log("Carrello aggiornato:", this.cart);
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
@@ -198,13 +191,7 @@ export class Cliente {
 
     // make order
     checkout() {
-        if (this.cart.length === 0) {
-            console.log("Carrello vuoto");
-            return;
-        }
-
-        console.log("Ordine effettuato da:", this.name);
-        console.log("Prodotti:", this.cart);
+        if (this.cart.length === 0) return
 
         // clean cart
         this.cart = [];
@@ -216,8 +203,6 @@ export class Cliente {
         const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
         const allUsers = [...users, ...usersJson]
 
-        console.log("logged user passato a getDetailcart: ", loggedIdUser)
-        console.log("")
         return this.cart.map(item => {
             const product = products.find(p => p.id === item.productId);
 
@@ -237,13 +222,9 @@ export class Cliente {
 
     updateCartItem(productId: string, color: string, size: string, quantity: number) {
         const item = this.cart.find(p => p.productId === productId && p.color === color && p.size === size);
-        if (!item) {
-            console.warn("Prodotto non trovato nel carrello");
-            return;
-        }
+        if (!item)return
 
         item.quantity = quantity;
-        console.log("Carrello aggiornato:", this.cart);
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 

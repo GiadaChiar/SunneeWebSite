@@ -11,7 +11,6 @@ import { insertTemplate } from "./templates";
 
 export function showUsers() {
     const usersJson = localStorage.getItem("users");
-    console.log(usersJson)
 
 }
 
@@ -23,8 +22,6 @@ export function cleanOldUsers() {
     const users: RegisterForm[] = JSON.parse(usersJson);
     const filteredUsers = users.filter(user => user.password === "126k");//it is impossible clean all 
     localStorage.setItem("users", JSON.stringify(filteredUsers));
-
-    console.log("Utenti rimasti dopo la pulizia:", filteredUsers);
 }
 
 export function getRegisteredUsers(): RegisterForm[] {
@@ -37,11 +34,7 @@ export function getRegisteredUsers(): RegisterForm[] {
 export function showUsersAllUsers() {
     const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
     const all = [...users, ...userJson]
-    console.log("Tutti gli users:", all)
-    console.log("Gli suser salvati nello storico: ", userJson)
 }
-
-
 
 //--Section LOG-IN USERS and ADMIN -----
 
@@ -90,8 +83,6 @@ export function checkUserLogin(): string | undefined {
     //save user to localstorage
     sessionStorage.setItem("userId", userId.toString());
 
-    console.log("userId salvato:", userId);
-
     // ok access
     showPopUp("Benvenuto!", `Ciao ${registeredUser.name}`);
     const closeButton = document.getElementById("closeButton");
@@ -118,7 +109,6 @@ export function saveNewUser(newUser: RegisterForm) {
     const existingUserJson = userJson.find(u => u.email.toLowerCase() === email);
 
     const existingUser = users.find(u => u.email.toLowerCase() === email);
-    console.log("Nuovo users:", users)
 
     if (existingUserJson || existingUser) {
         showPopUp("Errore", "Questa email è già registrata, vai nel log in");
@@ -131,8 +121,7 @@ export function saveNewUser(newUser: RegisterForm) {
     userJson.push(newUser);
     localStorage.setItem("users", JSON.stringify(userJson));
     const allUsers: RegisterForm[] = [...users, ...userJson]
-    console.log("TUTTI GLI USERS :", allUsers)
-
+    
     return true;
 }
 

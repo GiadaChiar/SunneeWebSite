@@ -5,7 +5,7 @@ import type { Variant } from "./interfaces";
 //generate id 
 export function generateId(): string  {
     const value = Math.random().toString(32).substring(2, 9);
-    console.log("NUMERO GENERATO", value)
+
     return value
 
 }
