@@ -6,11 +6,11 @@ import { Cliente, ProductService } from './interfaces';
 import { insertTemplate } from './templates';
 import { ProductsDefault } from './initProducts';
 import { InsertTemplateShopFilter } from "./shop";
-import type { BaseProduct, Variant, CartItem} from './interfaces';
+import type { BaseProduct, Variant, CartItem } from './interfaces';
 import { setAdminLogin, getAdminLogin, generateId } from './utils';
-import { checkUserLogin,checkReservedLogin, getRegisteredUsers } from './userServices';
+import { checkUserLogin, checkReservedLogin, getRegisteredUsers } from './userServices';
 import { checkDescriptionInput, checkPrizeInput, checkInputQuantity, checkInputImage } from './validation'
-import { insertProduct,checkColorCardShop } from './productService';
+import { insertProduct, checkColorCardShop } from './productService';
 
 
 
@@ -39,7 +39,6 @@ export function handleCheckBoxtPoPUp(): Promise<"yes" | "no"> {
         if (!popup) return;
 
         const checkRight = popup.querySelector("#popUCheckright") as HTMLInputElement;
-        //const checkLeft = popup.querySelector("#popUCheckleft") as HTMLInputElement;
         const saveButton = popup.querySelector("#saveCheck") as HTMLButtonElement;
 
         saveButton?.addEventListener("click", (event) => {
@@ -117,7 +116,7 @@ export function setUpNewSection(eventId: string, sectionId: string, templateId: 
 
 
 
-export function initTypeDropdown():void {
+export function initTypeDropdown(): void {
     const buttonType = document.getElementById("typeDropdown");
 
     buttonType?.addEventListener("click", (event) => {
@@ -140,7 +139,7 @@ export function initTypeDropdown():void {
 
                 document.getElementById("dropdownButtonType")
                     ?.setAttribute("data-value", valueUnderMenu);
-                
+
                 genderMenu(valueUnderMenu);
                 return
             }
@@ -150,8 +149,8 @@ export function initTypeDropdown():void {
                 document.getElementById("dropdownButtonType")
                     ?.setAttribute("data-value", valueDropdown);
 
-                    genderMenu(valueDropdown)
-                    return 
+                genderMenu(valueDropdown)
+                return
             }
         }
     })
@@ -182,7 +181,7 @@ export function initGlobalClickListener() {
 function initGenericDropdown(target: HTMLElement, dropdownId: string, buttonId: string) {
     if (!target.classList.contains("dropdown-item")) return;
     if (!target.closest(`#${dropdownId}`)) return;
-    
+
     const name = target.getAttribute("name") || "";
     const value = target.getAttribute("value") || "";
 
@@ -199,7 +198,7 @@ function initGenericDropdown(target: HTMLElement, dropdownId: string, buttonId: 
         genderMenu(value);
         return;
     }
-    
+
 };
 
 
@@ -218,19 +217,19 @@ export function buildProductFromForm(): BaseProduct | null {
     const type = getTypeValue();
     if (!type) return null;
 
-    genderMenu(type); 
+    genderMenu(type);
     const gender = getDropdownValue("dropdownButtonGender");
 
     const size = getDropdownValue("dropdownButtonSize");
     const color = getDropdownValue("dropdownButtonColor");
     const state = getDropdownValue("dropdownButtonState");
-    
+
     const quantity = checkInputQuantity();
     const prize = checkPrizeInput();
     const description = checkDescriptionInput();
     const image = checkInputImage();
 
-    
+
     if (
         !type || !size || !color || !gender ||
         quantity === null || prize === null || !description || !image
@@ -264,7 +263,7 @@ export function handleFormSubmit() {
     const form = document.getElementById("submitSave");
 
     form?.addEventListener("click", async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
         const productData = buildProductFromForm();
         if (!productData) {
@@ -504,7 +503,8 @@ export function cartSetNumberProduct(
         handleLess(
             lessButtonClick,
             context,
-            productsCart
+            productsCart,
+            allProducts
         );
 
         handleDelete(
@@ -559,6 +559,7 @@ function buildCartContext(event: Event, userLogId: string) {
 
 
 
+
 function handleAdd(
     addButton: HTMLButtonElement | null,
     ctx: any,
@@ -581,10 +582,13 @@ function handleAdd(
         );
 
         if (variant?.quantity && textQuantity >= variant.quantity) {
-            addButton.classList.remove("anable");
+            addButton.classList.remove("enable");
             addButton.classList.add("disable");
             showPopUp("Attenzione", "E' stato raggiunto il numero massimo di prodotti disponibili");
             return;
+        } if (variant?.quantity && textQuantity < variant.quantity) {
+            addButton.classList.remove("disable");
+            addButton.classList.add("enable");
         }
     }
 
@@ -600,6 +604,7 @@ function handleAdd(
     const newQty = textQuantity + 1;
     productcart.quantity = newQty;
 
+
     cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
 
     sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
@@ -614,38 +619,77 @@ function handleAdd(
 function handleLess(
     lessButton: HTMLButtonElement | null,
     ctx: any,
-    productsCart: any[]
+    productsCart: any[],
+    allProducts: BaseProduct[]
 ) {
+
     if (!lessButton) return;
 
     const { clone, textQuantity, quantityElement, cliente } = ctx;
-
-    if (textQuantity <= 1) return;
 
     const productId = clone.dataset.id;
     const productColor = clone.dataset.color;
     const productSize = clone.dataset.size;
 
-    const productcart = productsCart.find(
-        p => p.userId === cliente.id &&
-            p.productId === productId &&
-            p.color === productColor &&
-            p.size === productSize
-    );
+    const product = allProducts.find(p => p.id === productId);
 
-    if (!productcart) return;
 
-    const newQty = textQuantity - 1;
-    productcart.quantity = newQty;
+    if (product) {
+        const variant = product.variants.find(
+            v => v.color === productColor && v.size === productSize
+        );
 
-    cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+        const productcart = productsCart.find(
+            p => p.userId === cliente.id &&
+                p.productId === productId &&
+                p.color === productColor &&
+                p.size === productSize
+        );
 
-    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
-    setSumTotCart(productsCart);
+        if (!productcart) return;
 
-    quantityElement.textContent = newQty.toString();
+        console.log("textQuantity before: ", textQuantity)
+
+        const newQty = Number(textQuantity - 1);
+
+        console.log("text quantity after: ", newQty)
+
+        console.log("variantquantity : ", variant?.quantity)
+
+        const addButton = clone.querySelector(".bnt-add");
+
+        if (addButton) {
+            if (variant?.quantity && newQty < variant.quantity) {
+
+                addButton.classList.remove("disable");
+                addButton.classList.add("enable");
+            } else {
+
+                addButton.classList.remove("enable");
+                addButton.classList.add("disable");
+            }
+        }
+
+        if (newQty <= 1) {
+            lessButton.classList.remove("enable");
+            lessButton.classList.add("disable");
+        } else {
+            lessButton.classList.remove("disable");
+            lessButton.classList.add("enable");
+        }
+        productcart.quantity = newQty;
+
+
+
+
+        cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+
+        sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+        setSumTotCart(productsCart);
+
+        quantityElement.textContent = newQty.toString();
+    }
 }
-
 
 
 
