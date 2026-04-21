@@ -226,134 +226,98 @@ body #form button {
   background-color: #485d5b;
   margin-bottom: 10px;
 }
-/*!**********************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/style/menu.css ***!
-  \**********************************************************************/
+/*!**************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/menu.scss ***!
+  \**************************************************************************************************************/
 .blue_bar {
   height: 4.5px;
   margin: 10px;
   background-color: #89acb1;
 }
 
-.black-over {
+#swim_suit[data-menu=close],
+#accessories[data-menu=close] {
+  display: none !important;
+}
+
+#swim_suit[data-menu=open],
+#accessories[data-menu=open] {
+  display: block !important;
+}
+
+body .black-over {
   background-color: #485d5b;
   padding-top: 0.5px;
   padding-bottom: 0.5px;
   width: 100%;
 }
-.black-over h4 {
+body .black-over h4 {
   text-align: center;
   color: #FFF;
   font-family: "Young Serif", serif;
   font-size: 20px;
 }
-
-.gray-over {
+body .gray-over {
   background-color: #89acb1;
   width: 100%;
   padding-top: 1px;
   padding-bottom: 1px;
 }
-.gray-over h1 {
+body .gray-over h1 {
   color: #FFF;
   font-family: "Young Serif", serif;
   text-align: center;
 }
-
-.nav {
+body .nav {
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-top: 20px;
 }
-.nav .nav-item a {
+body .nav .nav-item a {
   color: #485d5b;
   font-family: "Young Serif", serif;
   font-size: 20px;
 }
-.nav .nav-item .nav-link.active:hover {
+body .nav .nav-item .nav-link.active:hover {
   text-decoration: underline;
   color: #89acb1;
 }
-.nav .nav-item .nav-link.disabled {
+body .nav .nav-item .nav-link.disabled {
   text-decoration: underline;
   color: #89acb1;
 }
-.nav .nav-item .btn.btn-primary {
+body .nav .nav-item .btn.btn-primary {
   background-color: transparent;
   border: none;
 }
-.nav .nav-item .btn.btn-primary:hover {
+body .nav .nav-item .btn.btn-primary:hover {
   color: #89acb1;
   text-decoration: underline;
 }
-
-.collapse,
-.collapsing {
-  transition: none !important;
+body .custom-collapse .card.card-body .titleDropdown {
+  margin-bottom: 30px;
+  padding-left: 5px;
 }
-
-.collapse .card.card-body {
-  display: flex;
-  flex-direction: column;
-}
-.collapse .card.card-body h4 {
+body .custom-collapse .card.card-body h4 {
   color: #485d5b;
   font-family: "Young Serif", serif;
-  font-size: 15px;
-  margin-bottom: 15px;
-  padding-left: 15px;
+  font-size: 20px;
+  padding-left: 20px;
 }
-.collapse .card.card-body .type {
+body .custom-collapse .card.card-body .type {
+  max-width: 90%;
   display: grid;
-  grid-template-columns: 120px 1fr auto;
-  gap: 15px;
-  align-items: first baseline;
+  grid-template-columns: 150px 1fr 105px;
+  text-align: left;
+  gap: auto;
 }
-.collapse .card.card-body .type a {
-  font-family: "Young Serif", serif;
-  color: #89acb1;
-}
-.collapse .card.card-body .type a:hover {
-  color: #485d5b;
-}
-.collapse .card.card-body .type li::marker {
-  color: #89acb1;
-}
-.collapse .card.card-body .type p {
+body .custom-collapse .card.card-body .type .p_bold {
   text-align: left;
 }
-
-#accessories .card.card-body .type {
-  grid-template-columns: 120px 1fr 100px;
-}
-
-.video_container {
-  width: 60%;
-  width: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-.video_container video {
-  width: 100%;
-  height: auto;
-  display: block;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.video_container h3 {
+body .custom-collapse .card.card-body .type a {
+  color: #89acb1;
   font-family: "Young Serif", serif;
-  color: #FFF;
-  position: absolute;
-  text-align: center;
-  margin: auto;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
 }
 /*!**************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/form.scss ***!

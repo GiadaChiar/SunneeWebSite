@@ -2,13 +2,6 @@
 
 //universal component
 
-//blue bar line
-
-.blue_bar {
-    height: 4.5px;
-    margin: 10px;
-    background-color: vars.$background-blue;
-}
 
 //dropdown button TREND (link uomo/donna)
 .dropdown {
@@ -70,7 +63,6 @@
 }
 
 body {
-    background-color: vars.$background-light;
 
     .video_container {
         width: 60%;

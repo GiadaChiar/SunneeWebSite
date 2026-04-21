@@ -1,6 +1,4 @@
 
-
-
 export function fetchForm() {
     return fetch("form.html")
         .then(res => res.text())

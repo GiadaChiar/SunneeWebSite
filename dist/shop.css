@@ -67,27 +67,27 @@ body .nav .nav-item .btn.btn-primary:hover {
   color: #89acb1;
   text-decoration: underline;
 }
-body .collapse.custom-collapse .card.card-body .titleDropdown {
+body .custom-collapse .card.card-body .titleDropdown {
   margin-bottom: 30px;
   padding-left: 5px;
 }
-body .collapse.custom-collapse .card.card-body h4 {
+body .custom-collapse .card.card-body h4 {
   color: #485d5b;
   font-family: "Young Serif", serif;
   font-size: 20px;
   padding-left: 20px;
 }
-body .collapse.custom-collapse .card.card-body .type {
+body .custom-collapse .card.card-body .type {
   max-width: 90%;
   display: grid;
   grid-template-columns: 150px 1fr 105px;
   text-align: left;
   gap: auto;
 }
-body .collapse.custom-collapse .card.card-body .type .p_bold {
+body .custom-collapse .card.card-body .type .p_bold {
   text-align: left;
 }
-body .collapse.custom-collapse .card.card-body .type a {
+body .custom-collapse .card.card-body .type a {
   color: #89acb1;
   font-family: "Young Serif", serif;
 }
@@ -253,56 +253,70 @@ body #shopProductHTML #filterButton {
   height: 2rem;
 }
 
-.check-shop-color, .form-check-input {
+.check-shop-color,
+.form-check-input {
   background-color: white;
   cursor: pointer;
 }
-.check-shop-color:hover, .form-check-input:hover {
+.check-shop-color:hover,
+.form-check-input:hover {
   border-color: black;
   transform: scale(1.1);
 }
-.check-shop-color[data-value=black], .form-check-input[data-value=black] {
+.check-shop-color[data-value=black],
+.form-check-input[data-value=black] {
   background-color: black;
 }
-.check-shop-color[data-value=green], .form-check-input[data-value=green] {
+.check-shop-color[data-value=green],
+.form-check-input[data-value=green] {
   background-color: green;
 }
-.check-shop-color[data-value=pink], .form-check-input[data-value=pink] {
+.check-shop-color[data-value=pink],
+.form-check-input[data-value=pink] {
   background-color: pink;
 }
-.check-shop-color[data-value=blue], .form-check-input[data-value=blue] {
+.check-shop-color[data-value=blue],
+.form-check-input[data-value=blue] {
   background-color: blue;
 }
-.check-shop-color[data-value=red], .form-check-input[data-value=red] {
+.check-shop-color[data-value=red],
+.form-check-input[data-value=red] {
   background-color: red;
 }
-.check-shop-color[data-value=floral], .form-check-input[data-value=floral] {
+.check-shop-color[data-value=floral],
+.form-check-input[data-value=floral] {
   background: linear-gradient(45deg, pink, yellow, green, blue);
 }
-.check-shop-color[data-value=multicolored], .form-check-input[data-value=multicolored] {
+.check-shop-color[data-value=multicolored],
+.form-check-input[data-value=multicolored] {
   background: repeating-linear-gradient(45deg, red, red 10px, orange 10px, orange 20px, yellow 20px, yellow 30px, green 30px, green 40px, blue 40px, blue 50px, indigo 50px, indigo 60px, violet 60px, violet 70px);
 }
-.check-shop-color:checked, .form-check-input:checked {
+.check-shop-color:checked,
+.form-check-input:checked {
   border: 2px solid #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
 }
-.check-shop-color:hover, .form-check-input:hover {
+.check-shop-color:hover,
+.form-check-input:hover {
   border-color: black;
   transform: scale(1.1);
 }
 
-.form-check-input.anable, .filter-btn.anable {
+.form-check-input.anable,
+.filter-btn.anable {
   border: 2px solid #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
 }
 
-#filterSave, .btn.btn-primary.w-100 {
+#filterSave,
+.btn.btn-primary.w-100 {
   margin-top: 15px;
   font-family: "Young Serif", serif;
   background-color: #485d5b;
   border-color: #FFF;
 }
-#filterSave:hover, .btn.btn-primary.w-100:hover {
+#filterSave:hover,
+.btn.btn-primary.w-100:hover {
   border-color: #89acb1;
   transform: scale(1.02);
 }

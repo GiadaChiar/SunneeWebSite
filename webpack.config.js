@@ -13,9 +13,10 @@ module.exports = {
         index: './src/js-ts/index.ts',
         aboutUs: './src/js-ts/aboutUs.ts',
         logIn: './src/js-ts/logIn.ts',
-        admin: './src/js-ts/admin.ts',
         shop: './src/js-ts/shop.ts',
-        cart:'./src/js-ts/cart.ts'
+        /*
+        admin: './src/js-ts/admin.ts',
+        cart:'./src/js-ts/cart.ts'*/
 
     },
     // 🔹 Output del bundle
@@ -64,47 +65,54 @@ module.exports = {
             filename: 'index.html',
             chunks: ['index']
         }),
-
-        new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
+            template: './src/components/menu.html',
+            filename: 'menu.html',
+            chunks: ['menu']
+        }),
+    new HtmlWebpackPlugin({
             template: './src/pages/aboutUs.html',
             filename: 'aboutUs.html',
             chunks: ['aboutUs']
         }),
+
         new HtmlWebpackPlugin({
             template: './src/components/form.html',
             filename: 'form.html',
             chunks: ['form']
         }),
-        new HtmlWebpackPlugin({
-            template: './src/components/menu.html',
-            filename: 'menu.html',
-            chunks: ['menu']
-        }),
+        
         new HtmlWebpackPlugin({
             template: './src/pages/logIn.html',
             filename: 'logIn.html',
             chunks: ['logIn']
         }),
+        
         new HtmlWebpackPlugin({
             template: './src/templates/logInSections.html',
             filename: 'logInSections.html',
             chunks: ['logInSections']
         }),
-        new HtmlWebpackPlugin({
-            template: './src/pages/admin.html',
-            filename: 'admin.html',
-            chunks: ['admin']
-        }),
+
         new HtmlWebpackPlugin({
             template: './src/pages/shop.html',
             filename: 'shop.html',
             chunks: ['shop']
         }),
+        /*
+        new HtmlWebpackPlugin({
+            template: './src/pages/admin.html',
+            filename: 'admin.html',
+            chunks: ['admin']
+        }),
+        
         new HtmlWebpackPlugin({
             template: './src/pages/cart.html',
             filename: 'cart.html',
             chunks: ['cart']
         }),
+
+        */
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),

@@ -1,12 +1,6 @@
 /*!***************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/index.scss ***!
   \***************************************************************************************************************/
-.blue_bar {
-  height: 4.5px;
-  margin: 10px;
-  background-color: #89acb1;
-}
-
 .dropdown {
   display: flex;
   align-items: center;
@@ -57,9 +51,6 @@
   font-family: "Young Serif", serif;
 }
 
-body {
-  background-color: #FFF;
-}
 body .video_container {
   width: 60%;
   width: 100%;
@@ -210,27 +201,27 @@ body .nav .nav-item .btn.btn-primary:hover {
   color: #89acb1;
   text-decoration: underline;
 }
-body .collapse.custom-collapse .card.card-body .titleDropdown {
+body .custom-collapse .card.card-body .titleDropdown {
   margin-bottom: 30px;
   padding-left: 5px;
 }
-body .collapse.custom-collapse .card.card-body h4 {
+body .custom-collapse .card.card-body h4 {
   color: #485d5b;
   font-family: "Young Serif", serif;
   font-size: 20px;
   padding-left: 20px;
 }
-body .collapse.custom-collapse .card.card-body .type {
+body .custom-collapse .card.card-body .type {
   max-width: 90%;
   display: grid;
   grid-template-columns: 150px 1fr 105px;
   text-align: left;
   gap: auto;
 }
-body .collapse.custom-collapse .card.card-body .type .p_bold {
+body .custom-collapse .card.card-body .type .p_bold {
   text-align: left;
 }
-body .collapse.custom-collapse .card.card-body .type a {
+body .custom-collapse .card.card-body .type a {
   color: #89acb1;
   font-family: "Young Serif", serif;
 }
