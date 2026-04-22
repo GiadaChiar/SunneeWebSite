@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/style/admin.scss"
+/*!******************************!*\
+  !*** ./src/style/admin.scss ***!
+  \******************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/admin.scss?\n}");
+
+/***/ },
+
 /***/ "./src/style/form.scss"
 /*!*****************************!*\
   !*** ./src/style/form.scss ***!
@@ -47,6 +57,16 @@ eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-ext
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("{__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://sunneewebsite/./src/style/poUp.scss?\n}");
+
+/***/ },
+
+/***/ "./src/js-ts/admin.ts"
+/*!****************************!*\
+  !*** ./src/js-ts/admin.ts ***!
+  \****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_admin_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/admin.scss */ \"./src/style/admin.scss\");\n/* harmony import */ var _style_poUp_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../style/poUp.scss */ \"./src/style/poUp.scss\");\n/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates */ \"./src/js-ts/templates.ts\");\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom */ \"./src/js-ts/dom.ts\");\n/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./events */ \"./src/js-ts/events.ts\");\nvar __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {\n    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }\n    return new (P || (P = Promise))(function (resolve, reject) {\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\n        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\n    });\n};\n\n\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => __awaiter(void 0, void 0, void 0, function* () {\n    yield (0,_templates__WEBPACK_IMPORTED_MODULE_2__.loadTemplates)();\n    (0,_dom__WEBPACK_IMPORTED_MODULE_3__.disableDropdown)(\"dropdownButtonGender\", true);\n    (0,_events__WEBPACK_IMPORTED_MODULE_4__.initTypeDropdown)();\n    (0,_events__WEBPACK_IMPORTED_MODULE_4__.initGlobalClickListener)();\n    (0,_events__WEBPACK_IMPORTED_MODULE_4__.handleFormSubmit)();\n    /*\n    initSearchSection();*/\n}));\n\n\n//# sourceURL=webpack://sunneewebsite/./src/js-ts/admin.ts?\n}");
 
 /***/ },
 
@@ -225,8 +245,8 @@ eval("{__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpa
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/logIn.ts");
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js-ts/admin.ts");
 /******/ 	
 /******/ })()
 ;

@@ -14,8 +14,8 @@ module.exports = {
         aboutUs: './src/js-ts/aboutUs.ts',
         logIn: './src/js-ts/logIn.ts',
         shop: './src/js-ts/shop.ts',
-        /*
         admin: './src/js-ts/admin.ts',
+        /*
         cart:'./src/js-ts/cart.ts'*/
 
     },
@@ -99,13 +99,13 @@ module.exports = {
             filename: 'shop.html',
             chunks: ['shop']
         }),
-        /*
+        
         new HtmlWebpackPlugin({
             template: './src/pages/admin.html',
             filename: 'admin.html',
             chunks: ['admin']
         }),
-        
+        /*
         new HtmlWebpackPlugin({
             template: './src/pages/cart.html',
             filename: 'cart.html',

@@ -1,0 +1,115 @@
+import { genderMenu, getDropdownValue, showPopUp, showPopUpSelection } from "./dom"
+import { checkInputQuantity, checkPrizeInput, checkDescriptionInput, checkInputImage } from "./validations";
+import type { BaseProduct, Variant } from "./productInterfaces";
+import { generateId } from "./utils";
+import { handleCheckBoxtPoPUp } from "./events"
+
+
+
+//Service about products 
+
+//--------------------START ADMIN SECTION -------------------------------------------------------------
+// BUILD PRODUCT
+// ----------------------
+export function buildProductFromForm(): BaseProduct | null {
+    //const type = getTypeValue();
+    const type = getDropdownValue("dropdownButtonType");
+    
+    if (!type) return null;
+
+    genderMenu(type);
+    const gender = getDropdownValue("dropdownButtonGender");
+
+    const size = getDropdownValue("dropdownButtonSize");
+    const color = getDropdownValue("dropdownButtonColor");
+    const state = getDropdownValue("dropdownButtonState");
+
+    const quantity = checkInputQuantity();
+    const prize = checkPrizeInput();
+    const description = checkDescriptionInput();
+    const image = checkInputImage();
+
+
+    if (
+        !type || !size || !color || !gender ||
+        quantity === null || prize === null || !description || !image
+    ) {
+        return null;
+    }
+    alert ("prodotto creatoooooo")
+    return {
+        id: generateId(),
+        type: type as BaseProduct["type"],
+        gender: gender as BaseProduct["gender"],
+        prize,
+        image,
+        description,
+        variants: [
+            {
+                size: size as Variant["size"],
+                color: color as Variant["color"],
+                quantity,
+                state: (state as Variant["state"]) || (quantity > 0 ? "available" : "unavailable")
+            }
+        ]
+    };
+}
+
+
+//check product 
+
+//insert prpoduct or variable
+
+export async function insertProduct(productData: BaseProduct) {
+    const existingProducts: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+
+    const newVariant = productData.variants[0]; 
+    // find product 
+    let product = existingProducts.find(p =>
+        p.type === productData.type &&
+        p.gender === productData.gender &&
+        p.image === productData.image &&
+        p.description === productData.description
+    );
+
+    if (product && newVariant) {
+        const variantExists = product.variants.some(v => v.size === newVariant.size && v.color === newVariant.color);
+        const priceChanged = Number(product.prize) !== Number(productData.prize);
+
+        if (variantExists || priceChanged) {
+            showPopUpSelection("Attenzione", "Prodotto già esistente, procedere con la modifica?", "SI", "NO");
+            const choice = await handleCheckBoxtPoPUp();
+            if (choice !== "yes") return;
+
+            if (variantExists) {
+                product.variants = product.variants.map(v =>
+                    v.size === newVariant.size && v.color === newVariant.color
+                        ? { ...v, quantity: newVariant.quantity, state: newVariant.state }
+                        : v
+                );
+            } else {
+                product.variants.push(newVariant);
+            }
+
+            if (priceChanged) product.prize = Number(productData.prize);
+
+            showPopUp("Aggiornamento", "Prodotto aggiornato correttamente");
+
+        } else {
+            product.variants.push(newVariant);
+            showPopUp("Aggiornamento", "Nuova variante aggiunta correttamente");
+        }
+
+    } else {
+        // New product
+        productData.id = generateId();
+        existingProducts.push(productData);
+        showPopUp("Inserimento", "Prodotto inserito correttamente");
+    }
+
+    localStorage.setItem("products", JSON.stringify(existingProducts));
+    console.log(existingProducts)
+}
+
+
+//-------------------END ADMIN SECTION -----------------------------------------
