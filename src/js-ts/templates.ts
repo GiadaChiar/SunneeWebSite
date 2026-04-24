@@ -1,5 +1,6 @@
 
-
+import type { BaseProduct } from "./productInterfaces";
+import { checkRegistration } from './userServices';
 
 
 
@@ -9,6 +10,8 @@
 
 //loader templates to save them in memory
 const templates: Record<string, HTMLTemplateElement> = {};
+
+
 
 export async function loadTemplates() {
 
@@ -53,11 +56,80 @@ export function insertTemplate(sectionId: string, templateId: string) {
         if (form && !form.hasAttribute("data-listener")) {
             form.addEventListener("submit", (e) => {
                 e.preventDefault();
-//ATTIVALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CON LOGIN NORMALE 
-                //checkRegistration();
+
+                checkRegistration();
             });
             form.setAttribute("data-listener", "true");
         }
     }
 }
+
+
+
+//change clone shop
+
+export function insertProductClone(product: BaseProduct) {
+
+    const section = document.getElementById("shopProductHTML");
+    const template = templates["shopTemplate"];
+
+    if (!section || !template) {
+        console.error("Section or template not found");
+        return;
+    }
+
+    // clone template
+    const clone = template.content.cloneNode(true) as HTMLElement;
+    // update info
+    (clone.querySelector(".decriptionShop") as HTMLElement).textContent = product.description;
+    (clone.querySelector(".prizeShop") as HTMLElement).textContent = `${product.prize} €`;
+    (clone.querySelector(".imgShop") as HTMLImageElement).src = `../img/${product.image}`;
+    const buttonCard = clone.querySelector("button[name='cart']") as HTMLButtonElement;
+    buttonCard.id = product.id.toString();
+
+    //creation dynamic id
+    const collapseId = `sizeCollapse-${product.id}`;
+    const button = clone.querySelector("#filterButton") as HTMLButtonElement;
+    const collapse = clone.querySelector("#sizeCollapse") as HTMLElement;
+
+    // button --> to collapse
+    if (button && collapse) {
+        collapse.id = collapseId; //change div id
+        button.setAttribute("data-bs-target", `#${collapseId}`);
+    }
+    // Add colors
+    const colorList = clone.querySelector(".colorshop");
+    if (colorList) {
+        const uniqueColors = Array.from(new Set(product.variants.map(v => v.color)));
+        uniqueColors.forEach((color, index) => {
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `color-${product.id}`;
+            input.value = color;
+            input.setAttribute("data-value", color);
+            input.classList.add("check-shop-color");
+            colorList.appendChild(input);
+            
+            if (index === 0) {
+                input.checked = true;
+                let colorFirstElement = color
+                
+                //return colorFirstElement
+                const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+
+                sizeButtons.forEach(button => {
+                    const sizeValue = button.dataset.value;
+                    const available = product.variants.some(
+                        v => v.size === sizeValue && v.color === colorFirstElement
+                    );
+                    button.dataset.state = available ? "available" : "unavailable";
+                });
+            }
+        });
+    }
+    // Append clone to section
+    section.appendChild(clone);
+}
+
+
 

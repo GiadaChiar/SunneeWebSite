@@ -3,10 +3,35 @@ import { checkInputQuantity, checkPrizeInput, checkDescriptionInput, checkInputI
 import type { BaseProduct, Variant } from "./productInterfaces";
 import { generateId } from "./utils";
 import { handleCheckBoxtPoPUp } from "./events"
-
+import { ProductsDefault } from './initProducts';
 
 
 //Service about products 
+
+// Local storage Products
+export function getLocalProducts() :BaseProduct[]{
+
+    return JSON.parse(localStorage.getItem("products") || "[]");
+}
+
+
+//Default products + local storage products.
+export function getAllProducts(): BaseProduct[]{
+    const localproducts = getLocalProducts();
+    return [...ProductsDefault, ...localproducts];
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 //--------------------START ADMIN SECTION -------------------------------------------------------------
 // BUILD PRODUCT
@@ -54,6 +79,10 @@ export function buildProductFromForm(): BaseProduct | null {
         ]
     };
 }
+
+
+
+
 
 
 //check product 
@@ -113,3 +142,56 @@ export async function insertProduct(productData: BaseProduct) {
 
 
 //-------------------END ADMIN SECTION -----------------------------------------
+
+//-------------------START SHOP SECTION ---------------------------------------------
+
+
+// check selected radio button clicked
+export function getSelectedColor(
+    target: HTMLElement,
+    clone: HTMLElement,
+    products: BaseProduct[]
+): string {
+    let selectedColor =
+        clone?.querySelector<HTMLInputElement>('input.check-shop-color:checked')?.value || "";
+
+    if (target?.classList.contains("check-shop-color") && (target as HTMLInputElement).type === "radio") {
+        selectedColor = checkColorCardShop(products, target as HTMLInputElement, clone);
+    }
+
+    return selectedColor;
+}
+
+
+
+
+
+
+//check if the product color is available
+
+function checkColorCardShop(products: BaseProduct[], target: HTMLInputElement, clone: HTMLElement): string | "" {
+    if (!clone) return "";
+
+    const productId = target.name.replace("color-", "");
+    const product = products.find(p => p.id === productId);
+
+    if (!product) return "";
+
+    // update size
+    const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
+
+    sizeButtons.forEach(button => {
+        const sizeValue = button.dataset.value;
+        const available = product.variants.some(
+            v => v.size === sizeValue && v.color === target.value
+        );
+        button.dataset.state = available ? "available" : "unavailable";
+
+    });
+    return target.value
+
+}
+
+
+
+//-------------------END SHOP SECTION ------------------------------------------

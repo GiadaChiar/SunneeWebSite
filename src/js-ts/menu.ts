@@ -47,92 +47,7 @@ function changeLinkNavigation(divMenu: HTMLElement) {
 }
 
 
-//------------------OLD CODE ---------------------//
 
-/*
-function checkMenuSections() {
-    const swimSuitBtn = document.querySelector('a[href="#swim_suit"]') as HTMLElement;
-    const accessoriesBtn = document.querySelector('a[href="#accessories"]') as HTMLElement;
-
-    const swimSuit = document.getElementById("swim_suit") as HTMLElement;
-    const accessories = document.getElementById("accessories") as HTMLElement;
-
-    if (!swimSuit || !accessories || !swimSuitBtn || !accessoriesBtn) return;
-
-    // generic function open/close
-    function toggleMenu(menuToOpen: HTMLElement, menuToClose: HTMLElement) {
-        const isOpen = menuToOpen.dataset.menu === "open";
-        menuToOpen.dataset.menu = isOpen ? "close" : "open";
-        menuToClose.dataset.menu = "close";
-    }
-
-
-    function toggleSwimSuit() { toggleMenu(swimSuit, accessories); }
-    function toggleAccessories() { toggleMenu(accessories, swimSuit); }
-
-    // buttons clicks
-    swimSuitBtn.addEventListener("click", (e) => { e.preventDefault(); toggleSwimSuit(); });
-    accessoriesBtn.addEventListener("click", (e) => { e.preventDefault(); toggleAccessories(); });
-
-    closeClickOutside(swimSuit, swimSuitBtn, accessories, accessoriesBtn)
-
-}
-
-
-
-
-
-//global event listener to get data-type and value
-export function getTypeandDataFilterMenu() {
-    document.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-
-        const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
-        if (!dropdownItem) return;
-
-        event.preventDefault();
-
-        const type = dropdownItem.dataset.type;
-        const gender = dropdownItem.dataset.gender;
-
-        //send data 
-        window.location.href = `shop.html?type=${type}&gender=${gender}`;
-
-    });
-}
-
-
-function closeClickOutside(swimSuit: HTMLElement, swimSuitBtn: HTMLElement, accessories: HTMLElement, accessoriesBtn: HTMLElement) {
-    document.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        if (
-            !swimSuit.contains(target) &&
-            !swimSuitBtn.contains(target) &&
-            !accessories.contains(target) &&
-            !accessoriesBtn.contains(target)
-        ) {
-            swimSuit.dataset.menu = "close";
-            accessories.dataset.menu = "close";
-        }
-    });
-}
-
-
-// Final function to export 
-export function setUpMenu() {
-    fetchMenu()
-        .then((divMenu) => {
-            changeLinkNavigation(divMenu as HTMLElement); // upload state link 
-            checkMenuSections();
-            getTypeandDataFilterMenu(); inside checkClick
-        })
-        .catch(error => {
-            console.log("Error upload state menu");
-        });
-}
-
-
-*/
 
 
 //--------------------NEW CODE-------------------------------//
@@ -142,23 +57,14 @@ function toggleMenu(menuToOpen: HTMLElement, menuToClose: HTMLElement) {
     const isOpen = menuToOpen.dataset.menu === "open";
     
     menuToOpen.dataset.menu = isOpen ? "close" : "open";
+    console.log("menu APERTO")
     menuToClose.dataset.menu = "close";
-}
-
-
-//global event listener to get data-type and value
-export function getTypeandDataFilterMenu(dropdownItem :HTMLAnchorElement) {
-    
-        const type = dropdownItem.dataset.type;
-        const gender = dropdownItem.dataset.gender;
-
-        window.location.href = `shop.html?type=${type}&gender=${gender}`;
+    console.log("menu CHIUSO")
 }
 
 
 
-
-function checkClickMenu() {
+export function checkClickMenu() {
     document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
 
@@ -172,19 +78,26 @@ function checkClickMenu() {
 
         if(swimSuitBtn){
             e.preventDefault();
+            e.stopPropagation();
             toggleMenu(swimSuit, accessories);
             return;
         }
 
         else if(accessoriesBtn){
             e.preventDefault(); 
+            e.stopPropagation();
             toggleMenu(accessories, swimSuit);
             return;
         }
 
         else if(dropdownItem){
             e.preventDefault();
-            getTypeandDataFilterMenu(dropdownItem);
+            e.stopPropagation();
+            const type = dropdownItem.dataset.type;
+            const gender = dropdownItem.dataset.gender;
+
+            window.location.href = `shop.html?type=${type}&gender=${gender}`;
+            return;
         }
         
         else {
@@ -199,14 +112,14 @@ function checkClickMenu() {
 export function setUpMenu() {
     fetchMenu()
         .then((divMenu) => {
+            //checkClickMenu();
             changeLinkNavigation(divMenu as HTMLElement); // upload state link 
-            checkClickMenu()
+            
         })
         .catch(error => {
             console.log("Error upload state menu");
         });
 }
-
 
 
 

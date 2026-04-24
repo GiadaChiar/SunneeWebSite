@@ -1,6 +1,7 @@
 
 import { insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
+import type { BaseProduct } from "./productInterfaces";
 
 
 //--------------------------------------------------STANDARD FUNCTIONs -----------------------------------------------------------------
@@ -186,4 +187,129 @@ export function getDropdownValue(buttonId: string): string | null {
         ?.getAttribute("data-value") || null;
 }
 
-///----------------------------END UNITPOOOOOOOOOOOOOOOOOOOOOOOOO-----------------------+
+///----------------------------END UNITPOOOOOOOOOOOOOOOOOOOOOOOOO-----------------------
+
+
+
+//create table 
+export function createTable(products: BaseProduct[]) {
+    const existingTable = document.getElementById("tableTemplateShow")
+    if (existingTable) {
+        cleanSection("tableHTML")
+    }
+    insertTemplate("tableHTML", "tableTemplate");
+
+    const productsSection = document.getElementById("products-table")
+
+    if (!productsSection) return
+
+    products.forEach(product => {
+        //header products
+        const productHeader = document.createElement("tr");
+        productHeader.classList.add("table-active");
+        productHeader.innerHTML = `
+            <td>Id</td>
+            <td>Tipologia</td>
+            <td>Genere</td>
+            <td>Immagine</td>
+            <td>Prezzo</td>
+            <td>Descrizione</td>
+            
+        `;
+        productsSection.append(productHeader)
+
+        const tr = document.createElement("tr");
+        tr.classList.add("table-success");
+        tr.innerHTML = `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.type}</td>
+            <td>${product.gender}</td>
+            <td><img src="../img/${product.image}" width="50"></td>
+            <td>${product.prize}</td>
+            <td>${product.description}</td>
+        </tr>
+        `;
+        productsSection.append(tr)
+
+        //header variants
+        const variantHeader = document.createElement("tr");
+        variantHeader.classList.add("table-secondary");
+        variantHeader.innerHTML = `
+            <td>Variabili</td>
+            <td>Taglia</td>
+            <td>Colore</td>
+            <td>Quantità</td>
+            <td>Stato</td>
+            <td>-</td>
+        `;
+
+        productsSection.appendChild(variantHeader);
+
+        product.variants.forEach(variant => {
+            const variantRow = document.createElement("tr");
+            variantRow.innerHTML += `
+        <tr>
+            <td>Caratteristiche:</td>
+            <td>${variant.size}</td>
+            <td>${variant.color}</td>
+            <td>${variant.quantity}</td>
+            <td>${variant.state}</td>
+            <td>-</td>
+        </tr>
+        `;
+            productsSection.appendChild(variantRow);
+        });
+    })
+}
+
+
+
+
+//-------------END ADMIN SECTION ----------------------------
+
+//---------------START SHOP SECTION ----------------------
+
+
+//----------------------------------------SHOP SECTION-----------------------------------------------------
+
+
+
+
+export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>): string | "" {
+    let selected = check.dataset.value || ""
+
+    if (check.classList.contains("anable")) {
+        check.classList.remove("anable");
+        check.classList.add("disable");
+
+        if (check instanceof HTMLInputElement) {
+            check.checked = false;
+        }
+        selected = "";
+    } else {
+
+        allElement.forEach(el => {
+            el.classList.remove("anable");
+            el.classList.add("disable");
+            if (el instanceof HTMLInputElement) {
+                el.checked = false;
+            }
+        });
+
+        if (check.dataset.state === "unavailable") return ""
+
+        check.classList.remove("disable");
+        check.classList.add("anable");
+        if (check instanceof HTMLInputElement) {
+            check.checked = true;
+        }
+
+        selected = check.dataset.value || "";
+    }
+    return selected;
+}
+
+
+
+//----------------END SHOP SECTION ----------------------------

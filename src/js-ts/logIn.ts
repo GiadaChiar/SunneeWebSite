@@ -5,6 +5,7 @@ import'../style/poUp.scss';
 
 
 
+
 //NON IMPORTATO getTypeandDataFilterMenu NON PENSO SERVA
 import { setUpMenu} from './menu'
 import { fetchForm } from './form'
@@ -13,7 +14,8 @@ import{ loadTemplates } from "./templates";
 //import{ setReservateLogIn} from "./events"
 import{ logInListenerClick} from "./events";
 import { cleanSection, changeTextContent } from "./dom";
-import {submitLogIn } from "./events";
+import {submitLogIn, setUpNewSection } from "./events";
+import { showUsersAllUsers, showUsers} from './userServices';
 
 
 //setUp Reservation Access
@@ -33,7 +35,20 @@ console.log("PAGEEE LOGFIN")
 document.addEventListener("DOMContentLoaded", async() => {
     //dowload template in memory
     await loadTemplates();
+    setUpMenu();
+    fetchForm();
     logInListenerClick();
+    submitLogIn();
+    setUpNewSection("newRegistration","loginHTML","registrationTemplate");//new registration
+    
+    //EXTRA TO SEE USERS
+    showUsersAllUsers();
+    showUsers();
+    
+    
+    
+    
+    //getTypeandDataFilterMenu();
 
     /*setUpNewSection("newRegistration","loginHTML","registrationTemplate");//new registration
     setUpMenu();

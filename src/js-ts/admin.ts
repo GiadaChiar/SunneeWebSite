@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     initGlobalClickListener();
 
     handleFormSubmit();
-    /*
-    initSearchSection();*/
+    
 });
 
 

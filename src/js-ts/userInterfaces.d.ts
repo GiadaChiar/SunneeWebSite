@@ -11,4 +11,5 @@ export interface RegisterFormReservate {
     password: string;
 }
 export declare const reservedUsers: RegisterFormReservate[];
+export declare const users: RegisterForm[];
 //# sourceMappingURL=userInterfaces.d.ts.map

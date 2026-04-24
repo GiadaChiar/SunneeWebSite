@@ -38,6 +38,44 @@ export function ValidationNewUser(): boolean {
 
 
 
+
+
+//check validation password new user
+export function ValidationPassword(): boolean {
+
+    const passwordInput = document.getElementById("password") as HTMLInputElement;
+    const confirmInput = document.getElementById("confirmPassword") as HTMLInputElement;
+
+    if (!passwordInput || !confirmInput) return false;
+
+    const password = passwordInput.value.trim();
+    const confirm = confirmInput.value.trim();
+
+    if (password.length < 8) {
+        return false;
+    }
+
+    // at least a letter and a number
+    const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+    if (!regex.test(password)) {
+        return false;
+    }
+
+    // check passwords
+    if (password !== confirm) {
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
 //------------ADMIN SECTION -----------------------------------------
 
 //INPUT :

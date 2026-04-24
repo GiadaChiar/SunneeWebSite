@@ -1,9 +1,12 @@
 
-import { changeTextContent, showHidden, initGenericDropdown, showPopUp, genderMenu, cleanSection  } from './dom';
+import { changeTextContent, showHidden, initGenericDropdown, showPopUp, genderMenu, cleanSection, createTable, checkedFilterShop } from './dom';
 import { setAdminLogin, getAdminLogin} from './utils';
 import { setReservatePage } from './logIn';
-import { checkReservedLogin} from './userServices';
-import { buildProductFromForm, insertProduct } from "./productService";
+import { checkReservedLogin, checkUserLogin} from './userServices';
+import { buildProductFromForm, insertProduct, getSelectedColor } from "./productService";
+import { ProductService } from "./productInterfaces";
+import type { BaseProduct} from './productInterfaces';
+import { insertTemplate } from "./templates";
 
 
 //--------START LOGIN PART -------------------------------------------
@@ -29,6 +32,11 @@ export function logInListenerClick(){
 
 
 
+
+
+
+
+
 //if I click to button access I have to undestand if it is a loggerUser or loggerAdmin section
 export function submitLogIn() {
     const loginForm = document.getElementById("loginFormStandard") as HTMLFormElement | null;
@@ -41,9 +49,29 @@ export function submitLogIn() {
             checkReservedLogin(); // admin
         } else {
                 console.log("E' UN USER")
-           // checkUserLogin(); // standard
+                checkUserLogin(); // standard
         }
-    }, { once: true })
+    }
+)};
+
+
+//New user Registration 
+
+
+//check event for registration 
+export function setUpNewSection(eventId: string, sectionId: string, templateId: string) {
+
+    const linkClicked = document.getElementById(eventId);
+
+    if (!linkClicked) {
+        console.error("Link not found");
+        return;
+    }
+
+    linkClicked.addEventListener("click", (event) => {
+        event.preventDefault();
+        insertTemplate(sectionId, templateId);
+    });
 }
 
 
@@ -97,18 +125,40 @@ export function initTypeDropdown(): void {
 }
 
 
+
+
 //Listeren 
 export function initGlobalClickListener() {
+    const input = document.getElementById("searchIdInput") as HTMLInputElement;
+
     document.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
         if (!target) return;
 
+        if (target.id === "submitSearch") {
+            createTable(ProductService.getAll());
+        }
+
+        if (target.id === "searchById") {
+            const product = ProductService.findById(input.value);
+            if (product) createTable([product]);
+            else showPopUp("Errore", "Prodotto non trovato");
+        }
+
+        if (target.id === "deleteProduct") {
+            ProductService.delete(input.value);
+            createTable(ProductService.getAll());
+        }
+
         initGenericDropdown(target, "sizeDropdown", "dropdownButtonSize");
         initGenericDropdown(target, "colorDropdown", "dropdownButtonColor");
         initGenericDropdown(target, "stateDropdown", "dropdownButtonState");
-        initGenericDropdown(target, "genderDropdown", "dropdownButtonGender");
+        initGenericDropdown(target, "genderDropdown", "dropdownButtonGender");   
+    
     });
 }
+
+
 
 
 
@@ -154,4 +204,52 @@ export function handleCheckBoxtPoPUp(): Promise<"yes" | "no"> {
 
 
 
+
 //------------END ADMIN PART -------------------------------------------
+
+//---------------START SHOP PART ------------------------------------------
+
+
+
+//--------------END SHOP PART-----------------------------------------
+
+
+export function setupColorSelection(products: BaseProduct[]) {
+    const shopSection = document.getElementById("shopProductHTML");
+    if (!shopSection) return;
+
+    let sizeElement = "";
+
+    shopSection.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const button = target.closest("button") as HTMLButtonElement;
+        const clone = target.closest(".container") as HTMLElement;
+        const loggedUserId = sessionStorage.getItem("userId");
+
+        let selectedColor = getSelectedColor(target, clone, products);
+        sizeElement = handleSizeSelection(button, sizeElement);
+
+       // handleAddToCart(button, clone, selectedColor, sizeElement, products, loggedUserId);
+    });
+}
+
+
+
+function handleSizeSelection(
+    button: HTMLButtonElement | null,
+    currentSize: string
+): string {
+    if (button && button.classList.contains("template")) {
+        const allButtons = document.querySelectorAll<HTMLButtonElement>(
+            'button[data-filter-type="size"]'
+        );
+
+        return checkedFilterShop(button, allButtons);
+    }
+
+    return currentSize;
+}
+
+
+
+
