@@ -7,7 +7,7 @@ import'../style/poUp.scss';
 
 
 //NON IMPORTATO getTypeandDataFilterMenu NON PENSO SERVA
-import { setUpMenu} from './menu'
+import { setUpMenu, checkClickMenu } from './menu'
 import { fetchForm } from './form'
 
 import{ loadTemplates } from "./templates";
@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async() => {
     //dowload template in memory
     await loadTemplates();
     setUpMenu();
+    checkClickMenu();
     fetchForm();
     logInListenerClick();
     submitLogIn();

@@ -1,11 +1,13 @@
 
 import { changeTextContent, showHidden, initGenericDropdown, showPopUp, genderMenu, cleanSection, createTable, checkedFilterShop } from './dom';
-import { setAdminLogin, getAdminLogin} from './utils';
+import { setAdminLogin, getAdminLogin } from './utils';
 import { setReservatePage } from './logIn';
-import { checkReservedLogin, checkUserLogin} from './userServices';
+import { checkReservedLogin, checkUserLogin, getRegisteredUsers } from './userServices';
 import { buildProductFromForm, insertProduct, getSelectedColor } from "./productService";
 import { ProductService } from "./productInterfaces";
-import type { BaseProduct} from './productInterfaces';
+import type { BaseProduct, Variant } from './productInterfaces';
+import type { CartItem } from "./cartInterfaces";
+import { ShopClient } from "./cartInterfaces";
 import { insertTemplate } from "./templates";
 
 
@@ -229,9 +231,66 @@ export function setupColorSelection(products: BaseProduct[]) {
         let selectedColor = getSelectedColor(target, clone, products);
         sizeElement = handleSizeSelection(button, sizeElement);
 
-       // handleAddToCart(button, clone, selectedColor, sizeElement, products, loggedUserId);
+        handleAddToCart(button, clone, selectedColor, sizeElement, products, loggedUserId);
     });
 }
+
+
+
+
+function handleAddToCart(
+    button: HTMLButtonElement | null,
+    clone: HTMLElement,
+    selectedColor: string,
+    sizeElement: string,
+    products: BaseProduct[],
+    loggedUserId: string | null
+) {
+    if (!button || button.type !== "button" || button.name !== "cart") return;
+    if (!clone) return;
+
+    if (!loggedUserId) {
+        showPopUp("Attenzione", "Fai il login per procedere all'acquisto");
+        return;
+    }
+
+    if (selectedColor === "") {
+        showPopUp("Errore", "Seleziona il colore desiderato");
+        return;
+    }
+
+    if (sizeElement === "") {
+        showPopUp("Errore", "Seleziona la taglia desiderata");
+        return;
+    }
+
+    const users = getRegisteredUsers();
+    const savedCart = sessionStorage.getItem("cart");
+    const userData = users.find(u => u.id === loggedUserId);
+
+    if (!userData) return;
+
+    const client = new ShopClient(userData);
+
+    if (savedCart) {
+        const cartItems: CartItem[] = JSON.parse(savedCart);
+        client.loadCart(cartItems);
+        console.log("cliente salvato: ", client)
+    }
+
+    client.addToCart({
+        userId: loggedUserId,
+        productId: button.id,
+        size: sizeElement as Variant["size"],
+        color: selectedColor as Variant["color"],
+        quantity: 1
+    }, products, loggedUserId);
+
+    sessionStorage.setItem("cart", JSON.stringify(client.getCart()));
+    window.location.href = "cart.html";
+}
+
+
 
 
 

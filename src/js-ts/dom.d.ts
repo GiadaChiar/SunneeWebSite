@@ -10,4 +10,5 @@ export declare function genderMenu(valueDropdown: string): void;
 export declare function initGenericDropdown(target: HTMLElement, dropdownId: string, buttonId: string): void;
 export declare function getDropdownValue(buttonId: string): string | null;
 export declare function createTable(products: BaseProduct[]): void;
+export declare function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTMLElement>): string | "";
 //# sourceMappingURL=dom.d.ts.map
