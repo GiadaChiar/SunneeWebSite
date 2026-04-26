@@ -1,6 +1,10 @@
 
+import type { ShopClient } from "./cartInterfaces";
 import type { BaseProduct } from "./productInterfaces";
 import { checkRegistration } from './userServices';
+import { translate } from "./utils";
+import { setSumTotCart } from "./dom";
+import { cartSetNumberProduct } from "./events";
 
 
 
@@ -133,3 +137,47 @@ export function insertProductClone(product: BaseProduct) {
 
 
 
+//-------------------CART SECTION ---------------------
+
+export function changeCartTemplate(cartItems: ReturnType<ShopClient['getDetailedCart']>, idUser: string) {
+    
+    const section = document.getElementById("cartHTML");
+    const template = templates["cartTemplate"];
+
+    if (!section || !template) return;
+
+    const userProducts = cartItems.filter(p => p && p.userId === idUser)
+    if (!userProducts) return
+
+    userProducts.forEach(item => {
+        if (!item) return;
+
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const element = clone.firstElementChild as HTMLElement;
+
+        (element.querySelector(".description") as HTMLElement).textContent = item.description;
+        (element.querySelector(".price") as HTMLElement).textContent = `${item.price} €`;
+        (element.querySelector(".size") as HTMLElement).textContent = translate.size[item.size];
+        (element.querySelector(".color") as HTMLElement).textContent = translate.color[item.color];
+        (element.querySelector(".imgCart") as HTMLImageElement).src = `../img/${item.image}`;
+        (element.querySelector(".quantity") as HTMLElement).textContent = item.quantity.toString();
+        element.dataset.id = item.productId;//add id product
+        element.dataset.color = item.color;
+        element.dataset.size = item.size;
+
+
+        //default 1 to order
+        const buttonLess = element.querySelector(".bnt-less") as HTMLButtonElement;
+        if (item.quantity > 1) {
+            buttonLess.classList.remove("disable");
+            buttonLess.classList.add("anable");
+        }
+
+        section.appendChild(clone);
+    })
+
+    cartSetNumberProduct(idUser, userProducts);
+    //sum function total to pay
+    setSumTotCart(userProducts)
+
+}

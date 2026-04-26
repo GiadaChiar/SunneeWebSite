@@ -2,6 +2,11 @@
 import { insertTemplate } from "./templates";
 import { handleCheckBoxtPoPUp } from "./events";
 import type { BaseProduct } from "./productInterfaces";
+import { ProductsDefault } from "./initProducts";
+import type { ShopClient } from "./cartInterfaces";
+import { Product, ProductService } from './productInterfaces';
+import { getAllProducts } from "./productService";
+import { users } from './userInterfaces';
 
 
 //--------------------------------------------------STANDARD FUNCTIONs -----------------------------------------------------------------
@@ -55,7 +60,7 @@ export function addCloseButton(containerId: string) {
     closeBtn.type = "button"
 
     closeBtn.addEventListener("click", () => {
-        container.remove(); 
+        container.remove();
     });
     container.style.position = "relative";
     container.appendChild(closeBtn)
@@ -63,7 +68,7 @@ export function addCloseButton(containerId: string) {
 
 
 
-//info and quanstion multy opstions popUp
+//info and question multy opstions popUp
 
 export function showPopUpSelection(title: string, message: string, checkright: string, checkleft: string) {
     const existingPopUp = document.getElementById("custom-popup");
@@ -103,7 +108,7 @@ export function disableDropdown(dropdownId: string, bool: boolean) {
 
 
 //filter swim-suit subcategory
-export function showHidden(subMenuId: string):void {
+export function showHidden(subMenuId: string): void {
     const subMenu = document.getElementById(subMenuId)
     if (subMenu) {
         if (subMenu.dataset.show === "none") {
@@ -134,10 +139,10 @@ export function genderMenu(valueDropdown: string): void {
         return;
     }
 
-    
+
     disableDropdown("dropdownButtonGender", false);
     changeTextContent("dropdownButtonGender", "Genere");
-    
+
 }
 
 
@@ -168,15 +173,6 @@ export function initGenericDropdown(target: HTMLElement, dropdownId: string, but
 };
 
 
-//----------------------------------UNITOOOOOOOOOOOOOOOOOOOO-----------------------------
-/*
-//get value in Type dropdown 
-export function getTypeValue(): string | null {
-    return document
-        .getElementById("dropdownButtonType")
-        ?.getAttribute("data-value") || null;
-}
-*/
 
 
 //get values from other dropdowns
@@ -187,7 +183,6 @@ export function getDropdownValue(buttonId: string): string | null {
         ?.getAttribute("data-value") || null;
 }
 
-///----------------------------END UNITPOOOOOOOOOOOOOOOOOOOOOOOOO-----------------------
 
 
 
@@ -266,11 +261,6 @@ export function createTable(products: BaseProduct[]) {
 
 
 
-//-------------END ADMIN SECTION ----------------------------
-
-//---------------START SHOP SECTION ----------------------
-
-
 //----------------------------------------SHOP SECTION-----------------------------------------------------
 
 
@@ -311,5 +301,219 @@ export function checkedFilterShop(check: HTMLElement, allElement: NodeListOf<HTM
 }
 
 
+//-------------------------CART SECTION -------------------------------
 
-//----------------END SHOP SECTION ----------------------------
+
+
+//if I click on button + in the cart 
+
+export function handleAdd(
+    addButton: HTMLButtonElement | null,
+    ctx: any,
+    productsCart: any[]
+) {
+    if (!addButton) return;
+
+    const { clone, textQuantity } = ctx;
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    const product = ProductService.findById(productId);
+
+    if (!product) return;
+
+    const foundQuantity = ProductService.findQuantity(product, productColor, productSize);
+
+    if (foundQuantity === undefined) return
+
+    const userQuantity = Number(textQuantity)
+
+    AddEffect(foundQuantity, userQuantity, addButton, productsCart, ctx)
+}
+
+
+
+function AddEffect(
+    quantity: number,
+    userQunatity: number,
+    addButton: HTMLButtonElement | null,
+    productsCart: any[],
+    ctx: any,) {
+
+    if (!addButton) return
+
+    if (userQunatity >= quantity) {
+        addButton.classList.remove("enable");
+        addButton.classList.add("disable");
+        showPopUp("Attenzione", "E' stato raggiunto il numero massimo di prodotti disponibili");
+        return
+    }
+
+    addButton.classList.remove("disable");
+    addButton.classList.add("anable");
+
+    const { clone, quantityElement, cliente } = ctx;
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    const productcart = findCartItem(
+        productsCart,
+        cliente.id,
+        productId,
+        productColor,
+        productSize
+    );
+
+    if (!productcart) return;
+
+    const newQty = userQunatity + 1;
+    productcart.quantity = newQty;
+
+    cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+
+    setSumTotCart(productsCart);
+
+    quantityElement.textContent = newQty.toString();
+    const lessButton = clone.querySelector(".bnt-less");
+
+    if (lessButton) {
+        console.log(newQty)
+
+        if (newQty >= 1) {
+            lessButton.classList.remove("disable");
+            lessButton.classList.add("enable");
+        }
+    }
+}
+
+
+
+
+function findCartItem(
+    productsCart: any[],
+    userId: string,
+    productId: string,
+    color: string,
+    size: string
+) {
+    return productsCart.find(
+        p =>
+            p.userId === userId &&
+            p.productId === productId &&
+            p.color === color &&
+            p.size === size
+    );
+}
+
+
+
+//if I click on button - in the cart
+
+export function handleLess(
+    lessButton: HTMLButtonElement | null,
+    ctx: any,
+    productsCart: any[],
+) {
+    if (!lessButton) return;
+
+    const { clone, textQuantity, quantityElement, cliente } = ctx;
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    const product = ProductService.findById(productId);
+
+    if (!product) return;
+
+    const foundQuantity = ProductService.findQuantity(product, productColor, productSize);
+    
+    const productcart = findCartItem(
+        productsCart,
+        cliente.id,
+        productId,
+        productColor,
+        productSize
+    );
+
+    if (!productcart && !foundQuantity) return;
+
+    if (textQuantity <= 1) {
+        console.log("NON POSSO SCENDERE ")
+        lessButton.classList.remove("enable");
+        lessButton.classList.add("disable");
+        return
+    }
+
+    const newQty = Number(textQuantity - 1);
+    const addButton = clone.querySelector(".bnt-add");
+
+    if (addButton) {
+        console.log("TROVATO ADDBUTTON")
+        if (foundQuantity && newQty < foundQuantity) {
+
+            addButton.classList.remove("disable");
+            addButton.classList.add("enable");
+        }
+    }
+    productcart.quantity = newQty;
+
+    cliente.updateCartItem(productcart.productId, productcart.color, productcart.size, newQty);
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+
+    setSumTotCart(productsCart);
+    quantityElement.textContent = newQty.toString();
+}
+
+
+
+
+
+
+
+//if I click x in the cart 
+export function handleDelete(
+    deleteButton: HTMLButtonElement | null,
+    ctx: any,
+    userLogId: string
+) {
+    if (!deleteButton) return;
+
+    const { clone, cliente } = ctx;
+    const productId = clone.dataset.id;
+    const productColor = clone.dataset.color;
+    const productSize = clone.dataset.size;
+
+    if (!productId) return;
+
+    cliente.removeFromCart(productId, productColor, productSize);
+    sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
+
+    const products = getAllProducts();
+    const updated = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
+    setSumTotCart(updated);
+    clone.remove();
+
+}
+
+
+
+
+// calc total to pay
+export function setSumTotCart(products: ReturnType<ShopClient['getDetailedCart']>) {
+    //for each products price and quantity
+    const productInfo = products.map(p => ({
+        price: p?.price ?? 0,
+        quantity: p?.quantity ?? 0,
+        total: (p?.price ?? 0) * (p?.quantity ?? 0)
+    }));
+
+    const totalCart = productInfo.reduce((sum, item) => sum + item.total, 0);
+
+    let result = totalCart.toFixed(2);
+    changeTextContent("sommaTot", `${result} €`);
+}
+
+

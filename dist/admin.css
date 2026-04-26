@@ -373,3 +373,266 @@ body .custom-collapse .card.card-body .type a {
     padding: 1rem;
   }
 }
+/*!***************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/index.scss ***!
+  \***************************************************************************************************************/
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-decoration: underline;
+}
+.dropdown .btn.btn-secondary.dropdown-toggle {
+  background-color: transparent;
+  border: none;
+  color: #485d5b;
+  font-family: "Young Serif", serif;
+}
+.dropdown:hover {
+  color: #89acb1;
+}
+.dropdown .dropdown-menu:hover {
+  background-color: #89acb1;
+}
+
+.images {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 25px;
+  margin-bottom: 45px;
+}
+.images .image_container {
+  width: 25%;
+  height: 40%;
+}
+.images .image_container img {
+  object-fit: cover;
+  max-width: 85%;
+  height: auto;
+}
+
+.title_section {
+  font-family: "Young Serif", serif;
+  color: #485d5b;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.p_bold {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Young Serif", serif;
+}
+
+body .video_container {
+  width: 60%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+body .video_container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+body .video_container h3 {
+  font-family: "Young Serif", serif;
+  color: #FFF;
+  position: absolute;
+  text-align: center;
+  margin: auto;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+body #elegance a {
+  font-family: "Young Serif", serif;
+  color: #485d5b;
+}
+body #elegance p {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+body #strong .video_container {
+  width: 80%;
+  box-shadow: none;
+}
+body #passion .images .image_container_blu {
+  margin-top: 25px;
+  max-width: 40%;
+  height: auto;
+  padding-bottom: 25px;
+  border: 25px solid #89acb1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+body #passion .images .image_container_blu img {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+body #kids .video_container {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+body #kids .video_container img {
+  object-fit: cover;
+  max-width: 100%;
+  position: relative;
+}
+body #kids .video_container h2 {
+  font-family: "Young Serif", serif;
+  font-size: 45px;
+  color: #485d5b;
+  position: absolute;
+  text-align: center;
+  margin: auto;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+body #kids .p_bold {
+  text-align: left;
+  margin-right: 45px;
+  margin-left: 45px;
+}
+/*!**************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/cart.scss ***!
+  \**************************************************************************************************************/
+body {
+  font-family: "Young Serif", serif;
+}
+body #cartTitle {
+  color: #485d5b;
+}
+body h1,
+body h3 {
+  text-align: center;
+  padding-bottom: 15px;
+}
+body .container-cart {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 400px;
+  background-color: rgb(214, 205, 250);
+  border: solid 2px #485d5b;
+  border-radius: 2%;
+  gap: 0px;
+  margin-bottom: 15px;
+}
+body .container-cart .container-card-img {
+  width: 50%;
+  height: 395px;
+}
+body .container-cart .container-card-img img {
+  object-fit: cover;
+  width: 100%;
+  object-position: center;
+  height: 100%;
+}
+body .container-cart .container-card-text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  width: 40%;
+  margin-left: 0px;
+}
+body .container-cart .container-card-text .table {
+  border-color: black;
+}
+body .container-cart .container-card-text .add-remove {
+  display: flex;
+  justify-content: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  padding: 0px;
+}
+body .container-cart .container-card-text .add-remove button {
+  border: 1px solid #485d5b;
+  height: 40px;
+  width: 30px;
+  font-size: 1.5rem;
+  background-color: transparent;
+}
+body .container-cart .container-card-text .add-remove .bnt-add.disable,
+body .container-cart .container-card-text .add-remove .bnt-less.disable {
+  background-color: #485d5b;
+  cursor: default;
+}
+body .container-cart .container-card-text .add-remove .bnt-less.enable,
+body .container-cart .container-card-text .add-remove .bnt-add.enable {
+  background-color: transparent;
+}
+body .container-cart .container-card-text .add-remove .bnt-less.enable:hover,
+body .container-cart .container-card-text .add-remove .bnt-add.enable:hover {
+  background-color: #FFF;
+}
+body #Total {
+  margin-top: 15px;
+  text-align: center;
+}
+body .btn-close[name=closeButtonCart] {
+  transform: scale(1.2);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 400px) {
+  .container-cart {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .container-cart .container-card-img,
+  .container-cart .container-card-text {
+    width: 100%;
+  }
+  .container-cart .container-card-img img {
+    max-width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .container-cart {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .container-cart .container-card-img,
+  .container-cart .container-card-text {
+    width: 100%;
+  }
+  .container-cart .container-card-img img {
+    max-width: 100%;
+  }
+}
+@media (min-width: 800px) {
+  #cartHTML {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  #cartHTML .container-cart {
+    max-width: 45%;
+  }
+  #Total {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+}

@@ -1,5 +1,6 @@
 
 import { changeTextContent, showHidden, initGenericDropdown, showPopUp, genderMenu, cleanSection, createTable, checkedFilterShop } from './dom';
+import { handleAdd, handleLess, handleDelete, showPopUpSelection } from "./dom"
 import { setAdminLogin, getAdminLogin } from './utils';
 import { setReservatePage } from './logIn';
 import { checkReservedLogin, checkUserLogin, getRegisteredUsers } from './userServices';
@@ -9,9 +10,10 @@ import type { BaseProduct, Variant } from './productInterfaces';
 import type { CartItem } from "./cartInterfaces";
 import { ShopClient } from "./cartInterfaces";
 import { insertTemplate } from "./templates";
+import { buildCartContext } from "./cart";
 
 
-//--------START LOGIN PART -------------------------------------------
+//--------LOGIN PART -------------------------------------------
 
 
 
@@ -30,12 +32,6 @@ export function logInListenerClick(){
         }
     })
 }
-
-
-
-
-
-
 
 
 
@@ -79,10 +75,7 @@ export function setUpNewSection(eventId: string, sectionId: string, templateId: 
 
 
 
-//------------END LOGIN PART --------------------------------
-
-
-//------------START ADMIN PART ----------------------------------------------
+//------------ ADMIN PART ----------------------------------------------
 
 
 
@@ -163,8 +156,6 @@ export function initGlobalClickListener() {
 
 
 
-
-
 //send information/save change 
 
 export function handleFormSubmit() {
@@ -207,13 +198,9 @@ export function handleCheckBoxtPoPUp(): Promise<"yes" | "no"> {
 
 
 
-//------------END ADMIN PART -------------------------------------------
 
-//---------------START SHOP PART ------------------------------------------
+//--------------- SHOP PART ------------------------------------------
 
-
-
-//--------------END SHOP PART-----------------------------------------
 
 
 export function setupColorSelection(products: BaseProduct[]) {
@@ -312,3 +299,126 @@ function handleSizeSelection(
 
 
 
+
+
+//--------------CART PART -----------------------------------------
+
+// icrease or descrease the  products in the cart 
+
+export function cartSetNumberProduct(
+    userLogId: string,
+    productsCart: ReturnType<ShopClient['getDetailedCart']>
+) {
+    const sectionCart = document.getElementById("cartSection");
+    if (!sectionCart) return;
+
+    sectionCart.addEventListener("click", (event) => {
+        const context = buildCartContext(event, userLogId);
+        if (!context) return;
+
+        const {
+            cliente,
+            target,
+            clone,
+            addButton,
+            lessButtonClick,
+            deleteButton,
+            quantityElement,
+            textQuantity,
+            allProducts
+        } = context;
+
+        handleAdd(
+            addButton,
+            context,
+            productsCart
+        );
+
+        handleLess(
+            lessButtonClick,
+            context,
+            productsCart
+        );
+
+        handleDelete(
+            deleteButton,
+            context,
+            userLogId
+        );
+    });
+}
+
+/*
+
+export async function clickToOrderCart(sectionId: string) {
+    const orderButton = document.getElementById("buyButton") as HTMLButtonElement;
+    orderButton.addEventListener("click", async () => {
+        
+        showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
+        const choice = await handleCheckBoxtPoPUp();
+        if (choice === "no") return;
+
+        const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+        const loggedUserId = sessionStorage.getItem("userId");
+        const users = getRegisteredUsers();
+        const userData = users.find(u => u.id === loggedUserId);
+
+        if (!userData) return;
+
+        const cliente = new ShopClient(userData);
+        cliente.loadCart(savedCarts.filter(c => c.userId === loggedUserId))
+        const myCart = savedCarts.filter(item => item.userId === loggedUserId)
+        
+        //all products
+        //const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
+        //const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
+        const products = ProductService.getLocalProducts();
+        
+        const allProducts = ProductService.getAllProducts();
+
+        const produsctInfo = myCart.map(p => ({
+            id: p?.productId,
+            color: p?.color,
+            size: p?.size,
+            quantityOrder: p?.quantity,
+        }))
+
+        produsctInfo.forEach(item => {
+            const product = allProducts.find(p => p.id === item.id);
+
+            if (!product) return;
+
+            const variant = product.variants.find(v =>
+                v.color === item.color && v.size === item.size
+            );
+
+            if (!variant)return;
+
+            if (variant.quantity < item.quantityOrder) {
+                showPopUp("ERRORE", "La quantità disponibile è minore di quella richiesta")
+            }
+
+            variant.quantity -= item.quantityOrder;
+
+            if (variant.quantity === 0) {
+                variant.state = "unavailable";
+            }
+            //save 
+
+            
+            localStorage.setItem("products", JSON.stringify(products));
+
+            //clean cart
+            if (loggedUserId)
+                cliente.cleanFromCart(loggedUserId)
+        });
+
+        cleanSection("cartHTML"); //clean template 
+        cleanSection("Total");
+        showPopUp("Conferma", "Pagamento effettuato con successo")
+    })
+}
+
+
+
+*/

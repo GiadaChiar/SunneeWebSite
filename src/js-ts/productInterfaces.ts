@@ -1,3 +1,7 @@
+import{ ProductsDefault } from "./initProducts";
+
+
+
 //general interface
 
 export interface Variant {
@@ -71,6 +75,17 @@ export class ProductService {
         return data.map((p: any) => new Product(p));
     }
 
+    static getLocalProducts() :BaseProduct[]{
+    return JSON.parse(localStorage.getItem("products") || "[]");
+}
+
+
+    static getAllProducts(): BaseProduct[]{
+    const localproducts =  ProductService.getLocalProducts();
+    return [...ProductsDefault, ...localproducts];
+}
+
+
     static saveAll(products: Product[]) {
         localStorage.setItem(this.KEY, JSON.stringify(products));
     }
@@ -87,6 +102,15 @@ export class ProductService {
     }
 
     static findById(id: string): Product | undefined {
-        return this.getAll().find(p => p.id === id);
+        const found =ProductService.getAllProducts().find(p => p.id === id);
+        return found ? new Product(found) : undefined;
+    }
+
+    static findQuantity(product: Product, color: string, size: string): number | undefined{
+        const variant = product?.variants.find(
+            v => v.color === color && v.size === size
+        );
+        
+        return variant?.quantity
     }
 }

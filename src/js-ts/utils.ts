@@ -1,5 +1,5 @@
 
-
+import type { Variant } from "./productInterfaces";
 
 
 //generate id 
@@ -28,4 +28,40 @@ export function getAdminLogin() {
 }
 
 
-//---------------ADMIN SECTION--------------------------------------------------
+//-----------TRANSALATE CART-----------------------
+
+
+
+//translation
+// TYPES
+type Size = Variant["size"];
+type Color = Variant["color"];
+
+// MAPPE
+const sizeTranslations: Record<Size, string> = {
+    xs: "XS",
+    s: "S",
+    m: "M",
+    l: "L",
+    xl: "XL",
+    "2xl": "2XL",
+};
+
+const colorTranslations: Record<Color, string> = {
+    green: "Verde",
+    white: "Bianco",
+    black: "Nero",
+    blue: "Blu",
+    red: "Rosso",
+    pink: "Rosa",
+    floral: "Floreale",
+    multicolored: "Multicolore",
+};
+
+
+
+
+export const translate = {
+    size: sizeTranslations,
+    color: colorTranslations,
+};
