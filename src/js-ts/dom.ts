@@ -5,8 +5,9 @@ import type { BaseProduct } from "./productInterfaces";
 import { ProductsDefault } from "./initProducts";
 import type { ShopClient } from "./cartInterfaces";
 import { Product, ProductService } from './productInterfaces';
-import { getAllProducts } from "./productService";
+//import { getAllProducts } from "./productService";
 import { users } from './userInterfaces';
+import { getAllProducts } from './index';
 
 
 //--------------------------------------------------STANDARD FUNCTIONs -----------------------------------------------------------------
@@ -491,7 +492,8 @@ export function handleDelete(
     cliente.removeFromCart(productId, productColor, productSize);
     sessionStorage.setItem("cart", JSON.stringify(cliente.getCart()));
 
-    const products = getAllProducts();
+    //const products = getAllProducts();
+    const products = ProductService.getAllProducts();
     const updated = cliente.getDetailedCart([...ProductsDefault, ...products], userLogId);
     setSumTotCart(updated);
     clone.remove();

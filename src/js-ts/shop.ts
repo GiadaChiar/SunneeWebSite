@@ -6,11 +6,13 @@ import '../style/poUp.scss';
 
 import { setUpMenu, checkClickMenu } from './menu';
 import { fetchForm } from './form';
-import { cleanSection } from "./dom";
+import { cleanSection, showPopUp } from "./dom";
 import { loadTemplates } from "./templates";
-import { getAllProducts } from "./productService";
+//import { getAllProducts } from "./productService";
 import { insertProductClone } from "./templates";
-import { setupColorSelection } from "./events";
+import { setupColorSelection, getfiltersPageShop } from "./events";
+import { ProductService } from './productInterfaces';
+import type { BaseProduct } from "./productInterfaces";
 
 
 
@@ -43,9 +45,10 @@ function getFilterFormUrl() {
 
 
 
-function insertShopTemplateFilters(type: string | null, gender: string | null) {
+export function insertShopTemplateFilters(type: string | null, gender: string | null) {
     //if filter is false don't use it 
-    const allProducts = getAllProducts();
+    //const allProducts = getAllProducts();
+    const allProducts = ProductService.getAllProducts();
 
     console.log("Tutti i prodotti trovati: ", allProducts)
 
@@ -76,11 +79,63 @@ function insertShopTemplateFilters(type: string | null, gender: string | null) {
 
     
     setupColorSelection(productsFirstFilter);
-/*
-    getfiltersPageShop(productsFirstFilter)
-    //insert products  
-*/
+    //filter in the page 
+    getfiltersPageShop(productsFirstFilter) 
+
 }
+
+
+
+
+
+export function InsertTemplateShopFilter(color: string, size: string, productsBase: BaseProduct[]) {
+    cleanSection("shopProductHTML");
+    cleanSection("shopProductHTML");
+    
+    if (!color && !size) {
+        productsBase.forEach(product => {
+            insertProductClone(product);
+        });
+        return;
+    }
+
+    const filtered = productsBase
+        .map(p => {
+            // exists product
+            const exists = p.variants.some(v =>
+
+            (color ?  v.color === color : true)&&
+                (size ? (v.size === size && v.state === "available"): true)
+            );
+
+    if (!exists) {
+        return null;
+    }
+
+    let variants = p.variants;
+
+    if (color) {
+        variants = variants.filter(v => v.color === color);
+    }
+
+    return {
+        ...p,
+        variants
+    };
+})
+        .filter(p => p !== null);
+
+
+if (filtered.length === 0) {
+    showPopUp("Errore", "Nessun prodotto trovato, cambiare i filtri della ricerca");
+    return;
+}
+filtered.forEach(product => {
+    insertProductClone(product);
+});
+
+}
+
 
 
 

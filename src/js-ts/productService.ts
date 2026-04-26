@@ -8,6 +8,9 @@ import { ProductsDefault } from './initProducts';
 
 //Service about products 
 
+
+
+/*
 // Local storage Products
 export function getLocalProducts() :BaseProduct[]{
 
@@ -21,7 +24,7 @@ export function getAllProducts(): BaseProduct[]{
     return [...ProductsDefault, ...localproducts];
 }
 
-
+*/
 
 
 

@@ -9,8 +9,9 @@ import { ProductService } from "./productInterfaces";
 import type { BaseProduct, Variant } from './productInterfaces';
 import type { CartItem } from "./cartInterfaces";
 import { ShopClient } from "./cartInterfaces";
+import { InsertTemplateShopFilter } from "./shop";
 import { insertTemplate } from "./templates";
-import { buildCartContext } from "./cart";
+import { buildCartContext, OrderProducts } from "./cart";
 
 
 //--------LOGIN PART -------------------------------------------
@@ -18,13 +19,13 @@ import { buildCartContext } from "./cart";
 
 
 
-export function logInListenerClick(){
-    document.addEventListener("click", (e)=>{
+export function logInListenerClick() {
+    document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement
 
         const linkReservateArea = target.closest("#buttonLinkHTML") as HTMLElement;
 
-        if(linkReservateArea){
+        if (linkReservateArea) {
 
             setAdminLogin(true);
             setReservatePage();
@@ -46,11 +47,12 @@ export function submitLogIn() {
             console.log("E' ADMIN")
             checkReservedLogin(); // admin
         } else {
-                console.log("E' UN USER")
-                checkUserLogin(); // standard
+            console.log("E' UN USER")
+            checkUserLogin(); // standard
         }
     }
-)};
+    )
+};
 
 
 //New user Registration 
@@ -148,8 +150,8 @@ export function initGlobalClickListener() {
         initGenericDropdown(target, "sizeDropdown", "dropdownButtonSize");
         initGenericDropdown(target, "colorDropdown", "dropdownButtonColor");
         initGenericDropdown(target, "stateDropdown", "dropdownButtonState");
-        initGenericDropdown(target, "genderDropdown", "dropdownButtonGender");   
-    
+        initGenericDropdown(target, "genderDropdown", "dropdownButtonGender");
+
     });
 }
 
@@ -170,7 +172,7 @@ export function handleFormSubmit() {
             return;
         }
 
-        await insertProduct(productData); 
+        await insertProduct(productData);
     });
 }
 
@@ -299,6 +301,40 @@ function handleSizeSelection(
 
 
 
+export function getfiltersPageShop(productsBase: BaseProduct[]) {
+    const form = document.getElementById("filter");
+    let selectedColorFilter = "";
+    let selectedSizeFilter = "";
+
+    form?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+
+        if ((target as HTMLInputElement).type === "radio" && (target as HTMLInputElement).name === "color") {
+            const clickedRadio = target as HTMLInputElement;
+            const allRadios = document.querySelectorAll<HTMLInputElement>('input[name="color"]')
+
+            selectedColorFilter = checkedFilterShop(clickedRadio, allRadios)
+        }
+
+        if ((target as HTMLButtonElement).name === "size") {
+            event.preventDefault();
+            const clickedButton = target as HTMLButtonElement;
+            const allSizeButtons = document.querySelectorAll<HTMLButtonElement>('button[name="size"]');
+
+            selectedSizeFilter = checkedFilterShop(clickedButton, allSizeButtons)
+        }
+
+        if ((target as HTMLButtonElement).type === "submit" && (target as HTMLButtonElement).name === "searchFilters") {
+            event.preventDefault();
+
+            InsertTemplateShopFilter(selectedColorFilter, selectedSizeFilter, productsBase);
+        }
+    })
+}
+
+
+
+
 
 
 //--------------CART PART -----------------------------------------
@@ -348,70 +384,20 @@ export function cartSetNumberProduct(
     });
 }
 
-/*
 
-export async function clickToOrderCart(sectionId: string) {
-    const orderButton = document.getElementById("buyButton") as HTMLButtonElement;
-    orderButton.addEventListener("click", async () => {
-        
+// click to order products in the cart 
+
+export function clickToOrderCart() {
+    const buyButton = document.getElementById("buyButton");
+
+    buyButton?.addEventListener("click", async () => {
+        console.log("Bottone cliccato")
+
         showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
         const choice = await handleCheckBoxtPoPUp();
         if (choice === "no") return;
 
-        const savedCarts: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
-        const loggedUserId = sessionStorage.getItem("userId");
-        const users = getRegisteredUsers();
-        const userData = users.find(u => u.id === loggedUserId);
-
-        if (!userData) return;
-
-        const cliente = new ShopClient(userData);
-        cliente.loadCart(savedCarts.filter(c => c.userId === loggedUserId))
-        const myCart = savedCarts.filter(item => item.userId === loggedUserId)
-        
-        //all products
-        //const products: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
-        //const allProducts: BaseProduct[] = [...ProductsDefault, ...products];
-        const products = ProductService.getLocalProducts();
-        
-        const allProducts = ProductService.getAllProducts();
-
-        const produsctInfo = myCart.map(p => ({
-            id: p?.productId,
-            color: p?.color,
-            size: p?.size,
-            quantityOrder: p?.quantity,
-        }))
-
-        produsctInfo.forEach(item => {
-            const product = allProducts.find(p => p.id === item.id);
-
-            if (!product) return;
-
-            const variant = product.variants.find(v =>
-                v.color === item.color && v.size === item.size
-            );
-
-            if (!variant)return;
-
-            if (variant.quantity < item.quantityOrder) {
-                showPopUp("ERRORE", "La quantità disponibile è minore di quella richiesta")
-            }
-
-            variant.quantity -= item.quantityOrder;
-
-            if (variant.quantity === 0) {
-                variant.state = "unavailable";
-            }
-            //save 
-
-            
-            localStorage.setItem("products", JSON.stringify(products));
-
-            //clean cart
-            if (loggedUserId)
-                cliente.cleanFromCart(loggedUserId)
-        });
+        OrderProducts();
 
         cleanSection("cartHTML"); //clean template 
         cleanSection("Total");
@@ -419,6 +405,3 @@ export async function clickToOrderCart(sectionId: string) {
     })
 }
 
-
-
-*/
