@@ -59,7 +59,7 @@ body {
             font-size: medium;
             margin-top: 30px;
             background-color: rgb(236, 238, 246);
-            height: 400px;
+            min-height: 400px;
             width: 200px;
             transition: min-height 0.3s ease;
             display: flex;

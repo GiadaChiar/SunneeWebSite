@@ -8,6 +8,7 @@ export declare function initGlobalClickListener(): void;
 export declare function handleFormSubmit(): void;
 export declare function handleCheckBoxtPoPUp(): Promise<"yes" | "no">;
 export declare function setupColorSelection(products: BaseProduct[]): void;
+export declare function getfiltersPageShop(productsBase: BaseProduct[]): void;
 export declare function cartSetNumberProduct(userLogId: string, productsCart: ReturnType<ShopClient['getDetailedCart']>): void;
 export declare function clickToOrderCart(): void;
 //# sourceMappingURL=events.d.ts.map

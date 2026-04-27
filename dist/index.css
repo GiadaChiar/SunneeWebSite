@@ -168,11 +168,21 @@ body .gray-over {
   width: 100%;
   padding-top: 1px;
   padding-bottom: 1px;
+  position: relative;
 }
 body .gray-over h1 {
   color: #FFF;
   font-family: "Young Serif", serif;
   text-align: center;
+}
+body .gray-over #cartIcon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+body .gray-over #cartIcon:hover {
+  color: white;
+  cursor: pointer;
 }
 body .nav {
   display: flex;
@@ -209,7 +219,7 @@ body .custom-collapse .card.card-body h4 {
   color: #485d5b;
   font-family: "Young Serif", serif;
   font-size: 20px;
-  padding-left: 20px;
+  padding-left: 4px;
 }
 body .custom-collapse .card.card-body .type {
   max-width: 90%;
@@ -224,6 +234,7 @@ body .custom-collapse .card.card-body .type .p_bold {
 body .custom-collapse .card.card-body .type a {
   color: #89acb1;
   font-family: "Young Serif", serif;
+  width: auto;
 }
 /*!**************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/style/form.scss ***!

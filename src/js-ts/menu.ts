@@ -36,9 +36,6 @@ function changeLinkNavigation(divMenu: HTMLElement) {
             }
             else {
                 link.classList.replace("disabled", "active")
-                // remove listener to prevent click
-                const handler = (event: Event) => event.preventDefault();
-                link.removeEventListener("click", handler);
             }
         }
     })
@@ -64,40 +61,50 @@ function toggleMenu(menuToOpen: HTMLElement, menuToClose: HTMLElement) {
 
 
 
+
+
 export function checkClickMenu() {
+
+    if ((window as any).__menuListenerAdded) return;
+    (window as any).__menuListenerAdded = true;
+
     document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
 
         const swimSuitBtn = target.closest('a[href="#swim_suit"]') as HTMLElement;
         const accessoriesBtn = target.closest('a[href="#accessories"]') as HTMLElement;
 
+        const catIcon = target.closest("#cartIcon") 
+
         const swimSuit = document.getElementById("swim_suit") as HTMLElement;
         const accessories = document.getElementById("accessories") as HTMLElement;
+
+        if (!swimSuit || !accessories) return;
 
         const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
 
         if(swimSuitBtn){
             e.preventDefault();
-            e.stopPropagation();
             toggleMenu(swimSuit, accessories);
             return;
         }
 
         else if(accessoriesBtn){
             e.preventDefault(); 
-            e.stopPropagation();
             toggleMenu(accessories, swimSuit);
             return;
         }
 
         else if(dropdownItem){
             e.preventDefault();
-            e.stopPropagation();
             const type = dropdownItem.dataset.type;
             const gender = dropdownItem.dataset.gender;
 
             window.location.href = `shop.html?type=${type}&gender=${gender}`;
             return;
+        }
+        else if(catIcon){
+            window.location.href = "cart.html";
         }
         
         else {
@@ -108,8 +115,24 @@ export function checkClickMenu() {
 }
 
 
-// Final function to export 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export function setUpMenu() {
+
+    checkClickMenu();
     fetchMenu()
         .then((divMenu) => {
             //checkClickMenu();
@@ -120,7 +143,5 @@ export function setUpMenu() {
             console.log("Error upload state menu");
         });
 }
-
-
 
 
