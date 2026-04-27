@@ -1,4 +1,4 @@
-import{ ProductsDefault } from "./initProducts";
+import { ProductsDefault } from "./initProducts";
 
 
 
@@ -75,15 +75,15 @@ export class ProductService {
         return data.map((p: any) => new Product(p));
     }
 
-    static getLocalProducts() :BaseProduct[]{
-    return JSON.parse(localStorage.getItem("products") || "[]");
-}
+    static getLocalProducts(): BaseProduct[] {
+        return JSON.parse(localStorage.getItem("products") || "[]");
+    }
 
 
-    static getAllProducts(): BaseProduct[]{
-    const localproducts =  ProductService.getLocalProducts();
-    return [...ProductsDefault, ...localproducts];
-}
+    static getAllProducts(): BaseProduct[] {
+        const localproducts = ProductService.getLocalProducts();
+        return [...ProductsDefault, ...localproducts];
+    }
 
 
     static saveAll(products: Product[]) {
@@ -102,15 +102,15 @@ export class ProductService {
     }
 
     static findById(id: string): Product | undefined {
-        const found =ProductService.getAllProducts().find(p => p.id === id);
+        const found = ProductService.getAllProducts().find(p => p.id === id);
         return found ? new Product(found) : undefined;
     }
 
-    static findQuantity(product: Product, color: string, size: string): number | undefined{
+    static findQuantity(product: Product, color: string, size: string): number | undefined {
         const variant = product?.variants.find(
             v => v.color === color && v.size === size
         );
-        
+
         return variant?.quantity
     }
 }

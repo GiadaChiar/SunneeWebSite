@@ -18,18 +18,15 @@ export function ValidationNewUser(): boolean {
     //name and surname not number
     const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
     if (!nameRegex.test(nameInput.value)) {
-        //showPopUp("Attenzione!", "Il nome non può contenere numeri o caratteri speciali")
         return false;
     }
     if (!nameRegex.test(surnameInput.value)) {
-        //showPopUp("Attenzione!", "Il cognome non può contenere numeri o caratteri speciali")
         return false;
     }
 
     //check email 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailInput.value)) {
-        //showPopUp("Attenzione!", "Email non valida")
         return false;
     }
 
@@ -73,9 +70,6 @@ export function ValidationPassword(): boolean {
 
 
 
-
-
-
 //------------ADMIN SECTION -----------------------------------------
 
 //INPUT :
@@ -111,7 +105,7 @@ export function checkDescriptionInput(): string | null {
     const descriptionInput = document.getElementById("descriptionInput") as HTMLInputElement
     let value = descriptionInput.value
     if (!value) return null
-    
+
     return value;
 }
 
@@ -122,6 +116,6 @@ export function checkInputImage(): string | null {
 
     let pathImage = imageInput.value
     let value = pathImage.replace("C:\\fakepath\\", "");
-    
+
     return value;
 }

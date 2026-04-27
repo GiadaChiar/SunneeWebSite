@@ -4,10 +4,8 @@ import { handleCheckBoxtPoPUp } from "./events";
 import type { BaseProduct } from "./productInterfaces";
 import { ProductsDefault } from "./initProducts";
 import type { ShopClient } from "./cartInterfaces";
-import { Product, ProductService } from './productInterfaces';
-//import { getAllProducts } from "./productService";
-import { users } from './userInterfaces';
-import { getAllProducts } from './index';
+import { ProductService } from './productInterfaces';
+
 
 
 //--------------------------------------------------STANDARD FUNCTIONs -----------------------------------------------------------------
@@ -103,9 +101,6 @@ export function disableDropdown(dropdownId: string, bool: boolean) {
         dropdownButton.disabled = bool; // disable
     }
 }
-
-
-
 
 
 //filter swim-suit subcategory
@@ -381,7 +376,6 @@ function AddEffect(
     const lessButton = clone.querySelector(".bnt-less");
 
     if (lessButton) {
-        console.log(newQty)
 
         if (newQty >= 1) {
             lessButton.classList.remove("disable");
@@ -430,7 +424,7 @@ export function handleLess(
     if (!product) return;
 
     const foundQuantity = ProductService.findQuantity(product, productColor, productSize);
-    
+
     const productcart = findCartItem(
         productsCart,
         cliente.id,
@@ -442,7 +436,7 @@ export function handleLess(
     if (!productcart && !foundQuantity) return;
 
     if (textQuantity <= 1) {
-        console.log("NON POSSO SCENDERE ")
+
         lessButton.classList.remove("enable");
         lessButton.classList.add("disable");
         return
@@ -452,7 +446,7 @@ export function handleLess(
     const addButton = clone.querySelector(".bnt-add");
 
     if (addButton) {
-        console.log("TROVATO ADDBUTTON")
+
         if (foundQuantity && newQty < foundQuantity) {
 
             addButton.classList.remove("disable");

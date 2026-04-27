@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     initTypeDropdown();
     initGlobalClickListener();
     handleFormSubmit();
-    
+
 });
 
 

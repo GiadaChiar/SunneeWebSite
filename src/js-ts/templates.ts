@@ -113,11 +113,11 @@ export function insertProductClone(product: BaseProduct) {
             input.setAttribute("data-value", color);
             input.classList.add("check-shop-color");
             colorList.appendChild(input);
-            
+
             if (index === 0) {
                 input.checked = true;
                 let colorFirstElement = color
-                
+
                 //return colorFirstElement
                 const sizeButtons = clone.querySelectorAll<HTMLButtonElement>(".filter-btn");
 
@@ -140,7 +140,7 @@ export function insertProductClone(product: BaseProduct) {
 //-------------------CART SECTION ---------------------
 
 export function changeCartTemplate(cartItems: ReturnType<ShopClient['getDetailedCart']>, idUser: string) {
-    
+
     const section = document.getElementById("cartHTML");
     const template = templates["cartTemplate"];
 

@@ -5,7 +5,7 @@ import '../style/form.scss';
 import { setUpMenu, checkClickMenu } from './menu'
 import { fetchForm } from './form'
 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
     setUpMenu();
     fetchForm();
     checkClickMenu();

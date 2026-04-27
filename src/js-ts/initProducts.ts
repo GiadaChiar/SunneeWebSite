@@ -1,5 +1,5 @@
 //default products 
-import type {  BaseProduct } from "./productInterfaces";
+import type { BaseProduct } from "./productInterfaces";
 
 export const ProductsDefault: BaseProduct[] = [
 

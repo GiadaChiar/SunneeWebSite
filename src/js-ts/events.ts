@@ -44,10 +44,10 @@ export function submitLogIn() {
         e.preventDefault();
 
         if (getAdminLogin()) {
-            console.log("E' ADMIN")
+
             checkReservedLogin(); // admin
         } else {
-            console.log("E' UN USER")
+
             checkUserLogin(); // standard
         }
     }
@@ -64,7 +64,6 @@ export function setUpNewSection(eventId: string, sectionId: string, templateId: 
     const linkClicked = document.getElementById(eventId);
 
     if (!linkClicked) {
-        console.error("Link not found");
         return;
     }
 
@@ -264,7 +263,6 @@ function handleAddToCart(
     if (savedCart) {
         const cartItems: CartItem[] = JSON.parse(savedCart);
         client.loadCart(cartItems);
-        console.log("cliente salvato: ", client)
     }
 
     client.addToCart({
@@ -391,7 +389,6 @@ export function clickToOrderCart() {
     const buyButton = document.getElementById("buyButton");
 
     buyButton?.addEventListener("click", async () => {
-        console.log("Bottone cliccato")
 
         showPopUpSelection("Attenzione", "Effettuare l'ordine?", "SI", "NO")
         const choice = await handleCheckBoxtPoPUp();

@@ -1,4 +1,4 @@
-import type {BaseProduct, Variant} from "./productInterfaces";
+import type { BaseProduct, Variant } from "./productInterfaces";
 import type { RegisterForm } from "./userInterfaces";
 import { showPopUp } from "./dom";
 import { getRegisteredUsers } from "./userServices";
@@ -40,7 +40,7 @@ export class ShopClient {
 
     addToCart(item: CartItem, products: BaseProduct[], userId: string) {
         //find it by id
-        const product = products.find(p => p.id === item.productId); 
+        const product = products.find(p => p.id === item.productId);
         if (!product) return;
 
         // find it by his variant
@@ -48,7 +48,7 @@ export class ShopClient {
             v => v.color === item.color && v.size === item.size
         );
 
-        if (!variant)return;
+        if (!variant) return;
         // check if it already exists
         const existingItem = this.cart.find(
             p =>
@@ -83,8 +83,8 @@ export class ShopClient {
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
-    cleanFromCart(UserId: string){
-        this.cart = this.cart.filter(p=>
+    cleanFromCart(UserId: string) {
+        this.cart = this.cart.filter(p =>
             p.userId !== UserId
         );
         sessionStorage.setItem("cart", JSON.stringify(this.cart));
@@ -102,12 +102,10 @@ export class ShopClient {
         // clean cart
         this.cart = [];
     }
-    
 
-// cart info
+
+    // cart info
     getDetailedCart(products: BaseProduct[], loggedIdUser: string) {
-        /*const usersJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
-        const allUsers = [...users, ...usersJson]*/
 
         const allUsers = getRegisteredUsers();
 
@@ -130,7 +128,7 @@ export class ShopClient {
 
     updateCartItem(productId: string, color: string, size: string, quantity: number) {
         const item = this.cart.find(p => p.productId === productId && p.color === color && p.size === size);
-        if (!item)return
+        if (!item) return
 
         item.quantity = quantity;
         sessionStorage.setItem("cart", JSON.stringify(this.cart));

@@ -52,7 +52,7 @@ export const users: RegisterForm[] = [
         "name": "Samanta",
         "surname": "Rosie",
         "email": "rosiesam@gmail.com",
-        "preferPayment": "card", 
+        "preferPayment": "card",
         "password": "A9b!cD3e"
     },
     {

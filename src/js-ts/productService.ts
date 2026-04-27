@@ -3,46 +3,16 @@ import { checkInputQuantity, checkPrizeInput, checkDescriptionInput, checkInputI
 import type { BaseProduct, Variant } from "./productInterfaces";
 import { generateId } from "./utils";
 import { handleCheckBoxtPoPUp } from "./events"
-import { ProductsDefault } from './initProducts';
-
-
-//Service about products 
 
 
 
-/*
-// Local storage Products
-export function getLocalProducts() :BaseProduct[]{
-
-    return JSON.parse(localStorage.getItem("products") || "[]");
-}
-
-
-//Default products + local storage products.
-export function getAllProducts(): BaseProduct[]{
-    const localproducts = getLocalProducts();
-    return [...ProductsDefault, ...localproducts];
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-//--------------------START ADMIN SECTION -------------------------------------------------------------
+//--------------------ADMIN SECTION -------------------------------------------------------------
 // BUILD PRODUCT
 // ----------------------
 export function buildProductFromForm(): BaseProduct | null {
-    //const type = getTypeValue();
+
     const type = getDropdownValue("dropdownButtonType");
-    
+
     if (!type) return null;
 
     genderMenu(type);
@@ -64,7 +34,7 @@ export function buildProductFromForm(): BaseProduct | null {
     ) {
         return null;
     }
-    alert ("prodotto creatoooooo")
+    alert("prodotto creatoooooo")
     return {
         id: generateId(),
         type: type as BaseProduct["type"],
@@ -85,9 +55,6 @@ export function buildProductFromForm(): BaseProduct | null {
 
 
 
-
-
-
 //check product 
 
 //insert prpoduct or variable
@@ -95,7 +62,7 @@ export function buildProductFromForm(): BaseProduct | null {
 export async function insertProduct(productData: BaseProduct) {
     const existingProducts: BaseProduct[] = JSON.parse(localStorage.getItem("products") || "[]");
 
-    const newVariant = productData.variants[0]; 
+    const newVariant = productData.variants[0];
     // find product 
     let product = existingProducts.find(p =>
         p.type === productData.type &&
@@ -140,13 +107,11 @@ export async function insertProduct(productData: BaseProduct) {
     }
 
     localStorage.setItem("products", JSON.stringify(existingProducts));
-    console.log(existingProducts)
 }
 
 
-//-------------------END ADMIN SECTION -----------------------------------------
 
-//-------------------START SHOP SECTION ---------------------------------------------
+//-------------------SHOP SECTION ---------------------------------------------
 
 
 // check selected radio button clicked
@@ -164,8 +129,6 @@ export function getSelectedColor(
 
     return selectedColor;
 }
-
-
 
 
 
@@ -197,4 +160,3 @@ function checkColorCardShop(products: BaseProduct[], target: HTMLInputElement, c
 
 
 
-//-------------------END SHOP SECTION ------------------------------------------

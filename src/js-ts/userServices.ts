@@ -9,19 +9,6 @@ import { ValidationPassword } from "./validations";
 
 
 
-export function showUsers() {
-    const usersJson = localStorage.getItem("users");
-    console.log("Local User: ", usersJson)
-
-}
-
-
-export function showUsersAllUsers() {
-    const userJson: RegisterForm[] = JSON.parse(localStorage.getItem("users") || "[]");
-    const all = [...users, ...userJson]
-    console.log("ALL users: ", all)
-}
-
 //--------------------GET/REMOVE/CHANGE  DATA ABOT USERS --------------------//
 
 export function getRegisteredUsers(): RegisterForm[] {
@@ -121,7 +108,7 @@ export function saveNewUser(newUser: RegisterForm) {
     userJson.push(newUser);
     localStorage.setItem("users", JSON.stringify(userJson));
     const allUsers: RegisterForm[] = [...users, ...userJson]
-    
+
     return true;
 }
 
@@ -174,16 +161,6 @@ export function checkPassword(user: RegisterForm) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 //check registration befor click
 export function checkRegistration() {
     const submitButton = document.getElementById("submitRegistration") as HTMLButtonElement | null;
@@ -225,7 +202,7 @@ export function checkRegistration() {
             //block submit page 
             const passwordForm = document.getElementById("passwordForm") as HTMLFormElement | null;
             passwordForm?.addEventListener("submit", (e) => {
-                e.preventDefault();  // blocca il reload automatico
+                e.preventDefault();
                 if (newUser) checkPassword(newUser);
             });
         }

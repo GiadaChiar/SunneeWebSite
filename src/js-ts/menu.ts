@@ -52,11 +52,11 @@ function changeLinkNavigation(divMenu: HTMLElement) {
 // generic function open/close
 function toggleMenu(menuToOpen: HTMLElement, menuToClose: HTMLElement) {
     const isOpen = menuToOpen.dataset.menu === "open";
-    
+
     menuToOpen.dataset.menu = isOpen ? "close" : "open";
-    console.log("menu APERTO")
+
     menuToClose.dataset.menu = "close";
-    console.log("menu CHIUSO")
+
 }
 
 
@@ -74,7 +74,7 @@ export function checkClickMenu() {
         const swimSuitBtn = target.closest('a[href="#swim_suit"]') as HTMLElement;
         const accessoriesBtn = target.closest('a[href="#accessories"]') as HTMLElement;
 
-        const catIcon = target.closest("#cartIcon") 
+        const catIcon = target.closest("#cartIcon")
 
         const swimSuit = document.getElementById("swim_suit") as HTMLElement;
         const accessories = document.getElementById("accessories") as HTMLElement;
@@ -83,19 +83,19 @@ export function checkClickMenu() {
 
         const dropdownItem = target.closest("a[data-gender]") as HTMLAnchorElement;
 
-        if(swimSuitBtn){
+        if (swimSuitBtn) {
             e.preventDefault();
             toggleMenu(swimSuit, accessories);
             return;
         }
 
-        else if(accessoriesBtn){
-            e.preventDefault(); 
+        else if (accessoriesBtn) {
+            e.preventDefault();
             toggleMenu(accessories, swimSuit);
             return;
         }
 
-        else if(dropdownItem){
+        else if (dropdownItem) {
             e.preventDefault();
             const type = dropdownItem.dataset.type;
             const gender = dropdownItem.dataset.gender;
@@ -103,10 +103,10 @@ export function checkClickMenu() {
             window.location.href = `shop.html?type=${type}&gender=${gender}`;
             return;
         }
-        else if(catIcon){
+        else if (catIcon) {
             window.location.href = "cart.html";
         }
-        
+
         else {
             swimSuit.dataset.menu = "close";
             accessories.dataset.menu = "close";
@@ -121,26 +121,17 @@ export function checkClickMenu() {
 
 
 
-
-
-
-
-
-
-
-
-
 export function setUpMenu() {
 
     checkClickMenu();
     fetchMenu()
         .then((divMenu) => {
-            //checkClickMenu();
+            checkClickMenu();
             changeLinkNavigation(divMenu as HTMLElement); // upload state link 
-            
+
         })
         .catch(error => {
-            console.log("Error upload state menu");
+            return
         });
 }
 

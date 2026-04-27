@@ -3,7 +3,7 @@ import type { Variant } from "./productInterfaces";
 
 
 //generate id 
-export function generateId(): string  {
+export function generateId(): string {
     const value = Math.random().toString(32).substring(2, 9);
 
     return value
