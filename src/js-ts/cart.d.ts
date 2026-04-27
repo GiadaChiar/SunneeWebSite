@@ -4,7 +4,6 @@ import '../style/form.scss';
 import '../style/cart.scss';
 import '../style/poUp.scss';
 import { ShopClient } from "./cartInterfaces";
-import type { BaseProduct } from './productInterfaces';
 export declare function buildCartContext(event: Event, userLogId: string): {
     target: HTMLElement;
     clone: HTMLElement;
@@ -14,7 +13,7 @@ export declare function buildCartContext(event: Event, userLogId: string): {
     deleteButton: HTMLButtonElement | null;
     quantityElement: HTMLElement;
     textQuantity: number;
-    allProducts: BaseProduct[];
+    allProducts: import("./productInterfaces").BaseProduct[];
 } | null;
 export declare function OrderProducts(): void;
 //# sourceMappingURL=cart.d.ts.map

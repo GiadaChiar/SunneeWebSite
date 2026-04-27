@@ -1,6 +1,4 @@
 import type { RegisterForm } from "./userInterfaces";
-export declare function showUsers(): void;
-export declare function showUsersAllUsers(): void;
 export declare function getRegisteredUsers(): RegisterForm[];
 export declare function checkReservedLogin(): void;
 export declare function checkUserLogin(): string | undefined;
