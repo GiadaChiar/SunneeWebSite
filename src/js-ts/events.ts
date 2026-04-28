@@ -42,6 +42,7 @@ export function submitLogIn() {
 
     loginForm?.addEventListener("submit", (e) => {
         e.preventDefault();
+        e.stopPropagation();
 
         if (getAdminLogin()) {
 

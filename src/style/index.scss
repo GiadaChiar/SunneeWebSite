@@ -2,7 +2,6 @@
 
 //universal component
 
-
 //dropdown button TREND (link uomo/donna)
 .dropdown {
     display: flex;
@@ -63,7 +62,6 @@
 }
 
 body {
-
     .video_container {
         width: 60%;
         width: 100%;
@@ -89,7 +87,7 @@ body {
             margin: auto;
             top: 25%;
             left: 50%;
-            transform: translate(-50%, -50%); 
+            transform: translate(-50%, -50%);
             width: 90%;
         }
     }
@@ -160,7 +158,7 @@ body {
                 margin: auto;
                 top: 28%;
                 left: 50%;
-                transform: translate(-50%, -50%); 
+                transform: translate(-50%, -50%);
                 width: 90%;
             }
         }
@@ -170,5 +168,70 @@ body {
             margin-right: 45px;
             margin-left: 45px;
         }
+    }
+}
+
+
+
+
+/* Responsive */
+@media (max-width: 400px) {
+
+    //text dropdowns
+    .dropdown {
+        .btn.btn-secondary.dropdown-toggle {
+            font-size: vars.$font-size-p;
+        }
+    }
+
+    // text kids
+    #kids {
+        .video_container {
+            #titleKids {
+                font-size: vars.$font-size-h3;
+            }
+            
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* Responsive */
+/*pc */
+@media (min-width: 900px) {
+
+    //text dropdowns
+    .dropdown {
+        .btn.btn-secondary.dropdown-toggle {
+            font-size: vars.$font-size-h4;
+        }
+    }
+
+    // text kids
+    #kids {
+        .video_container {
+            #titleKids {
+                font-size: 5cm;
+            }
+            
+        }
+    }
+
+    p{
+        font-size: vars.$font-size-h4;
+    }
+    .title_section{
+        font-size: 35px;
+    }
+    h3{
+        font-size: 45px;
     }
 }

@@ -39,7 +39,7 @@
 
     .text_section {
         position: absolute;
-        top: 30%;
+        top: 40%;
         background-color: vars.$background-blue-tr;
 
         p {
@@ -162,5 +162,75 @@
 
     .dropdown-menu:hover {
         background-color: vars.$background-blue;
+    }
+}
+
+
+
+
+
+//-----------------------MEDIA QUERY -------
+
+
+//PHONE 
+
+/* Responsive */
+@media (max-width: 400px) {
+    //container full imagine
+.full_img {
+    .text_section{
+        height: 100%;
+        top: 0%;
+
+        p {
+            padding:auto;
+            color: vars.$background-light;
+        }
+    }
+}
+
+
+//small image and description
+.img_description {
+    display: block;
+    align-items: center;
+    justify-content: center;
+
+    .img_small {
+        width: 70%;
+        
+    }
+
+    .text {
+        width: 80%;
+        text-align: center;
+        margin: auto;
+        padding: auto;
+    }
+}
+
+.title_section{
+    font-size: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+}
+
+
+
+
+
+
+//PC
+
+/* Responsive */
+@media (min-width: 900px) {
+    .title_section{
+        font-size: vars.$font-size-h2;
+        
+    }
+    p{
+        font-size: vars.$font-size-h3;
     }
 }

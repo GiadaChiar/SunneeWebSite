@@ -27,8 +27,7 @@ export function checkReservedLogin() {
 
     let emailInput = document.getElementById("logInEmail") as HTMLInputElement;
     let passwordInput = document.getElementById("logInPassword") as HTMLInputElement;
-    emailInput.textContent = "";
-    passwordInput.textContent = "";
+    
 
     const user = reservedUsers.find(
         u => u.email === emailInput.value && u.password === passwordInput.value

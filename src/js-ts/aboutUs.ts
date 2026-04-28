@@ -1,4 +1,4 @@
-import '../style/aboutUs.css';
+import '../style/aboutUs.scss';
 import '../style/menu.scss';
 import '../style/form.scss';
 
